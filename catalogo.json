@@ -1204,7 +1204,7 @@
   }
  ],
  "envio": {
-  "gratisDesde": null,
+  "gratisDesde": 1000,
   "opciones": [
    {
     "id": "cdmx",

@@ -461,7 +461,7 @@ function textoEnvio(){
 }
 function renderEnvio(){
   $("envio-ops").innerHTML = ENVIO.opciones.map((o,i)=>`<label class="eo"><input type="radio" name="envio" value="${esc(o.id)}" ${i===0?"checked":""}><span>${esc(o.n)}${o.info?`<small>${esc(o.info)}</small>`:""}</span><b>${o.cotiza?"Cotiza":(o.p?money(o.p):"Gratis")}</b></label>`).join("")
-    + (typeof ENVIO.gratisDesde==="number" ? `<small style="color:var(--pine)">Envío gratis en compras desde ${money(ENVIO.gratisDesde)}.</small>` : "");
+    + (typeof ENVIO.gratisDesde==="number" ? `<small style="color:var(--pine)">Envío gratis en CDMX y área metropolitana en compras de ${money(ENVIO.gratisDesde)} o más.</small>` : "");
 }
 function syncEnvio(){
   const o = envioSel();
