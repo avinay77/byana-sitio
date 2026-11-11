@@ -1,0 +1,1206 @@
+{
+ "navidad": [
+  {
+   "id": "n05a",
+   "c": "Velas",
+   "t": "Kit de 3 velas",
+   "d": "2 velas decorativas y 1 vela en vaso, en caja ilustrada. Decorativas a elegir: árbol, galleta de jengibre, reno, copo de nieve, estrella, regalo, muñeco de nieve, cara de reno o trineo.",
+   "v": [
+    {
+     "n": "",
+     "p": 310
+    }
+   ]
+  },
+  {
+   "id": "n06a",
+   "c": "Velas",
+   "t": "Kit de 3 velas con tapa de corcho",
+   "d": "2 velas decorativas y 1 vela con tapa de corcho, en caja ilustrada. Decorativas a elegir: árbol, galleta de jengibre, reno, copo de nieve, estrella, regalo, muñeco de nieve, cara de reno o trineo.",
+   "v": [
+    {
+     "n": "",
+     "p": 300
+    }
+   ]
+  },
+  {
+   "id": "n07a",
+   "c": "Velas",
+   "t": "Kit Joy · Hope · Love",
+   "d": "3 velas de 110 g con palabra: Joy-Hope-Love o Luz-Amor-Paz. Aromas navideños o florales (jazmín, nardo, gardenia).",
+   "v": [
+    {
+     "n": "",
+     "p": 400
+    }
+   ]
+  },
+  {
+   "id": "n08a",
+   "c": "Velas",
+   "t": "Kit de 3 casitas",
+   "d": "Tres velas en forma de casita. Aromas navideños o cereza.",
+   "v": [
+    {
+     "n": "",
+     "p": 375
+    }
+   ]
+  },
+  {
+   "id": "n09a",
+   "c": "Velas",
+   "t": "Vela casita",
+   "d": "Vela individual en forma de casita. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.",
+   "v": [
+    {
+     "n": "",
+     "p": 130
+    }
+   ]
+  },
+  {
+   "id": "n10a",
+   "c": "Velas",
+   "t": "Vela de soya en concreto",
+   "d": "Recipiente de concreto con relieve navideño. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.",
+   "v": [
+    {
+     "n": "",
+     "p": 310
+    }
+   ]
+  },
+  {
+   "id": "n12a",
+   "c": "Velas",
+   "t": "Velas en concreto",
+   "d": "Árbol $180 o borrego $110. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.",
+   "v": [
+    {
+     "n": "Árbol",
+     "p": 180
+    },
+    {
+     "n": "Borrego",
+     "p": 110
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n13a",
+   "c": "Velas",
+   "t": "Vela en concreto con tapa",
+   "d": "Recipiente de concreto con estrellas y tapa. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.",
+   "v": [
+    {
+     "n": "",
+     "p": 280
+    }
+   ]
+  },
+  {
+   "id": "n14a",
+   "c": "Velas",
+   "t": "Vela de nacimiento",
+   "d": "Vela decorativa del nacimiento. Aromas navideños o cereza.",
+   "v": [
+    {
+     "n": "",
+     "p": 130
+    }
+   ]
+  },
+  {
+   "id": "n15a",
+   "c": "Velas",
+   "t": "Familia reno",
+   "d": "Cajita con 3 renos de diferentes alturas.",
+   "v": [
+    {
+     "n": "",
+     "p": 240
+    }
+   ]
+  },
+  {
+   "id": "n16a",
+   "c": "Velas",
+   "t": "Velas decorativas",
+   "d": "En bolsa de celofán $75, postal $80 o cajita $85. Kit de 2 en cajita $160, kit de 4 $290.",
+   "v": [
+    {
+     "n": "En bolsa de celofán",
+     "p": 75
+    },
+    {
+     "n": "Con postal",
+     "p": 80
+    },
+    {
+     "n": "En cajita",
+     "p": 85
+    },
+    {
+     "n": "Kit de 2 en cajita",
+     "p": 160
+    },
+    {
+     "n": "Kit de 4",
+     "p": 290
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n18a",
+   "c": "Cajas y kits",
+   "t": "Kit 2 velas y room spray",
+   "d": "Cajita con 2 velas decorativas a elegir y room spray de 60 ml.",
+   "v": [
+    {
+     "n": "",
+     "p": 260
+    }
+   ]
+  },
+  {
+   "id": "n19a",
+   "c": "Cajas y kits",
+   "t": "Kit vela con llavero o pulsera",
+   "d": "Vela con intención (love, hope, joy, paz, luz o amor) con llavero de borrego $260, o con pulsera de hilo y dije $210.",
+   "v": [
+    {
+     "n": "Con pulsera de hilo y dije",
+     "p": 210
+    },
+    {
+     "n": "Con llavero de borrego",
+     "p": 260
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n20a",
+   "c": "Cajas y kits",
+   "t": "Kit vela decorativa y tags",
+   "d": "Vela decorativa a elegir y set de 10 tags personalizados.",
+   "v": [
+    {
+     "n": "",
+     "p": 150
+    }
+   ],
+   "tag": {
+    "v": [
+     0
+    ],
+    "max": 20,
+    "label": "Nombre o texto para los tags"
+   }
+  },
+  {
+   "id": "n20b",
+   "c": "Cajas y kits",
+   "t": "Kit room spray, pulsera y estrella",
+   "d": "Room spray de 30 ml, pulsera ajustable y estrella decorativa.",
+   "v": [
+    {
+     "n": "",
+     "p": 210
+    }
+   ]
+  },
+  {
+   "id": "n21a",
+   "c": "Velas",
+   "t": "Velas para el árbol",
+   "d": "Figuras aromáticas de cera de soya para colgar, $85 c/u. Kit de 6 en cajita $400.",
+   "v": [
+    {
+     "n": "1 pieza",
+     "p": 85
+    },
+    {
+     "n": "Kit de 6 en cajita",
+     "p": 400
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n22a",
+   "c": "Cajas y kits",
+   "t": "Kit vela y room spray ámbar",
+   "d": "Vela de soya ámbar 200 g y room spray 60 ml $340, o 6.5 oz y 120 ml $385. Vela sola $240.",
+   "v": [
+    {
+     "n": "Vela sola",
+     "p": 240
+    },
+    {
+     "n": "Vela 200 g y room spray 60 ml",
+     "p": 340
+    },
+    {
+     "n": "Vela 6.5 oz y room spray 120 ml",
+     "p": 385
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n23a",
+   "c": "Regalos",
+   "t": "Room spray",
+   "d": "10 ml $60, 30 ml $90, ámbar 60 ml $120, 60 ml $150, ámbar 100 ml $190, 100 ml $230. Villa Navideña o Bergamota.",
+   "v": [
+    {
+     "n": "10 ml",
+     "p": 60
+    },
+    {
+     "n": "30 ml",
+     "p": 90
+    },
+    {
+     "n": "Ámbar 60 ml",
+     "p": 120
+    },
+    {
+     "n": "60 ml",
+     "p": 150
+    },
+    {
+     "n": "Ámbar 100 ml",
+     "p": 190
+    },
+    {
+     "n": "100 ml",
+     "p": 230
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n24a",
+   "c": "Velas",
+   "t": "Velas navideñas de soya",
+   "d": "Tapa de corcho $135, 4 oz $175, 7 oz ámbar $280, 9 oz $385. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.",
+   "v": [
+    {
+     "n": "Tapa de corcho",
+     "p": 135
+    },
+    {
+     "n": "4 oz",
+     "p": 175
+    },
+    {
+     "n": "7 oz ámbar",
+     "p": 280
+    },
+    {
+     "n": "9 oz",
+     "p": 385
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n25a",
+   "c": "Velas",
+   "t": "Vela con pino navideño",
+   "d": "Vaso de 500 g con pino de cera. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.",
+   "v": [
+    {
+     "n": "",
+     "p": 550
+    }
+   ]
+  },
+  {
+   "id": "n26a",
+   "c": "Cajas y kits",
+   "t": "Caja room spray y velas",
+   "d": "Room spray 60 ml, vela navideña 4 oz y vela decorativa.",
+   "v": [
+    {
+     "n": "",
+     "p": 400
+    }
+   ]
+  },
+  {
+   "id": "n27a",
+   "c": "Cajas y kits",
+   "t": "Caja room spray, vela y pulsera",
+   "d": "Room spray 100 ml, vela de concreto navideña y pulsera ajustable.",
+   "v": [
+    {
+     "n": "",
+     "p": 470
+    }
+   ]
+  },
+  {
+   "id": "n28a",
+   "c": "Cajas y kits",
+   "t": "Caja de madera con taza",
+   "d": "Room spray 100 ml, vela ámbar 7 oz, 2 snacks en frasco, taza navideña, vela decorativa y tag con moño.",
+   "v": [
+    {
+     "n": "",
+     "p": 950
+    }
+   ]
+  },
+  {
+   "id": "n29a",
+   "c": "Cajas y kits",
+   "t": "Caja de madera con termo",
+   "d": "Room spray 100 ml, vela de estrellas, ginger honey, termo whiskero, 2 casitas de vela y tag con moño.",
+   "v": [
+    {
+     "n": "",
+     "p": 1000
+    }
+   ]
+  },
+  {
+   "id": "n30a",
+   "c": "Cajas y kits",
+   "t": "Kit café en caja de madera",
+   "d": "Prensa francesa, café molido 250 g, taza navideña y tag con moño.",
+   "v": [
+    {
+     "n": "",
+     "p": 650
+    }
+   ]
+  },
+  {
+   "id": "n31a",
+   "c": "Cajas y kits",
+   "t": "Caja de madera con vino y 3 snacks",
+   "d": "Vino 750 ml a elegir: Finca Las Moras $1000, Cune $1150 o Casa Madero 3V $1400. 3 snacks en frasco y tag personalizable con logo.",
+   "v": [
+    {
+     "n": "Finca Las Moras",
+     "p": 1000
+    },
+    {
+     "n": "Cune",
+     "p": 1150
+    },
+    {
+     "n": "Casa Madero 3V",
+     "p": 1400
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n32a",
+   "c": "Cajas y kits",
+   "t": "Caja de madera con vino y vela",
+   "d": "Vino, 2 snacks en frasco y vela de concreto. Finca Las Moras $1200, Cune $1330, Casa Madero 3V $1600.",
+   "v": [
+    {
+     "n": "Finca Las Moras",
+     "p": 1200
+    },
+    {
+     "n": "Cune",
+     "p": 1330
+    },
+    {
+     "n": "Casa Madero 3V",
+     "p": 1600
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n33a",
+   "c": "Cajas y kits",
+   "t": "Caja de madera con vino y vela 4 oz",
+   "d": "Vino, 2 snacks en frasco y vela de soya 4 oz. Finca Las Moras $1050, Cune $1180, Casa Madero 3V $1450.",
+   "v": [
+    {
+     "n": "Finca Las Moras",
+     "p": 1050
+    },
+    {
+     "n": "Cune",
+     "p": 1180
+    },
+    {
+     "n": "Casa Madero 3V",
+     "p": 1450
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n35a",
+   "c": "Cajas y kits",
+   "t": "Caja roja con vaso de vidrio",
+   "d": "Vaso navideño con tapa de bambú y 2 snacks grandes a elegir.",
+   "v": [
+    {
+     "n": "",
+     "p": 370
+    }
+   ]
+  },
+  {
+   "id": "n36a",
+   "c": "Cajas y kits",
+   "t": "Caja roja vaso, vela y room spray",
+   "d": "Vaso con tapa de bambú, vela con intención, llavero de borrego y room spray 120 ml.",
+   "v": [
+    {
+     "n": "",
+     "p": 550
+    }
+   ]
+  },
+  {
+   "id": "n37a",
+   "c": "Cajas y kits",
+   "t": "Caja roja con taza y snacks",
+   "d": "Taza navideña, 2 snacks grandes y vela decorativa.",
+   "v": [
+    {
+     "n": "",
+     "p": 400
+    }
+   ]
+  },
+  {
+   "id": "n38a",
+   "c": "Cajas y kits",
+   "t": "Caja roja con taza y vela",
+   "d": "Taza navideña, vela de soya 4 oz, vela decorativa y llavero de borrego.",
+   "v": [
+    {
+     "n": "",
+     "p": 480
+    }
+   ]
+  },
+  {
+   "id": "n39a",
+   "c": "Cajas y kits",
+   "t": "Caja roja con termo whiskero",
+   "d": "Termo whiskero personalizado, vela 4 oz, snack y collar chapa de oro.",
+   "v": [
+    {
+     "n": "",
+     "p": 600
+    }
+   ]
+  },
+  {
+   "id": "n41a",
+   "c": "Cajas y kits",
+   "t": "Caja rectangular con termo",
+   "d": "Termo whiskero personalizado con 2 snacks $460, o con vela 9 oz y snack $590.",
+   "v": [
+    {
+     "n": "Con 2 snacks",
+     "p": 460
+    },
+    {
+     "n": "Con vela 9 oz y snack",
+     "p": 590
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n43a",
+   "c": "Cajas y kits",
+   "t": "Caja con tapa transparente y vino",
+   "d": "Vino 750 ml y 3 snacks en frasco. Finca Las Moras $700, Cune $830, Casa Madero 3V $1100.",
+   "v": [
+    {
+     "n": "Finca Las Moras",
+     "p": 700
+    },
+    {
+     "n": "Cune",
+     "p": 830
+    },
+    {
+     "n": "Casa Madero 3V",
+     "p": 1100
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n44a",
+   "c": "Cajas y kits",
+   "t": "Caja tapa transparente Mixta 1",
+   "d": "Vaso navideño, vela de concreto, 2 snacks, room spray 120 ml y miel con jengibre.",
+   "v": [
+    {
+     "n": "",
+     "p": 720
+    }
+   ]
+  },
+  {
+   "id": "n45a",
+   "c": "Cajas y kits",
+   "t": "Caja tapa transparente Mixta 2",
+   "d": "Termo de café 20 oz, 3 snacks grandes y vela decorativa.",
+   "v": [
+    {
+     "n": "",
+     "p": 580
+    }
+   ]
+  },
+  {
+   "id": "n46a",
+   "c": "Cajas y kits",
+   "t": "Caja tapa transparente Mixta 3",
+   "d": "Vaso navideño con tapa, 3 velas con intención y pulsera de hilo con dije.",
+   "v": [
+    {
+     "n": "",
+     "p": 600
+    }
+   ]
+  },
+  {
+   "id": "n48a",
+   "c": "Cajas y kits",
+   "t": "Caja con cobija",
+   "d": "Cobija polar $250. Con calcetines navideños y vela decorativa $285.",
+   "v": [
+    {
+     "n": "Cobija polar",
+     "p": 250
+    },
+    {
+     "n": "Con calcetines y vela decorativa",
+     "p": 285
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n49a",
+   "c": "Cajas y kits",
+   "t": "Caja cobija con snacks o vela",
+   "d": "Cobija polar con 3 snacks $580, o con vela ámbar y room spray 100 ml $550.",
+   "v": [
+    {
+     "n": "Con vela ámbar y room spray 100 ml",
+     "p": 550
+    },
+    {
+     "n": "Con 3 snacks",
+     "p": 580
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n50a",
+   "c": "Velas",
+   "t": "Velas en cuencos de madera",
+   "d": "Estrella o pino chico $450, pino grande o cuadrado $550, canoa chica $400, canoa grande $600. Entrega en tabla +$75.",
+   "v": [
+    {
+     "n": "Canoa chica",
+     "p": 400
+    },
+    {
+     "n": "Estrella o pino chico",
+     "p": 450
+    },
+    {
+     "n": "Pino grande o cuadrado",
+     "p": 550
+    },
+    {
+     "n": "Canoa grande",
+     "p": 600
+    },
+    {
+     "n": "Canoa chica en tabla",
+     "p": 475
+    },
+    {
+     "n": "Estrella o pino chico en tabla",
+     "p": 525
+    },
+    {
+     "n": "Pino grande o cuadrado en tabla",
+     "p": 625
+    },
+    {
+     "n": "Canoa grande en tabla",
+     "p": 675
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n51a",
+   "c": "Regalos",
+   "t": "Ginger honey",
+   "d": "Miel con jengibre: mini $65, grande $180.",
+   "v": [
+    {
+     "n": "Mini",
+     "p": 65
+    },
+    {
+     "n": "Grande",
+     "p": 180
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n52a",
+   "c": "Regalos",
+   "t": "Termo café o whiskero",
+   "d": "Termo café 20 oz o termo whiskero. Personalizado con DTF +$30, grabado +$75.",
+   "v": [
+    {
+     "n": "Sin personalizar",
+     "p": 190
+    },
+    {
+     "n": "Personalizado con DTF",
+     "p": 220
+    },
+    {
+     "n": "Grabado",
+     "p": 265
+    }
+   ]
+  },
+  {
+   "id": "n52b",
+   "c": "Regalos",
+   "t": "Vaso de vidrio con tapa de bambú",
+   "d": "Con popote. Personalizado con DTF +$30.",
+   "v": [
+    {
+     "n": "Sin personalizar",
+     "p": 110
+    },
+    {
+     "n": "Personalizado con DTF",
+     "p": 140
+    }
+   ]
+  },
+  {
+   "id": "n53a",
+   "c": "Regalos",
+   "t": "Taza navideña",
+   "d": "Taza sola $160, con Ferreros $250.",
+   "v": [
+    {
+     "n": "Taza sola",
+     "p": 160
+    },
+    {
+     "n": "Con Ferreros",
+     "p": 250
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n54a",
+   "c": "Regalos",
+   "t": "Tags navideños",
+   "d": "Set de 10 tags $50, personalizados $70.",
+   "v": [
+    {
+     "n": "Set de 10",
+     "p": 50
+    },
+    {
+     "n": "Set de 10 personalizados",
+     "p": 70
+    }
+   ],
+   "from": 1,
+   "tag": {
+    "v": [
+     1
+    ],
+    "max": 20,
+    "label": "Nombre o texto para los tags"
+   }
+  },
+  {
+   "id": "n57a",
+   "c": "Joyería",
+   "t": "Conjunto piedritas naturales",
+   "d": "Collar de acero inoxidable $380 y pulsera $250. Conjunto $600.",
+   "v": [
+    {
+     "n": "Conjunto",
+     "p": 600
+    },
+    {
+     "n": "Solo collar",
+     "p": 380
+    },
+    {
+     "n": "Solo pulsera",
+     "p": 250
+    }
+   ]
+  },
+  {
+   "id": "n57b",
+   "c": "Joyería",
+   "t": "Conjunto con cristales",
+   "d": "Collar de acero inoxidable con cristales $300 y pulsera $180. Conjunto $460.",
+   "v": [
+    {
+     "n": "Conjunto",
+     "p": 460
+    },
+    {
+     "n": "Solo collar",
+     "p": 300
+    },
+    {
+     "n": "Solo pulsera",
+     "p": 180
+    }
+   ]
+  },
+  {
+   "id": "n58a",
+   "c": "Joyería",
+   "t": "Collares de piedras naturales",
+   "d": "Anudados a mano: ágata de colores, lapislázuli, jade y aguamarina.",
+   "v": [
+    {
+     "n": "",
+     "p": 700
+    }
+   ]
+  },
+  {
+   "id": "n59a",
+   "c": "Joyería",
+   "t": "Iniciales con perlita de río",
+   "d": "Cadena de 43 cm.",
+   "v": [
+    {
+     "n": "",
+     "p": 230
+    }
+   ]
+  },
+  {
+   "id": "n60a",
+   "c": "Joyería",
+   "t": "Collares cortos con dije chico",
+   "d": "Escoge tu dije y tu cadena. 40 cm con extensión de 5 cm.",
+   "v": [
+    {
+     "n": "",
+     "p": 210
+    }
+   ]
+  },
+  {
+   "id": "n61a",
+   "c": "Joyería",
+   "t": "Collar doble dije chico e inicial",
+   "d": "Escoge tu dije e inicial.",
+   "v": [
+    {
+     "n": "",
+     "p": 420
+    }
+   ]
+  },
+  {
+   "id": "n62a",
+   "c": "Joyería",
+   "t": "Collar doble perla e inicial",
+   "d": "Perla de 40 cm e inicial de 45 cm, con extensión de 5 cm. En línea: solo perla $250. El collar doble, cotízalo por WhatsApp.",
+   "v": [
+    {
+     "n": "Solo perla",
+     "p": 250
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n63a",
+   "c": "Joyería",
+   "t": "Collares con dije grande",
+   "d": "Escoge tu dije. 43 cm con extensión de 5 cm.",
+   "v": [
+    {
+     "n": "",
+     "p": 285
+    }
+   ]
+  },
+  {
+   "id": "n64a",
+   "c": "Joyería",
+   "t": "Collares Navidad",
+   "d": "Dijes de temporada. Borrego grande $230.",
+   "v": [
+    {
+     "n": "Dije de temporada",
+     "p": 200
+    },
+    {
+     "n": "Borrego grande",
+     "p": 230
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n65a",
+   "c": "Joyería",
+   "t": "Escapulario Virgen de Guadalupe",
+   "d": "Chapa de oro.",
+   "v": [
+    {
+     "n": "",
+     "p": 250
+    }
+   ]
+  },
+  {
+   "id": "n65b",
+   "c": "Joyería",
+   "t": "Escapulario en chaquira",
+   "d": "Con cadena de chaquira.",
+   "v": [
+    {
+     "n": "",
+     "p": 230
+    }
+   ]
+  },
+  {
+   "id": "n65c",
+   "c": "Joyería",
+   "t": "Cadena eslabón con dije",
+   "d": "Dije de corazón o flor.",
+   "v": [
+    {
+     "n": "",
+     "p": 450
+    }
+   ]
+  },
+  {
+   "id": "n66a",
+   "c": "Joyería",
+   "t": "Llavero de cartera borrego",
+   "d": "Abundancia: chico $120, mediano $125, grande $135.",
+   "v": [
+    {
+     "n": "Chico",
+     "p": 120
+    },
+    {
+     "n": "Mediano",
+     "p": 125
+    },
+    {
+     "n": "Grande",
+     "p": 135
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n67a",
+   "c": "Joyería",
+   "t": "Pulsera círculo, borrego y manita",
+   "d": "Pulsera de hilo rojo con tarjeta de Abundancia.",
+   "v": [
+    {
+     "n": "",
+     "p": 150
+    }
+   ]
+  },
+  {
+   "id": "n67b",
+   "c": "Joyería",
+   "t": "Pulsera ojo y borrego",
+   "d": "Hilo rojo; también se puede poner otro dije.",
+   "v": [
+    {
+     "n": "",
+     "p": 100
+    }
+   ]
+  },
+  {
+   "id": "n67c",
+   "c": "Joyería",
+   "t": "Pulsera sencilla de borrego",
+   "d": "Hilo rojo con tarjeta de Abundancia.",
+   "v": [
+    {
+     "n": "",
+     "p": 100
+    }
+   ]
+  },
+  {
+   "id": "n68a",
+   "c": "Joyería",
+   "t": "Pulsera borrego y perlita",
+   "d": "Hilo rojo con dije y perlitas.",
+   "v": [
+    {
+     "n": "",
+     "p": 120
+    }
+   ]
+  },
+  {
+   "id": "n68b",
+   "c": "Joyería",
+   "t": "Pulseras de estambre ajustables",
+   "d": "Con dije a elegir.",
+   "v": [
+    {
+     "n": "",
+     "p": 100
+    }
+   ]
+  },
+  {
+   "id": "n68c",
+   "c": "Joyería",
+   "t": "Pulsera Abundancia y suerte",
+   "d": "Con 4 dijes.",
+   "v": [
+    {
+     "n": "",
+     "p": 250
+    }
+   ]
+  },
+  {
+   "id": "n69a",
+   "c": "Joyería",
+   "t": "Pulsera perlas de río, borrego y mota",
+   "d": "Borrego chico $260, borrego grande $290.",
+   "v": [
+    {
+     "n": "Borrego chico",
+     "p": 260
+    },
+    {
+     "n": "Borrego grande",
+     "p": 290
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n69b",
+   "c": "Joyería",
+   "t": "Pulsera de bolitas personalizada",
+   "d": "Con palabra, borrego y mota.",
+   "v": [
+    {
+     "n": "",
+     "p": 260
+    }
+   ]
+  },
+  {
+   "id": "n69c",
+   "c": "Joyería",
+   "t": "Pulsera de bolitas ojo y mota",
+   "d": "Bolitas doradas con ojo y mota de color.",
+   "v": [
+    {
+     "n": "",
+     "p": 200
+    }
+   ]
+  },
+  {
+   "id": "n70a",
+   "c": "Joyería",
+   "t": "Pulsera ojo e inicial",
+   "d": "Hilo rojo con ojo turco e inicial.",
+   "v": [
+    {
+     "n": "",
+     "p": 170
+    }
+   ]
+  },
+  {
+   "id": "n70b",
+   "c": "Joyería",
+   "t": "Pulsera inicial y perlita de río",
+   "d": "Hilo rojo con inicial y perlita.",
+   "v": [
+    {
+     "n": "",
+     "p": 170
+    }
+   ]
+  },
+  {
+   "id": "n70c",
+   "c": "Joyería",
+   "t": "Pulsera inicial mini con perlita",
+   "d": "1 inicial $75, 2 iniciales $95, 3 iniciales $115.",
+   "v": [
+    {
+     "n": "1 inicial",
+     "p": 75
+    },
+    {
+     "n": "2 iniciales",
+     "p": 95
+    },
+    {
+     "n": "3 iniciales",
+     "p": 115
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n71a",
+   "c": "Joyería",
+   "t": "Pulseras de hilo con dije mini",
+   "d": "Ajustables; escoge el dije y el color del hilo.",
+   "v": [
+    {
+     "n": "",
+     "p": 75
+    }
+   ]
+  },
+  {
+   "id": "n72a",
+   "c": "Joyería",
+   "t": "Pulseras de perlas de río",
+   "d": "Escoge el color de la mota y la inicial.",
+   "v": [
+    {
+     "n": "",
+     "p": 290
+    }
+   ]
+  }
+ ],
+ "siempre": [
+  {
+   "id": "s03",
+   "c": "Velas",
+   "t": "Velas de soya en cerámica",
+   "d": "Recipientes de cerámica con relieve y mecha de madera."
+  },
+  {
+   "id": "s11",
+   "c": "Velas",
+   "t": "Vela en cerámica con tapa",
+   "d": "Para regalar o para tu mesa de noche."
+  },
+  {
+   "id": "s02",
+   "c": "Recuerdos",
+   "t": "Velas en frasco con eucalipto",
+   "d": "Tapa dorada, etiqueta con nombre y fecha."
+  },
+  {
+   "id": "s01",
+   "c": "Recuerdos",
+   "t": "Recuerdo de primera comunión",
+   "d": "Vela en vaso y caja con el nombre del festejado."
+  },
+  {
+   "id": "s04",
+   "c": "Recuerdos",
+   "t": "Caja de acrílico personalizada",
+   "d": "Con moño y tarjeta para cada invitado."
+  },
+  {
+   "id": "s12",
+   "c": "Recuerdos",
+   "t": "Miel para Rosh Hashaná",
+   "d": "Frasco de miel con tarjeta “Shaná Tová”."
+  },
+  {
+   "id": "s06",
+   "c": "Cajas",
+   "t": "Caja para padrino",
+   "d": "Termo grabado con su nombre, carta y snacks."
+  },
+  {
+   "id": "s07",
+   "c": "Cajas",
+   "t": "Caja para madrina",
+   "d": "Termo rosa grabado, carta, flores secas y snacks."
+  },
+  {
+   "id": "s08",
+   "c": "Cajas",
+   "t": "Caja de agradecimiento",
+   "d": "Termo con nombre, snacks, room spray y vela “Gracias”."
+  },
+  {
+   "id": "s09",
+   "c": "Cajas",
+   "t": "Caja “Gracias” con moño",
+   "d": "Termo personalizado, carta, snacks y vela."
+  },
+  {
+   "id": "s10",
+   "c": "Joyería",
+   "t": "Pulseras de hilo con dije",
+   "d": "Ideales como recuerdo; se arman en el color de tu evento."
+  },
+  {
+   "id": "conjunto",
+   "c": "Joyería",
+   "t": "Conjunto de collar y pulsera",
+   "d": "Acero inoxidable con piedritas naturales o cristales.",
+   "v": [
+    {
+     "n": "Piedritas naturales: conjunto",
+     "p": 600
+    },
+    {
+     "n": "Cristales: conjunto",
+     "p": 460
+    }
+   ],
+   "from": 1
+  }
+ ]
+}

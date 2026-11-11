@@ -146,6 +146,58 @@ header .social a{width:32px;height:32px;border:0;background:none}
 .wa-float{position:fixed;z-index:8;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.18)}
 .wa-float svg{width:28px;height:28px;fill:currentColor}
 .wa-float:hover{transform:scale(1.05)}
+/* Carrito y pago */
+.card .acts{display:flex;align-items:center;gap:12px}
+.ask.q{color:var(--ink-soft)}
+.add{font:500 .64rem var(--caps);letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--accent);background:var(--accent);color:#fff;padding:7px 12px;border-radius:999px;cursor:pointer}
+.add:hover{background:color-mix(in srgb,var(--accent) 85%,#000)}
+.cart-btn{position:fixed;z-index:8;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(86px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:8px;font:500 .7rem var(--caps);letter-spacing:.16em;text-transform:uppercase;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:12px 16px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.cart-btn svg{width:18px;height:18px;fill:currentColor}
+.cart-btn b{background:var(--gold);border-radius:999px;min-width:22px;height:22px;display:grid;place-items:center;font-size:.7rem;padding:0 6px}
+.cart-btn.pop{animation:pop .35s}
+@keyframes pop{50%{transform:scale(1.12)}}
+dialog{border:0;padding:0;border-radius:4px;max-width:min(520px,calc(100vw - 32px));width:100%;max-height:calc(100dvh - 32px);color:var(--ink);background:var(--paper);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(40,35,32,.45)}
+.dlg{padding:24px;display:flex;flex-direction:column;gap:14px}
+.dlg-h{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.dlg-h h2{margin:0;font-family:var(--caps);font-weight:400;font-size:1.15rem;letter-spacing:.04em;line-height:1.3}
+.x{border:0;background:none;font-size:1.6rem;line-height:1;color:var(--ink-soft);cursor:pointer;padding:0 4px}
+.pd-top{display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:start}
+.pd-top img{width:110px;height:110px;object-fit:cover;border-radius:2px;background:var(--wash)}
+.pd-top p{margin:0;font-size:.88rem;color:var(--ink-soft)}
+.fld{display:flex;flex-direction:column;gap:5px;font-size:.85rem}
+.fld>span:first-child{font:500 .62rem var(--caps);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.fld input,.fld select,.fld textarea{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:3px;padding:10px 12px;width:100%}
+.fld textarea{resize:vertical;min-height:56px}
+.fld small{color:var(--ink-soft);font-size:.75rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sum{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:12px;font-family:var(--caps)}
+.sum strong{font-size:1.2rem;font-weight:400;font-variant-numeric:tabular-nums}
+.warn{margin:0;font-size:.85rem;color:var(--accent)}
+.warn:empty{display:none}
+.warn a{color:inherit;font-weight:600}
+.btn[disabled],.add[disabled]{opacity:.45;cursor:not-allowed}
+.dlg .btn{justify-content:center;cursor:pointer;width:100%}
+.btn.mp{background:#009EE3;border-color:#009EE3;color:#fff}
+.btn.mp:hover:not([disabled]){background:#0086c3}
+.cart-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;max-height:34dvh;overflow:auto}
+.cart-list li{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:start}
+.cart-list li.none{display:block;color:var(--ink-soft);font-size:.9rem}
+.cart-list img{width:56px;height:56px;object-fit:cover;border-radius:2px}
+.ci{display:flex;flex-direction:column;font-size:.82rem;color:var(--ink-soft);min-width:0}
+.ci strong{color:var(--ink);font-weight:600;font-size:.88rem}
+.qty{display:flex;align-items:center;gap:8px;margin-top:4px}
+.qty button{width:28px;height:28px;border:1px solid var(--line);background:#fff;border-radius:50%;cursor:pointer;color:var(--ink)}
+.qty button.rm{width:auto;border:0;background:none;font-size:.75rem;text-decoration:underline;color:var(--ink-soft)}
+.qty button[disabled]{opacity:.35}
+.cp{font-family:var(--caps);font-variant-numeric:tabular-nums;font-size:.9rem}
+.fine{margin:0;font-size:.75rem;color:var(--ink-soft);text-align:center}
+.fine a{color:var(--accent)}
+.especial{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px 32px;padding:28px;border:1px solid var(--line);background:var(--accent-wash);border-radius:2px}
+.especial h2{margin:0;font-family:var(--caps);font-weight:300;font-size:clamp(1.3rem,2.6vw,1.8rem);letter-spacing:.05em}
+.especial h2 .script{color:var(--accent);font-size:1.5em}
+.especial p{margin:.3em 0 0;color:var(--ink-soft);max-width:36em}
+@media (max-width:520px){.row2{grid-template-columns:1fr}.pd-top{grid-template-columns:80px 1fr}.pd-top img{width:80px;height:80px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -231,12 +283,20 @@ header .social a{width:32px;height:32px;border:0;background:none}
     </div>
   </section>
 
+  <section class="block" id="especial" style="padding-top:0">
+    <div class="wrap especial">
+      <div><h2>¿Buscas algo <span class="script">especial?</span></h2>
+        <p>Si quieres algo que no está en el catálogo, otra combinación, tu logo o más de 20 piezas, cuéntale a Ana por WhatsApp y lo cotizamos.</p></div>
+      <a class="btn solid" href="https://wa.me/525511997696?text=Hola%20Ana%2C%20quiero%20algo%20especial%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>Cotizar por WhatsApp</a>
+    </div>
+  </section>
+
   <section class="block" id="pedido" style="padding-top:0">
     <div class="wrap">
       <div class="head"><h2><span class="script">Cómo pedir</span>En tres pasos</h2></div>
       <div class="steps">
-        <div class="step"><h3>Escribe por WhatsApp</h3><p>Dinos qué producto o combinación te gusta, cuántas piezas y si lo quieres personalizado.</p></div>
-        <div class="step"><h3>Aparta con el 50%</h3><p>Con el 50% de anticipo empezamos tu pedido. El otro 50% se cubre antes de la entrega.</p></div>
+        <div class="step"><h3>Elige tus detalles</h3><p>Agrégalos al carrito, hasta 20 piezas, o escríbenos por WhatsApp si quieres algo personalizado.</p></div>
+        <div class="step"><h3>Paga o aparta</h3><p id="step-pago">En la página pagas el total con Mercado Pago: tarjeta, OXXO o transferencia. Por WhatsApp apartas con el 50% de anticipo.</p></div>
         <div class="step"><h3>Recibe en 2 a 7 días</h3><p>Días hábiles, según la cantidad y la personalización.</p></div>
       </div>
     </div>
@@ -272,125 +332,228 @@ header .social a{width:32px;height:32px;border:0;background:none}
   <span>By Ana · Estudio de detalles · Regalos para cualquier ocasión</span>
 </footer>
 <a class="wa-float" href="https://wa.me/525511997696?text=Hola%20Ana%2C%20vi%20tu%20p%C3%A1gina" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></a>
+<button class="cart-btn" id="cart-btn" type="button" hidden aria-label="Ver carrito"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM5.2 4l.4 2H21l-2.2 8.2a2 2 0 0 1-1.9 1.5H8.4a2 2 0 0 1-2-1.6L4 2H1V0h4.6l.6 4Z" transform="translate(0 1)"/></svg>Carrito <b id="cart-count">0</b></button>
+
+<dialog id="dlg-product" aria-labelledby="pd-title">
+  <div class="dlg">
+    <div class="dlg-h"><h2 id="pd-title"></h2><button class="x" type="button" aria-label="Cerrar">×</button></div>
+    <div class="pd-top"><img id="pd-img" alt=""><p id="pd-desc"></p></div>
+    <label class="fld" id="pd-var-wrap"><span>Opción</span><select id="pd-var"></select></label>
+    <label class="fld"><span>Piezas</span><input id="pd-qty" type="number" inputmode="numeric" min="1" max="20" value="1"></label>
+    <label class="fld" id="pd-tag-wrap" hidden><span id="pd-tag-label">Texto</span><input id="pd-tag" type="text" autocomplete="off" placeholder="Ej. Familia López"><small id="pd-tag-count"></small></label>
+    <label class="fld"><span>Indicaciones (opcional)</span><textarea id="pd-nota" maxlength="100" placeholder="Aroma, dije, inicial, color…"></textarea></label>
+    <p class="warn" id="pd-limit"></p>
+    <div class="sum"><span class="caps" style="font-size:.7rem">Subtotal</span><strong id="pd-total">$0</strong></div>
+    <p class="warn" id="pd-err" role="alert"></p>
+    <button class="btn solid" id="pd-add" type="button">Agregar al carrito</button>
+  </div>
+</dialog>
+
+<dialog id="dlg-cart" aria-labelledby="cart-title">
+  <form class="dlg" id="cart-form" novalidate>
+    <div class="dlg-h"><h2 id="cart-title">Tu pedido</h2><button class="x" type="button" aria-label="Cerrar">×</button></div>
+    <ul class="cart-list" id="cart-items"></ul>
+    <div class="sum"><span class="caps" style="font-size:.7rem" id="cart-pzs"></span><strong id="cart-total">$0</strong></div>
+    <p class="warn" id="cart-limit"></p>
+    <div class="row2">
+      <label class="fld"><span>Nombre</span><input id="c-nombre" required autocomplete="name" maxlength="60"></label>
+      <label class="fld"><span>WhatsApp</span><input id="c-tel" required type="tel" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="10 dígitos"></label>
+    </div>
+    <label class="fld"><span>¿Para cuándo lo necesitas? (opcional)</span><input id="c-fecha" type="date"><small>Entregamos en 2 a 7 días hábiles.</small></label>
+    <p class="warn" id="cart-err" role="alert"></p>
+    <button class="btn mp" id="cart-pay" type="submit">Pagar con Mercado Pago</button>
+    <a class="btn ghost" id="cart-wa" href="#" target="_blank" rel="noopener">Mejor pedir por WhatsApp</a>
+    <p class="fine" id="cart-fine">Se paga el total del pedido. ¿Quieres algo especial o más de 20 piezas? <a href="https://wa.me/525511997696?text=Hola%20Ana%2C%20quiero%20algo%20especial%3A%20" target="_blank" rel="noopener">Escríbenos</a>.</p>
+  </form>
+</dialog>
+
+<dialog id="dlg-thanks" aria-labelledby="ty-title">
+  <div class="dlg" style="text-align:center">
+    <div class="dlg-h"><h2 id="ty-title"></h2><button class="x" type="button" aria-label="Cerrar">×</button></div>
+    <p id="ty-text" style="margin:0;color:var(--ink-soft)"></p>
+    <p id="ty-ref" class="caps" style="margin:0;font-size:.7rem"></p>
+    <a class="btn solid" id="ty-wa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>Enviar pedido a Ana</a>
+  </div>
+</dialog>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-ig" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.7.1-2.3.1-3.3 1.2-3.4 3.4C3.8 8.7 3.8 9 3.8 12s0 3.4.1 4.6c.1 2.2 1.1 3.3 3.4 3.4 1.2.1 1.5.1 4.7.1s3.5 0 4.7-.1c2.3-.1 3.3-1.2 3.4-3.4.1-1.2.1-1.6.1-4.6s0-3.4-.1-4.6c-.1-2.2-1.1-3.3-3.4-3.4C15.5 4 15.1 4 12 4Zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8Zm0 8.1a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Zm5.1-9.4a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3Z"/></symbol>
   <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></symbol>
 </svg>
 
 <script>
-const WA = "https://wa.me/525511997696?text=";
-const navidad = [
-  {"c": "Velas", "img": "n05a", "t": "Kit de 3 velas", "d": "2 velas decorativas y 1 vela en vaso, en caja ilustrada. Decorativas a elegir: árbol, galleta de jengibre, reno, copo de nieve, estrella, regalo, muñeco de nieve, cara de reno o trineo.", "p": 310},
-  {"c": "Velas", "img": "n06a", "t": "Kit de 3 velas con tapa de corcho", "d": "2 velas decorativas y 1 vela con tapa de corcho, en caja ilustrada. Decorativas a elegir: árbol, galleta de jengibre, reno, copo de nieve, estrella, regalo, muñeco de nieve, cara de reno o trineo.", "p": 300},
-  {"c": "Velas", "img": "n07a", "t": "Kit Joy · Hope · Love", "d": "3 velas de 110 g con palabra: Joy-Hope-Love o Luz-Amor-Paz. Aromas navideños o florales (jazmín, nardo, gardenia).", "p": 400},
-  {"c": "Velas", "img": "n08a", "t": "Kit de 3 casitas", "d": "Tres velas en forma de casita. Aromas navideños o cereza.", "p": 375},
-  {"c": "Velas", "img": "n09a", "t": "Vela casita", "d": "Vela individual en forma de casita. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.", "p": 130},
-  {"c": "Velas", "img": "n10a", "t": "Vela de soya en concreto", "d": "Recipiente de concreto con relieve navideño. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.", "p": 310},
-  {"c": "Velas", "img": "n12a", "t": "Velas en concreto", "d": "Árbol $180 o borrego $110. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.", "p": 110, "from": 1},
-  {"c": "Velas", "img": "n13a", "t": "Vela en concreto con tapa", "d": "Recipiente de concreto con estrellas y tapa. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.", "p": 280},
-  {"c": "Velas", "img": "n14a", "t": "Vela de nacimiento", "d": "Vela decorativa del nacimiento. Aromas navideños o cereza.", "p": 130},
-  {"c": "Velas", "img": "n15a", "t": "Familia reno", "d": "Cajita con 3 renos de diferentes alturas.", "p": 240},
-  {"c": "Velas", "img": "n16a", "t": "Velas decorativas", "d": "En bolsa de celofán $75, postal $80 o cajita $85. Kit de 2 en cajita $160, kit de 4 $290.", "p": 75, "from": 1},
-  {"c": "Cajas y kits", "img": "n18a", "t": "Kit 2 velas y room spray", "d": "Cajita con 2 velas decorativas a elegir y room spray de 60 ml.", "p": 260},
-  {"c": "Cajas y kits", "img": "n19a", "t": "Kit vela con llavero o pulsera", "d": "Vela con intención (love, hope, joy, paz, luz o amor) con llavero de borrego $260, o con pulsera de hilo y dije $210.", "p": 210, "from": 1},
-  {"c": "Cajas y kits", "img": "n20a", "t": "Kit vela decorativa y tags", "d": "Vela decorativa a elegir y set de 10 tags personalizados.", "p": 150},
-  {"c": "Cajas y kits", "img": "n20b", "t": "Kit room spray, pulsera y estrella", "d": "Room spray de 30 ml, pulsera ajustable y estrella decorativa.", "p": 210},
-  {"c": "Velas", "img": "n21a", "t": "Velas para el árbol", "d": "Figuras aromáticas de cera de soya para colgar, $85 c/u. Kit de 6 en cajita $400.", "p": 85, "from": 1},
-  {"c": "Cajas y kits", "img": "n22a", "t": "Kit vela y room spray ámbar", "d": "Vela de soya ámbar 200 g y room spray 60 ml $340, o 6.5 oz y 120 ml $385. Vela sola $240.", "p": 240, "from": 1},
-  {"c": "Regalos", "img": "n23a", "t": "Room spray", "d": "10 ml $60, 30 ml $90, ámbar 60 ml $120, 60 ml $150, ámbar 100 ml $190, 100 ml $230. Villa Navideña o Bergamota.", "p": 60, "from": 1},
-  {"c": "Velas", "img": "n24a", "t": "Velas navideñas de soya", "d": "Tapa de corcho $135, 4 oz $175, 7 oz ámbar $280, 9 oz $385. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.", "p": 135, "from": 1},
-  {"c": "Velas", "img": "n25a", "t": "Vela con pino navideño", "d": "Vaso de 500 g con pino de cera. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.", "p": 550},
-  {"c": "Cajas y kits", "img": "n26a", "t": "Caja room spray y velas", "d": "Room spray 60 ml, vela navideña 4 oz y vela decorativa.", "p": 400},
-  {"c": "Cajas y kits", "img": "n27a", "t": "Caja room spray, vela y pulsera", "d": "Room spray 100 ml, vela de concreto navideña y pulsera ajustable.", "p": 470},
-  {"c": "Cajas y kits", "img": "n28a", "t": "Caja de madera con taza", "d": "Room spray 100 ml, vela ámbar 7 oz, 2 snacks en frasco, taza navideña, vela decorativa y tag con moño.", "p": 950},
-  {"c": "Cajas y kits", "img": "n29a", "t": "Caja de madera con termo", "d": "Room spray 100 ml, vela de estrellas, ginger honey, termo whiskero, 2 casitas de vela y tag con moño.", "p": 1000},
-  {"c": "Cajas y kits", "img": "n30a", "t": "Kit café en caja de madera", "d": "Prensa francesa, café molido 250 g, taza navideña y tag con moño.", "p": 650},
-  {"c": "Cajas y kits", "img": "n31a", "t": "Caja de madera con vino y 3 snacks", "d": "Vino 750 ml a elegir: Finca Las Moras $1000, Cune $1150 o Casa Madero 3V $1400. 3 snacks en frasco y tag personalizable con logo.", "p": 1000, "from": 1},
-  {"c": "Cajas y kits", "img": "n32a", "t": "Caja de madera con vino y vela", "d": "Vino, 2 snacks en frasco y vela de concreto. Finca Las Moras $1200, Cune $1330, Casa Madero 3V $1600.", "p": 1200, "from": 1},
-  {"c": "Cajas y kits", "img": "n33a", "t": "Caja de madera con vino y vela 4 oz", "d": "Vino, 2 snacks en frasco y vela de soya 4 oz. Finca Las Moras $1050, Cune $1180, Casa Madero 3V $1450.", "p": 1050, "from": 1},
-  {"c": "Cajas y kits", "img": "n35a", "t": "Caja roja con vaso de vidrio", "d": "Vaso navideño con tapa de bambú y 2 snacks grandes a elegir.", "p": 370},
-  {"c": "Cajas y kits", "img": "n36a", "t": "Caja roja vaso, vela y room spray", "d": "Vaso con tapa de bambú, vela con intención, llavero de borrego y room spray 120 ml.", "p": 550},
-  {"c": "Cajas y kits", "img": "n37a", "t": "Caja roja con taza y snacks", "d": "Taza navideña, 2 snacks grandes y vela decorativa.", "p": 400},
-  {"c": "Cajas y kits", "img": "n38a", "t": "Caja roja con taza y vela", "d": "Taza navideña, vela de soya 4 oz, vela decorativa y llavero de borrego.", "p": 480},
-  {"c": "Cajas y kits", "img": "n39a", "t": "Caja roja con termo whiskero", "d": "Termo whiskero personalizado, vela 4 oz, snack y collar chapa de oro.", "p": 600},
-  {"c": "Cajas y kits", "img": "n41a", "t": "Caja rectangular con termo", "d": "Termo whiskero personalizado con 2 snacks $460, o con vela 9 oz y snack $590.", "p": 460, "from": 1},
-  {"c": "Cajas y kits", "img": "n43a", "t": "Caja con tapa transparente y vino", "d": "Vino 750 ml y 3 snacks en frasco. Finca Las Moras $700, Cune $830, Casa Madero 3V $1100.", "p": 700, "from": 1},
-  {"c": "Cajas y kits", "img": "n44a", "t": "Caja tapa transparente Mixta 1", "d": "Vaso navideño, vela de concreto, 2 snacks, room spray 120 ml y miel con jengibre.", "p": 720},
-  {"c": "Cajas y kits", "img": "n45a", "t": "Caja tapa transparente Mixta 2", "d": "Termo de café 20 oz, 3 snacks grandes y vela decorativa.", "p": 580},
-  {"c": "Cajas y kits", "img": "n46a", "t": "Caja tapa transparente Mixta 3", "d": "Vaso navideño con tapa, 3 velas con intención y pulsera de hilo con dije.", "p": 600},
-  {"c": "Cajas y kits", "img": "n48a", "t": "Caja con cobija", "d": "Cobija polar $250. Con calcetines navideños y vela decorativa $285.", "p": 250, "from": 1},
-  {"c": "Cajas y kits", "img": "n49a", "t": "Caja cobija con snacks o vela", "d": "Cobija polar con 3 snacks $580, o con vela ámbar y room spray 100 ml $550.", "p": 550, "from": 1},
-  {"c": "Velas", "img": "n50a", "t": "Velas en cuencos de madera", "d": "Estrella o pino chico $450, pino grande o cuadrado $550, canoa chica $400, canoa grande $600. Entrega en tabla +$75.", "p": 400, "from": 1},
-  {"c": "Regalos", "img": "n51a", "t": "Ginger honey", "d": "Miel con jengibre: mini $65, grande $180.", "p": 65, "from": 1},
-  {"c": "Regalos", "img": "n52a", "t": "Termo café o whiskero", "d": "Termo café 20 oz o termo whiskero. Personalizado con DTF +$30, grabado +$75.", "p": 190},
-  {"c": "Regalos", "img": "n52b", "t": "Vaso de vidrio con tapa de bambú", "d": "Con popote. Personalizado con DTF +$30.", "p": 110},
-  {"c": "Regalos", "img": "n53a", "t": "Taza navideña", "d": "Taza sola $160, con Ferreros $250.", "p": 160, "from": 1},
-  {"c": "Regalos", "img": "n54a", "t": "Tags navideños", "d": "Set de 10 tags $50, personalizados $70.", "p": 50, "from": 1},
-  {"c": "Joyería", "img": "n57a", "t": "Conjunto piedritas naturales", "d": "Collar de acero inoxidable $380 y pulsera $250. Conjunto $600.", "p": 600},
-  {"c": "Joyería", "img": "n57b", "t": "Conjunto con cristales", "d": "Collar de acero inoxidable con cristales $300 y pulsera $180. Conjunto $460.", "p": 460},
-  {"c": "Joyería", "img": "n58a", "t": "Collares de piedras naturales", "d": "Anudados a mano: ágata de colores, lapislázuli, jade y aguamarina.", "p": 700},
-  {"c": "Joyería", "img": "n59a", "t": "Iniciales con perlita de río", "d": "Cadena de 43 cm.", "p": 230},
-  {"c": "Joyería", "img": "n60a", "t": "Collares cortos con dije chico", "d": "Escoge tu dije y tu cadena. 40 cm con extensión de 5 cm.", "p": 210},
-  {"c": "Joyería", "img": "n61a", "t": "Collar doble dije chico e inicial", "d": "Escoge tu dije e inicial.", "p": 420},
-  {"c": "Joyería", "img": "n62a", "t": "Collar doble perla e inicial", "d": "Perla de 40 cm e inicial de 45 cm, con extensión de 5 cm. Solo perla $250.", "p": 250, "from": 1},
-  {"c": "Joyería", "img": "n63a", "t": "Collares con dije grande", "d": "Escoge tu dije. 43 cm con extensión de 5 cm.", "p": 285},
-  {"c": "Joyería", "img": "n64a", "t": "Collares Navidad", "d": "Dijes de temporada. Borrego grande $230.", "p": 200, "from": 1},
-  {"c": "Joyería", "img": "n65a", "t": "Escapulario Virgen de Guadalupe", "d": "Chapa de oro.", "p": 250},
-  {"c": "Joyería", "img": "n65b", "t": "Escapulario en chaquira", "d": "Con cadena de chaquira.", "p": 230},
-  {"c": "Joyería", "img": "n65c", "t": "Cadena eslabón con dije", "d": "Dije de corazón o flor.", "p": 450},
-  {"c": "Joyería", "img": "n66a", "t": "Llavero de cartera borrego", "d": "Abundancia: chico $120, mediano $125, grande $135.", "p": 120, "from": 1},
-  {"c": "Joyería", "img": "n67a", "t": "Pulsera círculo, borrego y manita", "d": "Pulsera de hilo rojo con tarjeta de Abundancia.", "p": 150},
-  {"c": "Joyería", "img": "n67b", "t": "Pulsera ojo y borrego", "d": "Hilo rojo; también se puede poner otro dije.", "p": 100},
-  {"c": "Joyería", "img": "n67c", "t": "Pulsera sencilla de borrego", "d": "Hilo rojo con tarjeta de Abundancia.", "p": 100},
-  {"c": "Joyería", "img": "n68a", "t": "Pulsera borrego y perlita", "d": "Hilo rojo con dije y perlitas.", "p": 120},
-  {"c": "Joyería", "img": "n68b", "t": "Pulseras de estambre ajustables", "d": "Con dije a elegir.", "p": 100},
-  {"c": "Joyería", "img": "n68c", "t": "Pulsera Abundancia y suerte", "d": "Con 4 dijes.", "p": 250},
-  {"c": "Joyería", "img": "n69a", "t": "Pulsera perlas de río, borrego y mota", "d": "Borrego chico $260, borrego grande $290.", "p": 260, "from": 1},
-  {"c": "Joyería", "img": "n69b", "t": "Pulsera de bolitas personalizada", "d": "Con palabra, borrego y mota.", "p": 260},
-  {"c": "Joyería", "img": "n69c", "t": "Pulsera de bolitas ojo y mota", "d": "Bolitas doradas con ojo y mota de color.", "p": 200},
-  {"c": "Joyería", "img": "n70a", "t": "Pulsera ojo e inicial", "d": "Hilo rojo con ojo turco e inicial.", "p": 170},
-  {"c": "Joyería", "img": "n70b", "t": "Pulsera inicial y perlita de río", "d": "Hilo rojo con inicial y perlita.", "p": 170},
-  {"c": "Joyería", "img": "n70c", "t": "Pulsera inicial mini con perlita", "d": "1 inicial $75, 2 iniciales $95, 3 iniciales $115.", "p": 75, "from": 1},
-  {"c": "Joyería", "img": "n71a", "t": "Pulseras de hilo con dije mini", "d": "Ajustables; escoge el dije y el color del hilo.", "p": 75},
-  {"c": "Joyería", "img": "n72a", "t": "Pulseras de perlas de río", "d": "Escoge el color de la mota y la inicial.", "p": 290},
-];
-const siempre = [
-  {c:"Velas",img:"s03",t:"Velas de soya en cerámica",d:"Recipientes de cerámica con relieve y mecha de madera."},
-  {c:"Velas",img:"s11",t:"Vela en cerámica con tapa",d:"Para regalar o para tu mesa de noche."},
-  {c:"Recuerdos",img:"s02",t:"Velas en frasco con eucalipto",d:"Tapa dorada, etiqueta con nombre y fecha."},
-  {c:"Recuerdos",img:"s01",t:"Recuerdo de primera comunión",d:"Vela en vaso y caja con el nombre del festejado."},
-  {c:"Recuerdos",img:"s04",t:"Caja de acrílico personalizada",d:"Con moño y tarjeta para cada invitado."},
-  {c:"Recuerdos",img:"s12",t:"Miel para Rosh Hashaná",d:"Frasco de miel con tarjeta “Shaná Tová”."},
-  {c:"Cajas",img:"s06",t:"Caja para padrino",d:"Termo grabado con su nombre, carta y snacks."},
-  {c:"Cajas",img:"s07",t:"Caja para madrina",d:"Termo rosa grabado, carta, flores secas y snacks."},
-  {c:"Cajas",img:"s08",t:"Caja de agradecimiento",d:"Termo con nombre, snacks, room spray y vela “Gracias”."},
-  {c:"Cajas",img:"s09",t:"Caja “Gracias” con moño",d:"Termo personalizado, carta, snacks y vela."},
-  {c:"Joyería",img:"s10",t:"Pulseras de hilo con dije",d:"Ideales como recuerdo; se arman en el color de tu evento."},
-  {c:"Joyería",img:"conjunto",t:"Conjunto de collar y pulsera",d:"Acero inoxidable con piedritas naturales o cristales.",p:460,from:1},
-];
+const WA_NUM = "525511997696";
+const WA = `https://wa.me/${WA_NUM}?text=`;
+const MAX_PIEZAS = 20, MAX_NOTA = 100;
 const money = n => "$" + n.toLocaleString("es-MX");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $ = id => document.getElementById(id);
+let PRODUCTOS = new Map();
+
 function card(x, season){
   const msg = encodeURIComponent(`Hola Ana, me interesa: ${x.t}${season==="navidad"?" (catálogo Navidad 2026)":""}`);
-  const price = x.p ? `<span class="price">${x.from?'<small>desde</small>':''}${money(x.p)}</span>` : `<span class="price"><small>Cotiza</small></span>`;
-  return `<article class="card" data-c="${x.c}">
-    <figure><img loading="lazy" src="img/${x.img}.jpg" alt="${x.t}"></figure>
-    <div class="tag caps">${x.c}</div><h3>${x.t}</h3><p>${x.d}</p>
-    <div class="foot">${price}<a class="ask" href="${WA}${msg}" target="_blank" rel="noopener">Pedir →</a></div>
+  const min = x.v ? Math.min(...x.v.map(v=>v.p)) : 0;
+  const price = x.v ? `<span class="price">${(x.from||x.v.length>1)?'<small>desde</small>':''}${money(min)}</span>` : `<span class="price"><small>Cotiza</small></span>`;
+  const acts = x.v
+    ? `<button type="button" class="add" data-id="${x.id}">Agregar</button>`
+    : `<a class="ask" href="${WA}${msg}" target="_blank" rel="noopener">Cotizar →</a>`;
+  return `<article class="card" data-c="${esc(x.c)}">
+    <figure><img loading="lazy" src="img/${x.id}.jpg" alt="${esc(x.t)}"></figure>
+    <div class="tag caps">${esc(x.c)}</div><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p>
+    <div class="foot">${price}<span class="acts">${x.v?`<a class="ask q" href="${WA}${msg}" target="_blank" rel="noopener" aria-label="Preguntar por WhatsApp">Preguntar</a>`:''}${acts}</span></div>
   </article>`;
 }
 function mount(id, list){
-  const grid = document.getElementById("grid-"+id), chips = document.getElementById("chips-"+id);
+  const grid = $("grid-"+id), chips = $("chips-"+id);
   if(!list.length){ grid.innerHTML = '<p class="empty">Muy pronto verás aquí los productos. Mientras, pide el catálogo por <a href="https://wa.me/525511997696" target="_blank" rel="noopener">WhatsApp</a>.</p>'; chips.hidden = true; return; }
   grid.innerHTML = list.map(x=>card(x,id)).join("");
   const cats = ["Todo", ...new Set(list.map(x=>x.c))];
-  chips.innerHTML = cats.map((c,i)=>`<button type="button" id="f-${id}-${i}" aria-pressed="${i===0}" data-c="${c}">${c}</button>`).join("");
+  chips.innerHTML = cats.map((c,i)=>`<button type="button" id="f-${id}-${i}" aria-pressed="${i===0}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
   chips.addEventListener("click", e=>{
     const b = e.target.closest("button"); if(!b) return;
     chips.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b));
     grid.querySelectorAll(".card").forEach(el=>{ const hide = b.dataset.c!=="Todo" && el.dataset.c!==b.dataset.c; el.hidden = hide; el.style.display = hide ? "none" : ""; });
   });
+  grid.addEventListener("click", e=>{ const b = e.target.closest(".add"); if(b) openProduct(b.dataset.id); });
 }
-mount("navidad", navidad); mount("siempre", siempre);
+
+/* ---------- Carrito ---------- */
+let cart = [];
+try{ cart = JSON.parse(localStorage.getItem("byana-cart")||"[]"); if(!Array.isArray(cart)) cart = []; }catch(e){ cart = []; }
+const save = () => { try{ localStorage.setItem("byana-cart", JSON.stringify(cart)); }catch(e){} };
+const piezas = () => cart.reduce((s,i)=>s+i.qty,0);
+const lineInfo = i => { const p = PRODUCTOS.get(i.id); const v = p && p.v && p.v[i.v]; return p && v ? {p,v} : null; };
+const total = () => cart.reduce((s,i)=>{ const l=lineInfo(i); return s + (l ? l.v.p*i.qty : 0); },0);
+const waLimite = () => WA + encodeURIComponent(`Hola Ana, quiero hacer un pedido de más de ${MAX_PIEZAS} piezas:\n` + resumen());
+function resumen(){
+  return cart.map(i=>{ const l=lineInfo(i); if(!l) return ""; return `• ${i.qty} × ${l.p.t}${l.v.n?" ("+l.v.n+")":""}${i.tag?` – texto: “${i.tag}”`:""}${i.nota?` – ${i.nota}`:""} = ${money(l.v.p*i.qty)}`; }).filter(Boolean).join("\n") + `\nTotal: ${money(total())}`;
+}
+
+let cur = null;
+function openProduct(id){
+  const p = PRODUCTOS.get(id); if(!p) return; cur = p;
+  $("pd-title").textContent = p.t;
+  $("pd-img").src = `img/${p.id}.jpg`; $("pd-img").alt = p.t;
+  $("pd-desc").textContent = p.d;
+  const sel = $("pd-var");
+  sel.innerHTML = p.v.map((v,i)=>`<option value="${i}">${esc(v.n||p.t)} · ${money(v.p)}</option>`).join("");
+  $("pd-var-wrap").hidden = p.v.length < 2;
+  $("pd-qty").value = 1; $("pd-tag").value = ""; $("pd-nota").value = "";
+  $("pd-err").textContent = "";
+  syncProduct();
+  $("dlg-product").showModal();
+}
+function syncProduct(){
+  $("pd-err").textContent = "";
+  const p = cur, vi = +$("pd-var").value, needTag = !!(p.tag && p.tag.v.includes(vi));
+  $("pd-tag-wrap").hidden = !needTag;
+  if(needTag){ $("pd-tag-label").textContent = p.tag.label + ` (máx. ${p.tag.max} caracteres)`; $("pd-tag").maxLength = p.tag.max; $("pd-tag-count").textContent = `${$("pd-tag").value.length}/${p.tag.max}`; }
+  const qty = Math.max(1, Math.floor(+$("pd-qty").value||1));
+  $("pd-total").textContent = money(p.v[vi].p * qty);
+  const left = MAX_PIEZAS - piezas();
+  $("pd-limit").innerHTML = qty > left
+    ? `En línea puedes pedir hasta ${MAX_PIEZAS} piezas${left<MAX_PIEZAS?` (ya tienes ${MAX_PIEZAS-left} en el carrito)`:""}. Para más, <a href="${WA}${encodeURIComponent(`Hola Ana, quiero ${qty} piezas de: ${p.t}${p.v[vi].n?" ("+p.v[vi].n+")":""}`)}" target="_blank" rel="noopener">escríbenos por WhatsApp</a>.`
+    : "";
+  $("pd-add").disabled = qty > left;
+}
+function addCurrent(){
+  const p = cur, vi = +$("pd-var").value, qty = Math.floor(+$("pd-qty").value||0);
+  const needTag = !!(p.tag && p.tag.v.includes(vi));
+  const tag = needTag ? $("pd-tag").value.trim().slice(0,p.tag.max) : "";
+  const nota = $("pd-nota").value.trim().slice(0,MAX_NOTA);
+  if(qty < 1){ $("pd-err").textContent = "Elige cuántas piezas."; return; }
+  if(needTag && !tag){ $("pd-err").textContent = "Escribe el texto para tus tags."; $("pd-tag").focus(); return; }
+  if(piezas() + qty > MAX_PIEZAS){ syncProduct(); return; }
+  const same = cart.find(i=>i.id===p.id && i.v===vi && i.tag===tag && i.nota===nota);
+  if(same) same.qty += qty; else cart.push({id:p.id, v:vi, qty, tag, nota});
+  save(); renderCart(); $("dlg-product").close();
+  const b = $("cart-btn"); b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
+}
+function renderCart(){
+  cart = cart.filter(lineInfo);
+  const n = piezas();
+  $("cart-btn").hidden = n === 0;
+  $("cart-count").textContent = n;
+  $("cart-items").innerHTML = cart.length ? cart.map((i,k)=>{ const {p,v}=lineInfo(i); return `<li>
+      <img src="img/${p.id}.jpg" alt="">
+      <div class="ci"><strong>${esc(p.t)}</strong>${v.n?`<span>${esc(v.n)}</span>`:""}${i.tag?`<span>Texto: “${esc(i.tag)}”</span>`:""}${i.nota?`<span>${esc(i.nota)}</span>`:""}
+        <div class="qty"><button type="button" data-k="${k}" data-d="-1" aria-label="Quitar una">−</button><span>${i.qty}</span><button type="button" data-k="${k}" data-d="1" aria-label="Agregar una" ${n>=MAX_PIEZAS?"disabled":""}>+</button><button type="button" class="rm" data-k="${k}" data-d="x">Quitar</button></div></div>
+      <div class="cp">${money(v.p*i.qty)}</div></li>`; }).join("") : `<li class="none">Tu carrito está vacío.</li>`;
+  $("cart-total").textContent = money(total());
+  $("cart-pzs").textContent = `${n} de ${MAX_PIEZAS} piezas`;
+  $("cart-limit").innerHTML = n >= MAX_PIEZAS ? `Llegaste al máximo de ${MAX_PIEZAS} piezas en línea. ¿Necesitas más? <a href="${waLimite()}" target="_blank" rel="noopener">Pídelo por WhatsApp</a>.` : "";
+  $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen());
+  $("cart-pay").disabled = !cart.length;
+}
+$("cart-items").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-k]"); if(!b) return;
+  const i = cart[+b.dataset.k]; if(!i) return;
+  if(b.dataset.d==="x") cart.splice(+b.dataset.k,1);
+  else { i.qty += +b.dataset.d; if(i.qty<1) cart.splice(+b.dataset.k,1); if(piezas()>MAX_PIEZAS) i.qty--; }
+  save(); renderCart();
+});
+["pd-var","pd-qty","pd-tag"].forEach(id=>$(id).addEventListener("input", syncProduct));
+$("pd-add").addEventListener("click", addCurrent);
+$("cart-btn").addEventListener("click", ()=>{ renderCart(); $("cart-err").textContent=""; $("dlg-cart").showModal(); });
+document.querySelectorAll("dialog .x").forEach(b=>b.addEventListener("click", ()=>b.closest("dialog").close()));
+document.querySelectorAll("dialog").forEach(d=>d.addEventListener("click", e=>{ if(e.target===d) d.close(); }));
+
+$("cart-form").addEventListener("submit", async e=>{
+  e.preventDefault();
+  if(!PAGO_ACTIVO){ window.open($("cart-wa").href, "_blank", "noopener"); return; }
+  const btn = $("cart-pay"), err = $("cart-err");
+  err.textContent = "";
+  const cliente = { nombre: $("c-nombre").value.trim(), tel: $("c-tel").value.trim(), fecha: $("c-fecha").value };
+  if(piezas() > MAX_PIEZAS){ err.innerHTML = `Máximo ${MAX_PIEZAS} piezas en línea. <a href="${waLimite()}" target="_blank" rel="noopener">Pide por WhatsApp</a>.`; return; }
+  btn.disabled = true; btn.textContent = "Conectando con Mercado Pago…";
+  try{
+    const r = await fetch("/.netlify/functions/crear-pago", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ items: cart, cliente }) });
+    const data = await r.json().catch(()=>({}));
+    if(!r.ok || !data.url) throw Object.assign(new Error(data.error || "No pudimos iniciar el pago."), {data});
+    try{ localStorage.setItem("byana-pending", JSON.stringify({ ref:data.ref, cliente, resumen: resumen() })); }catch(e){}
+    location.href = data.url;
+  }catch(ex){
+    const off = ex.data && ex.data.sinConfigurar;
+    err.innerHTML = esc(off ? "El pago en línea todavía no está activo." : ex.message) + ` Puedes <a href="${$("cart-wa").href}" target="_blank" rel="noopener">mandar tu pedido por WhatsApp</a>.`;
+    btn.disabled = false; btn.textContent = "Pagar con Mercado Pago";
+  }
+});
+
+/* Regreso desde Mercado Pago */
+(function(){
+  const q = new URLSearchParams(location.search), st = q.get("pago"); if(!st) return;
+  let pend = null; try{ pend = JSON.parse(localStorage.getItem("byana-pending")||"null"); }catch(e){}
+  const ref = q.get("external_reference") || (pend && pend.ref) || "";
+  const ok = st === "ok" && (q.get("status")||q.get("collection_status")||"approved") === "approved";
+  const t = { ok:["¡Gracias por tu compra!","Recibimos tu pago. Mándale a Ana tu pedido por WhatsApp para confirmar la entrega."],
+              pendiente:["Tu pago está pendiente","Cuando Mercado Pago lo confirme (por ejemplo, al pagar en OXXO) empezamos tu pedido. Avísale a Ana por WhatsApp."],
+              error:["El pago no se completó","No se hizo ningún cargo. Tu carrito sigue aquí para intentarlo de nuevo, o pide por WhatsApp."] }[ok?"ok":(st==="pendiente"?"pendiente":"error")];
+  $("ty-title").textContent = t[0]; $("ty-text").textContent = t[1];
+  $("ty-ref").textContent = ref ? `Pedido ${ref}` : "";
+  const msg = `Hola Ana, ${ok?"ya pagué":"hice"} mi pedido en la página${ref?` (${ref})`:""}${pend&&pend.cliente?`, a nombre de ${pend.cliente.nombre}`:""}${pend&&pend.cliente&&pend.cliente.fecha?`, para el ${pend.cliente.fecha}`:""}:\n${pend?pend.resumen:""}`;
+  $("ty-wa").href = WA + encodeURIComponent(msg);
+  if(ok || st==="pendiente"){ cart = []; save(); try{ localStorage.removeItem("byana-pending"); }catch(e){} }
+  history.replaceState(null, "", location.pathname + location.hash);
+  addEventListener("load", ()=>$("dlg-thanks").showModal());
+})();
+
+/* El botón de Mercado Pago solo aparece cuando la cuenta ya está conectada en Netlify (MP_ACCESS_TOKEN). */
+let PAGO_ACTIVO = false;
+function setPago(on){
+  PAGO_ACTIVO = on;
+  $("cart-pay").hidden = !on;
+  const wa = $("cart-wa");
+  wa.classList.toggle("solid", !on); wa.classList.toggle("ghost", on);
+  wa.textContent = on ? "Mejor pedir por WhatsApp" : "Enviar pedido por WhatsApp";
+  $("cart-fine").firstChild.textContent = (on ? "Se paga el total del pedido. " : "Ana te confirma por WhatsApp y apartas con el 50%. ") + "¿Quieres algo especial o más de 20 piezas? ";
+  if(!on) $("step-pago").textContent = "Mándanos tu carrito por WhatsApp y aparta con el 50% de anticipo. El otro 50% se cubre antes de la entrega.";
+}
+setPago(false);
+fetch("/.netlify/functions/crear-pago").then(r=>r.ok?r.json():{}).then(d=>setPago(!!d.activo)).catch(()=>{});
+
+fetch("catalogo.json").then(r=>r.json()).then(c=>{
+  PRODUCTOS = new Map([...c.navidad, ...c.siempre].map(p=>[p.id,p]));
+  mount("navidad", c.navidad); mount("siempre", c.siempre); renderCart();
+}).catch(()=>{ ["navidad","siempre"].forEach(id=>{ $("grid-"+id).innerHTML = '<p class="empty">No pudimos cargar el catálogo. Recarga la página o escríbenos por <a href="https://wa.me/525511997696" target="_blank" rel="noopener">WhatsApp</a>.</p>'; }); });
 
 const copy = {
   navidad:{e:"Catálogo Navidad 2026",h:'Velas, joyería y regalos <span class="script">hechos a mano</span>',wa:"me%20interesa%20el%20cat%C3%A1logo%20de%20Navidad",see:"#navidad"},
