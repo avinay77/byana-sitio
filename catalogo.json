@@ -1202,5 +1202,36 @@
    ],
    "from": 1
   }
- ]
+ ],
+ "envio": {
+  "gratisDesde": null,
+  "opciones": [
+   {
+    "id": "recoger",
+    "n": "Recoger en punto de entrega",
+    "p": 0,
+    "dir": false,
+    "info": "Sin costo. Te mandamos la ubicación por WhatsApp."
+   },
+   {
+    "id": "cdmx",
+    "n": "Envío en CDMX",
+    "p": 150,
+    "dir": true
+   },
+   {
+    "id": "zm",
+    "n": "Envío a zona metropolitana",
+    "p": 200,
+    "dir": true
+   },
+   {
+    "id": "nacional",
+    "n": "Envío al resto del país",
+    "cotiza": true,
+    "dir": true,
+    "info": "El costo de paquetería se cotiza por WhatsApp."
+   }
+  ]
+ }
 }

@@ -191,6 +191,16 @@ dialog::backdrop{background:rgba(40,35,32,.45)}
 .qty button.rm{width:auto;border:0;background:none;font-size:.75rem;text-decoration:underline;color:var(--ink-soft)}
 .qty button[disabled]{opacity:.35}
 .cp{font-family:var(--caps);font-variant-numeric:tabular-nums;font-size:.9rem}
+.envio{border:1px solid var(--line);border-radius:3px;padding:12px 14px;margin:0;display:flex;flex-direction:column;gap:10px}
+.envio legend{font-size:.62rem;color:var(--ink-soft);padding:0 6px}
+#envio-ops{display:flex;flex-direction:column;gap:6px}
+.eo{display:flex;align-items:flex-start;gap:10px;font-size:.88rem;cursor:pointer}
+.eo input{margin-top:4px;accent-color:var(--accent)}
+.eo span{flex:1}.eo small{display:block;color:var(--ink-soft);font-size:.75rem}
+.eo b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+#dir-wrap{display:flex;flex-direction:column;gap:10px}
+#dir-wrap[hidden]{display:none}
+.sum.tot{border-top:0;padding-top:0}
 .fine{margin:0;font-size:.75rem;color:var(--ink-soft);text-align:center}
 .fine a{color:var(--accent)}
 .especial{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px 32px;padding:28px;border:1px solid var(--line);background:var(--accent-wash);border-radius:2px}
@@ -359,6 +369,23 @@ dialog::backdrop{background:rgba(40,35,32,.45)}
       <label class="fld"><span>Nombre</span><input id="c-nombre" required autocomplete="name" maxlength="60"></label>
       <label class="fld"><span>WhatsApp</span><input id="c-tel" required type="tel" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="10 dígitos"></label>
     </div>
+    <fieldset class="envio">
+      <legend class="caps">¿Cómo lo recibes?</legend>
+      <div id="envio-ops"></div>
+      <div id="dir-wrap" hidden>
+        <label class="fld"><span>Calle y número</span><input id="d-calle" autocomplete="street-address" maxlength="100"></label>
+        <div class="row2">
+          <label class="fld"><span>Colonia</span><input id="d-colonia" maxlength="60"></label>
+          <label class="fld"><span>Código postal</span><input id="d-cp" inputmode="numeric" autocomplete="postal-code" maxlength="5"></label>
+        </div>
+        <div class="row2">
+          <label class="fld"><span>Alcaldía o municipio</span><input id="d-municipio" maxlength="60"></label>
+          <label class="fld"><span>Estado</span><input id="d-estado" autocomplete="address-level1" maxlength="40"></label>
+        </div>
+        <label class="fld"><span>Referencias (opcional)</span><input id="d-refs" maxlength="120" placeholder="Entre calles, color de la casa, horario…"></label>
+      </div>
+    </fieldset>
+    <div class="sum tot"><span class="caps" style="font-size:.7rem">Total con envío</span><strong id="cart-grand">$0</strong></div>
     <label class="fld"><span>¿Para cuándo lo necesitas? (opcional)</span><input id="c-fecha" type="date"><small>Entregamos en 2 a 7 días hábiles.</small></label>
     <p class="warn" id="cart-err" role="alert"></p>
     <button class="btn mp" id="cart-pay" type="submit">Pagar con Mercado Pago</button>
@@ -423,9 +450,31 @@ const save = () => { try{ localStorage.setItem("byana-cart", JSON.stringify(cart
 const piezas = () => cart.reduce((s,i)=>s+i.qty,0);
 const lineInfo = i => { const p = PRODUCTOS.get(i.id); const v = p && p.v && p.v[i.v]; return p && v ? {p,v} : null; };
 const total = () => cart.reduce((s,i)=>{ const l=lineInfo(i); return s + (l ? l.v.p*i.qty : 0); },0);
+let ENVIO = { opciones: [] };
+const envioSel = () => { const r = document.querySelector('input[name="envio"]:checked'); return r ? ENVIO.opciones.find(o=>o.id===r.value) : null; };
+const costoEnvio = () => { const o = envioSel(); if(!o || o.cotiza) return 0; return (typeof ENVIO.gratisDesde==="number" && total()>=ENVIO.gratisDesde) ? 0 : o.p; };
+const leerDir = () => ({ calle:$("d-calle").value.trim(), colonia:$("d-colonia").value.trim(), cp:$("d-cp").value.trim(), municipio:$("d-municipio").value.trim(), estado:$("d-estado").value.trim(), refs:$("d-refs").value.trim() });
+function textoEnvio(){
+  const o = envioSel(); if(!o) return "";
+  const d = leerDir(), dir = o.dir ? [d.calle,d.colonia,d.cp&&("C.P. "+d.cp),d.municipio,d.estado].filter(Boolean).join(", ") + (d.refs?` (Ref: ${d.refs})`:"") : "";
+  return `\nEntrega: ${o.n}${o.cotiza?" (por cotizar)":` ${money(costoEnvio())}`}${dir?`\nDirección: ${dir}`:""}`;
+}
+function renderEnvio(){
+  $("envio-ops").innerHTML = ENVIO.opciones.map((o,i)=>`<label class="eo"><input type="radio" name="envio" value="${esc(o.id)}" ${i===0?"checked":""}><span>${esc(o.n)}${o.info?`<small>${esc(o.info)}</small>`:""}</span><b>${o.cotiza?"Cotiza":(o.p?money(o.p):"Gratis")}</b></label>`).join("")
+    + (typeof ENVIO.gratisDesde==="number" ? `<small style="color:var(--pine)">Envío gratis en compras desde ${money(ENVIO.gratisDesde)}.</small>` : "");
+}
+function syncEnvio(){
+  const o = envioSel();
+  $("dir-wrap").hidden = !(o && o.dir);
+  $("cart-grand").textContent = o && o.cotiza ? money(total()) + " + envío" : money(total() + costoEnvio());
+  $("cart-pay").disabled = !cart.length || !!(o && o.cotiza);
+  $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen());
+}
+$("envio-ops").addEventListener("change", syncEnvio);
+document.querySelectorAll("#dir-wrap input").forEach(i=>i.addEventListener("input", ()=>{ $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen()); }));
 const waLimite = () => WA + encodeURIComponent(`Hola Ana, quiero hacer un pedido de más de ${MAX_PIEZAS} piezas:\n` + resumen());
 function resumen(){
-  return cart.map(i=>{ const l=lineInfo(i); if(!l) return ""; return `• ${i.qty} × ${l.p.t}${l.v.n?" ("+l.v.n+")":""}${i.tag?` – texto: “${i.tag}”`:""}${i.nota?` – ${i.nota}`:""} = ${money(l.v.p*i.qty)}`; }).filter(Boolean).join("\n") + `\nTotal: ${money(total())}`;
+  return cart.map(i=>{ const l=lineInfo(i); if(!l) return ""; return `• ${i.qty} × ${l.p.t}${l.v.n?" ("+l.v.n+")":""}${i.tag?` – texto: “${i.tag}”`:""}${i.nota?` – ${i.nota}`:""} = ${money(l.v.p*i.qty)}`; }).filter(Boolean).join("\n") + textoEnvio() + `\nTotal: ${money(total() + costoEnvio())}${(envioSel()&&envioSel().cotiza)?" + envío":""}`;
 }
 
 let cur = null;
@@ -483,6 +532,7 @@ function renderCart(){
   $("cart-limit").innerHTML = n >= MAX_PIEZAS ? `Llegaste al máximo de ${MAX_PIEZAS} piezas en línea. ¿Necesitas más? <a href="${waLimite()}" target="_blank" rel="noopener">Pídelo por WhatsApp</a>.` : "";
   $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen());
   $("cart-pay").disabled = !cart.length;
+  syncEnvio();
 }
 $("cart-items").addEventListener("click", e=>{
   const b = e.target.closest("button[data-k]"); if(!b) return;
@@ -503,10 +553,15 @@ $("cart-form").addEventListener("submit", async e=>{
   const btn = $("cart-pay"), err = $("cart-err");
   err.textContent = "";
   const cliente = { nombre: $("c-nombre").value.trim(), tel: $("c-tel").value.trim(), fecha: $("c-fecha").value };
+  const op = envioSel();
+  if(!op){ err.textContent = "Elige cómo quieres recibir tu pedido."; return; }
+  if(op.cotiza){ err.innerHTML = `El envío al resto del país se cotiza. <a href="${$("cart-wa").href}" target="_blank" rel="noopener">Manda tu pedido por WhatsApp</a>.`; return; }
+  const envio = { id: op.id, dir: op.dir ? leerDir() : null };
+  if(op.dir){ const d = envio.dir; if(!d.calle||!d.colonia||!d.municipio||!d.estado||!/^\d{5}$/.test(d.cp)){ err.textContent = "Completa la dirección de envío (el código postal lleva 5 dígitos)."; return; } }
   if(piezas() > MAX_PIEZAS){ err.innerHTML = `Máximo ${MAX_PIEZAS} piezas en línea. <a href="${waLimite()}" target="_blank" rel="noopener">Pide por WhatsApp</a>.`; return; }
   btn.disabled = true; btn.textContent = "Conectando con Mercado Pago…";
   try{
-    const r = await fetch("/.netlify/functions/crear-pago", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ items: cart, cliente }) });
+    const r = await fetch("/.netlify/functions/crear-pago", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ items: cart, cliente, envio }) });
     const data = await r.json().catch(()=>({}));
     if(!r.ok || !data.url) throw Object.assign(new Error(data.error || "No pudimos iniciar el pago."), {data});
     try{ localStorage.setItem("byana-pending", JSON.stringify({ ref:data.ref, cliente, resumen: resumen() })); }catch(e){}
@@ -553,6 +608,7 @@ fetch("/.netlify/functions/crear-pago").then(r=>r.ok?r.json():{}).then(d=>setPag
 
 fetch("catalogo.json").then(r=>r.json()).then(c=>{
   PRODUCTOS = new Map([...c.navidad, ...c.siempre].map(p=>[p.id,p]));
+  if(c.envio) ENVIO = c.envio; renderEnvio();
   mount("navidad", c.navidad); mount("siempre", c.siempre); renderCart();
 }).catch(()=>{ ["navidad","siempre"].forEach(id=>{ $("grid-"+id).innerHTML = '<p class="empty">No pudimos cargar el catálogo. Recarga la página o escríbenos por <a href="https://wa.me/525529434279" target="_blank" rel="noopener">WhatsApp</a>.</p>'; }); });
 

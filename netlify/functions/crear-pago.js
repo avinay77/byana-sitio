@@ -5,6 +5,7 @@ const catalogo = require("../../catalogo.json");
 
 const MAX_PIEZAS = 20;
 const MAX_NOTA = 100;
+const envio = catalogo.envio || { opciones: [] };
 const productos = new Map([...catalogo.navidad, ...catalogo.siempre].map(p => [p.id, p]));
 
 const limpiar = (s, max) => String(s ?? "").replace(/[\u0000-\u001f\u007f<>]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
@@ -37,7 +38,24 @@ function validar(pedido) {
   if (nombre.length < 2) return { error: "Escribe tu nombre." };
   if (tel.length < 10 || tel.length > 13) return { error: "Escribe un teléfono de 10 dígitos." };
   const fecha = limpiar(pedido.cliente && pedido.cliente.fecha, 10);
-  return { items, piezas, cliente: { nombre, tel, fecha } };
+
+  // Envío: el costo sale de catalogo.json, nunca del navegador.
+  const op = envio.opciones.find(o => o.id === (pedido.envio && pedido.envio.id));
+  if (!op) return { error: "Elige cómo quieres recibir tu pedido." };
+  if (op.cotiza || typeof op.p !== "number") return { error: "Ese tipo de envío se cotiza por WhatsApp.", cotiza: true };
+  let dir = null;
+  if (op.dir) {
+    const d = pedido.envio.dir || {};
+    dir = { calle: limpiar(d.calle, 100), colonia: limpiar(d.colonia, 60), cp: String(d.cp || "").replace(/\D/g, "").slice(0, 5),
+            municipio: limpiar(d.municipio, 60), estado: limpiar(d.estado, 40), refs: limpiar(d.refs, 120) };
+    if (!dir.calle || !dir.colonia || !dir.municipio || !dir.estado) return { error: "Completa la dirección de envío." };
+    if (dir.cp.length !== 5) return { error: "El código postal debe tener 5 dígitos." };
+  }
+  const subtotal = items.reduce((s, i) => s + i.unit_price * i.quantity, 0);
+  const gratis = typeof envio.gratisDesde === "number" && subtotal >= envio.gratisDesde;
+  const costoEnvio = gratis ? 0 : op.p;
+  if (costoEnvio > 0) items.push({ id: "envio-" + op.id, title: op.n, quantity: 1, unit_price: costoEnvio, currency_id: "MXN" });
+  return { items, piezas, cliente: { nombre, tel, fecha }, envio: { id: op.id, n: op.n, costo: costoEnvio, dir } };
 }
 
 exports.validar = validar;
@@ -58,12 +76,14 @@ exports.handler = async (event) => {
   const ref = "BA-" + Date.now().toString(36).toUpperCase() + "-" + Math.random().toString(36).slice(2, 6).toUpperCase();
   const preferencia = {
     items: r.items,
-    payer: { name: r.cliente.nombre, phone: { number: r.cliente.tel } },
+    payer: Object.assign({ name: r.cliente.nombre, phone: { number: r.cliente.tel } },
+      r.envio.dir ? { address: { zip_code: r.envio.dir.cp, street_name: r.envio.dir.calle } } : {}),
     external_reference: ref,
     statement_descriptor: "BYANA",
     back_urls: { success: `${base}/?pago=ok`, pending: `${base}/?pago=pendiente`, failure: `${base}/?pago=error` },
     auto_return: "approved",
-    metadata: { cliente: r.cliente.nombre, telefono: r.cliente.tel, fecha_entrega: r.cliente.fecha, piezas: r.piezas },
+    metadata: { cliente: r.cliente.nombre, telefono: r.cliente.tel, fecha_entrega: r.cliente.fecha, piezas: r.piezas,
+      envio: r.envio.n, direccion: r.envio.dir ? Object.values(r.envio.dir).filter(Boolean).join(", ") : "Recoge" },
   };
   if (process.env.MP_WEBHOOK_URL) preferencia.notification_url = process.env.MP_WEBHOOK_URL;
 
