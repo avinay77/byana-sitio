@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="By Ana, Estudio de detalles: velas de soya, joyería y regalos personalizados. Pedidos por WhatsApp.">
+<link rel="icon" href="img/logo-navidad.jpg">
+<title>By Ana · Estudio de detalles</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Jost:wght@300;400;500&family=Mulish:wght@400;600&display=swap">
+<style>
+/* Layout: papelería de acuarela. Fondo del mismo blanco del logo para que la corona se funda con la página;
+   un selector de temporada (Navidad / Siempre) cambia logo y acentos, igual que las dos versiones del logo. */
+:root{
+  --paper:#FEFEFC;          /* el blanco exacto del logo */
+  --wash:#F3F6F2;           /* lavado de acuarela verde muy claro */
+  --ink:#5E5753;            /* gris cálido del "By Ana" */
+  --ink-soft:#8A827D;
+  --pine:#4F6B55;           /* verde pino de la corona */
+  --gold:#B8955A;           /* listón dorado */
+  --accent:#A8312F;         /* Navidad: rojo de la caja */
+  --accent-wash:#F7ECEA;
+  --line:#E6E2DC;
+  --script:"Allura","Brush Script MT",cursive;
+  --caps:"Jost","Futura","Avenir Next",system-ui,sans-serif;
+  --body:"Mulish","Avenir",system-ui,sans-serif;
+  color-scheme:light;
+}
+body[data-season="siempre"]{ --accent:#6F8FB3; --accent-wash:#EDF2F8; --wash:#F2F5F7; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 var(--body);transition:background-color .4s}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.caps{font-family:var(--caps);text-transform:uppercase;letter-spacing:.22em;font-weight:400}
+.script{font-family:var(--script);font-weight:400;letter-spacing:0;text-transform:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+
+/* Header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.brand .script{font-size:2rem;line-height:1;color:var(--ink)}
+.brand .caps{font-size:.62rem;color:var(--ink-soft)}
+nav{display:flex;gap:22px;font-size:.72rem}
+nav a{text-decoration:none;color:var(--ink-soft)}
+nav a:hover{color:var(--accent)}
+@media (max-width:760px){nav{display:none}.brand .caps{display:none}}
+
+.season{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--paper)}
+.season button{font:500 .68rem var(--caps);letter-spacing:.16em;text-transform:uppercase;border:0;background:none;color:var(--ink-soft);padding:7px 12px;border-radius:999px;cursor:pointer}
+.season button[aria-pressed="true"]{background:var(--accent);color:#fff}
+
+/* Hero */
+.hero{padding-block:32px 56px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:40px;align-items:center}
+.logo{position:relative;aspect-ratio:1;max-width:520px;width:100%;justify-self:center}
+.logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .6s}
+body[data-season="navidad"] .logo .l-siempre,body[data-season="siempre"] .logo .l-navidad{opacity:0}
+.eyebrow{font-size:.72rem;color:var(--accent)}
+.hero h1{font-family:var(--caps);font-weight:300;font-size:clamp(1.9rem,4vw,2.9rem);line-height:1.2;margin:.4em 0 .5em;text-wrap:balance;letter-spacing:.02em}
+.hero h1 .script{font-size:1.5em;color:var(--accent);display:inline-block;transform:translateY(.08em)}
+.hero p{max-width:34em;color:var(--ink-soft);margin:0 0 1.6em}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:9px;font:500 .74rem var(--caps);letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding:14px 22px;border-radius:999px;border:1px solid var(--accent);transition:background .2s,color .2s}
+.btn.solid{background:var(--accent);color:#fff}
+.btn.solid:hover{background:color-mix(in srgb,var(--accent) 85%,#000)}
+.btn.ghost{color:var(--accent)}
+.btn.ghost:hover{background:var(--accent-wash)}
+.btn svg{width:16px;height:16px;fill:currentColor}
+@media (max-width:820px){.hero-grid{grid-template-columns:1fr;gap:8px}.logo{max-width:360px}.hero-copy{text-align:center}.hero p{margin-inline:auto}.ctas{justify-content:center}}
+
+/* What we make */
+.strip{background:var(--wash);border-block:1px solid var(--line)}
+.strip ul{list-style:none;margin:0;padding-block:22px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 34px;font-size:.74rem;color:var(--pine)}
+.strip li{display:flex;align-items:center;gap:10px}
+.strip li::before{content:"";width:9px;height:9px;background:var(--gold);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+
+/* Sections */
+section.block{padding-block:72px}
+.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px 32px;margin-bottom:28px}
+.head h2{margin:0;font-family:var(--caps);font-weight:300;font-size:clamp(1.5rem,3vw,2.1rem);letter-spacing:.06em;line-height:1.15}
+.head h2 .script{display:block;font-size:1.7em;color:var(--accent);line-height:.9;margin-bottom:.05em}
+.head p{margin:0;max-width:34em;color:var(--ink-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.chips button{font:400 .7rem var(--caps);letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer}
+.chips button[aria-pressed="true"]{border-color:var(--pine);background:var(--pine);color:#fff}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:28px 22px}
+.card{display:flex;flex-direction:column;gap:10px;min-width:0}
+.card figure{margin:0;aspect-ratio:1/1;overflow:hidden;border-radius:2px;background:var(--wash)}
+.card figure img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.card:hover figure img{transform:scale(1.04)}
+.card .tag{font-size:.62rem;color:var(--pine)}
+.card h3{margin:0;font-family:var(--caps);font-weight:400;font-size:1rem;letter-spacing:.04em;line-height:1.3}
+.card p{margin:0;font-size:.9rem;color:var(--ink-soft)}
+.card .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:6px;border-top:1px solid var(--line)}
+.price{font-family:var(--caps);font-size:.95rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.price small{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-right:4px}
+.ask{font:500 .64rem var(--caps);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);text-decoration:none;white-space:nowrap}
+.ask:hover{text-decoration:underline}
+
+/* Navidad section gets the red wash; Siempre gets blue — independent of the toggle */
+#navidad{--accent:#A8312F;--accent-wash:#F7ECEA}
+#siempre{--accent:#6F8FB3;--accent-wash:#EDF2F8;background:var(--wash);border-block:1px solid var(--line)}
+.note{margin-top:28px;font-size:.88rem;color:var(--ink-soft)}
+
+/* Personaliza */
+.ocasiones{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.oc{padding:22px;border:1px solid var(--line);border-radius:2px;background:var(--paper)}
+.oc h3{margin:0 0 6px;font-family:var(--script);font-weight:400;font-size:2rem;color:var(--accent);line-height:1}
+.oc p{margin:0;font-size:.9rem;color:var(--ink-soft)}
+
+/* Pedido */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;counter-reset:s}
+.step{counter-increment:s;display:flex;flex-direction:column;gap:6px}
+.step::before{content:counter(s);font-family:var(--script);font-size:3rem;line-height:.8;color:var(--gold)}
+.step h3{margin:0;font-family:var(--caps);font-weight:400;font-size:.9rem;letter-spacing:.16em;text-transform:uppercase}
+.step p{margin:0;color:var(--ink-soft);font-size:.92rem}
+@media (max-width:720px){.steps{grid-template-columns:1fr}}
+
+/* Contacto */
+.contact{background:var(--accent-wash);border-top:1px solid var(--line)}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center;padding-block:64px}
+.contact h2{margin:0 0 .4em;font-family:var(--caps);font-weight:300;font-size:clamp(1.5rem,3vw,2.1rem);letter-spacing:.06em}
+.contact h2 .script{font-size:1.6em;color:var(--accent)}
+.lines{display:flex;flex-direction:column;gap:14px}
+.line{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px;background:var(--paper);border:1px solid var(--line);border-radius:2px}
+.line .k{font-size:.64rem;color:var(--ink-soft)}
+.line .v{font-family:var(--caps);font-size:1.15rem;letter-spacing:.06em;user-select:all;font-variant-numeric:tabular-nums}
+.line .acts{display:flex;gap:8px}
+.mini{font:500 .62rem var(--caps);letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent);background:none;padding:8px 12px;border-radius:999px;text-decoration:none;cursor:pointer}
+@media (max-width:820px){.contact-grid{grid-template-columns:1fr}}
+footer{padding-block:28px;font-size:.7rem;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:14px}
+.social{display:flex;gap:10px;align-items:center}
+.social a{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;color:var(--ink);background:var(--paper);transition:color .2s,border-color .2s}
+.social a:hover{color:var(--accent);border-color:var(--accent)}
+.social svg{width:17px;height:17px;fill:currentColor}
+header .social a{width:32px;height:32px;border:0;background:none}
+@media (max-width:560px){header .social{display:none}}
+.wa-float{position:fixed;z-index:8;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.wa-float svg{width:28px;height:28px;fill:currentColor}
+.wa-float:hover{transform:scale(1.05)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body data-season="navidad">
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#inicio"><span class="script">By Ana</span><span class="caps">Estudio de detalles</span></a>
+    <nav class="caps" aria-label="Secciones">
+      <a href="#navidad">Navidad 2026</a><a href="#siempre">De siempre</a><a href="#pedido">Cómo pedir</a><a href="#contacto">Contacto</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:8px">
+    <div class="social" aria-label="Redes sociales">
+      <a href="https://www.instagram.com/byana.mx/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><use href="#i-ig"/></svg></a>
+      <a href="https://wa.me/525511997696" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></a>
+    </div>
+    <div class="season" role="group" aria-label="Temporada">
+      <button id="s-navidad" aria-pressed="true" data-s="navidad">Navidad</button>
+      <button id="s-siempre" aria-pressed="false" data-s="siempre">Siempre</button>
+    </div>
+    </div>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="logo">
+        <img class="l-navidad" src="img/logo-navidad.jpg" alt="Logo navideño de By Ana, Estudio de detalles">
+        <img class="l-siempre" src="img/logo-siempre.jpg" alt="Logo de By Ana, Estudio de detalles">
+      </div>
+      <div class="hero-copy">
+        <div class="eyebrow caps" id="hero-eyebrow">Catálogo Navidad 2026</div>
+        <h1 id="hero-title">Velas, joyería y regalos <span class="script">hechos a mano</span></h1>
+        <p id="hero-text">Velas de cera de soya aromáticas, joyería delicada y cajas de regalo que armamos a tu gusto: con tu combinación favorita, tu nombre o el logo de tu empresa.</p>
+        <div class="ctas">
+          <a class="btn solid" id="hero-wa" href="https://wa.me/525511997696?text=Hola%20Ana%2C%20me%20interesa%20el%20cat%C3%A1logo%20de%20Navidad" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+            Pedir por WhatsApp</a>
+          <a class="btn ghost" id="hero-see" href="#navidad">Ver catálogo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip"><ul class="wrap caps">
+    <li>Velas de soya</li><li>Joyería</li><li>Cajas de regalo</li><li>Recuerdos para eventos</li><li>Regalos empresariales</li>
+  </ul></div>
+
+  <section class="block" id="navidad">
+    <div class="wrap">
+      <div class="head">
+        <h2><span class="script">Navidad</span>Catálogo 2026</h2>
+        <p>Velas con olor a Navidad, kits, cajas de madera y cartón, y joyería para regalar. Todo se puede combinar y personalizar.</p>
+      </div>
+      <div class="chips" role="group" aria-label="Filtrar catálogo navideño" id="chips-navidad"></div>
+      <div class="grid" id="grid-navidad"></div>
+      <p class="note">Aromas de temporada: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela. El catálogo completo tiene más de 60 productos; pídelo por WhatsApp.</p>
+    </div>
+  </section>
+
+  <section class="block" id="siempre">
+    <div class="wrap">
+      <div class="head">
+        <h2><span class="script">De siempre</span>Todo el año</h2>
+        <p>Velas en cerámica y frasco, cajas para padrinos y madrinas, recuerdos para comuniones, bautizos y bodas, y detalles para cada celebración.</p>
+      </div>
+      <div class="chips" role="group" aria-label="Filtrar productos de siempre" id="chips-siempre"></div>
+      <div class="grid" id="grid-siempre"></div>
+    </div>
+  </section>
+
+  <section class="block" id="ocasiones">
+    <div class="wrap">
+      <div class="head"><h2><span class="script">Para cada ocasión</span>Lo personalizamos</h2>
+        <p>Nombre, fecha, frase o logo en la etiqueta, el termo, la vela o la caja.</p></div>
+      <div class="ocasiones">
+        <div class="oc"><h3>Padrinos</h3><p>Cajas con termo grabado, carta y snacks para pedir que sean padrino o madrina.</p></div>
+        <div class="oc"><h3>Comunión y bautizo</h3><p>Velas con el nombre y la fecha, en frasco o en caja, para cada invitado.</p></div>
+        <div class="oc"><h3>Empresas</h3><p>Kits con el logo de tu marca para clientes y colaboradores, en volumen.</p></div>
+        <div class="oc"><h3>Fiestas</h3><p>Navidad, Rosh Hashaná, San Valentín, Día del Maestro, cumpleaños y agradecimientos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="pedido" style="padding-top:0">
+    <div class="wrap">
+      <div class="head"><h2><span class="script">Cómo pedir</span>En tres pasos</h2></div>
+      <div class="steps">
+        <div class="step"><h3>Escribe por WhatsApp</h3><p>Dinos qué producto o combinación te gusta, cuántas piezas y si lo quieres personalizado.</p></div>
+        <div class="step"><h3>Aparta con el 50%</h3><p>Con el 50% de anticipo empezamos tu pedido. El otro 50% se cubre antes de la entrega.</p></div>
+        <div class="step"><h3>Recibe en 2 a 7 días</h3><p>Días hábiles, según la cantidad y la personalización.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="contact" id="contacto">
+  <div class="wrap contact-grid">
+    <div>
+      <h2>¡Haz tu <span class="script">pedido!</span></h2>
+      <p style="color:var(--ink-soft);margin:0;max-width:30em">Ana responde personalmente cada mensaje. Cuéntale qué celebras y te ayuda a armar el detalle.</p>
+    </div>
+    <div class="lines">
+      <div class="line">
+        <div><div class="k caps">WhatsApp</div><div class="v" id="phone">55 1199 7696</div></div>
+        <div class="acts">
+          <button class="mini" id="copy-phone" type="button">Copiar</button>
+          <a class="mini" href="https://wa.me/525511997696" target="_blank" rel="noopener">Abrir chat</a>
+        </div>
+      </div>
+      <div class="line">
+        <div><div class="k caps">Instagram</div><div class="v">@byana.mx</div></div>
+        <div class="acts"><a class="mini" href="https://www.instagram.com/byana.mx/" target="_blank" rel="noopener">Ver perfil</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="caps">
+  <div class="social" aria-label="Redes sociales">
+    <a href="https://www.instagram.com/byana.mx/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><use href="#i-ig"/></svg></a>
+    <a href="https://wa.me/525511997696" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></a>
+  </div>
+  <span>By Ana · Estudio de detalles · Regalos para cualquier ocasión</span>
+</footer>
+<a class="wa-float" href="https://wa.me/525511997696?text=Hola%20Ana%2C%20vi%20tu%20p%C3%A1gina" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-ig" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.7.1-2.3.1-3.3 1.2-3.4 3.4C3.8 8.7 3.8 9 3.8 12s0 3.4.1 4.6c.1 2.2 1.1 3.3 3.4 3.4 1.2.1 1.5.1 4.7.1s3.5 0 4.7-.1c2.3-.1 3.3-1.2 3.4-3.4.1-1.2.1-1.6.1-4.6s0-3.4-.1-4.6c-.1-2.2-1.1-3.3-3.4-3.4C15.5 4 15.1 4 12 4Zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8Zm0 8.1a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Zm5.1-9.4a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3Z"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></symbol>
+</svg>
+
+<script>
+const WA = "https://wa.me/525511997696?text=";
+const navidad = [
+  {c:"Velas",img:"p1-000",t:"Kit de 3 velas",d:"2 velas decorativas a elegir y 1 vela en vaso, en caja ilustrada.",p:310},
+  {c:"Velas",img:"p4-000",t:"Velas navideñas de soya",d:"Tapa de corcho, 4 oz, 7 oz ámbar o 9 oz.",p:135,from:1},
+  {c:"Velas",img:"p25-004",t:"Vela con pino navideño",d:"Vaso de 500 g con pino de cera.",p:550},
+  {c:"Velas",img:"p10-000",t:"Vela de soya en concreto",d:"Relieve navideño, aroma a elegir.",p:310},
+  {c:"Velas",img:"p12-000",t:"Velas en concreto",d:"Árbol $180 o borrego $110.",p:110,from:1},
+  {c:"Velas",img:"p15-000",t:"Familia reno",d:"Cajita con 3 renos de diferentes alturas.",p:240},
+  {c:"Velas",img:"p21-006",t:"Velas para el árbol",d:"Figuras aromáticas para colgar. Kit de 6 en cajita $400.",p:85,from:1},
+  {c:"Velas",img:"p50-006",t:"Velas en cuencos de madera",d:"Estrella, pino, cuadrado o canoa.",p:400,from:1},
+  {c:"Cajas y kits",img:"p28-000",t:"Caja de madera con tapa transparente",d:"Room spray, vela ámbar, 2 snacks, taza navideña y vela decorativa.",p:950},
+  {c:"Cajas y kits",img:"p31-000",t:"Caja de madera con vino",d:"Vino tinto a elegir y 3 snacks en frascos de vidrio. Se puede poner logo.",p:1000,from:1},
+  {c:"Cajas y kits",img:"p53-004",t:"Taza navideña con Ferreros",d:"Taza sola $160.",p:250},
+  {c:"Joyería",img:"iniciales",t:"Iniciales con perlita de río",d:"Cadena de 43 cm.",p:230},
+  {c:"Joyería",img:"collares-navidad",t:"Collares Navidad",d:"Dijes de temporada. Borrego grande $230.",p:200,from:1},
+  {c:"Joyería",img:"piedras",t:"Collares de piedras naturales",d:"Ágata, lapislázuli, jade y aguamarina.",p:700},
+  {c:"Joyería",img:"p56-000",t:"Pulseras de hilo con dije mini",d:"Ajustables; escoge el dije y el color del hilo.",p:75},
+];
+const siempre = [
+  {c:"Velas",img:"s03",t:"Velas de soya en cerámica",d:"Recipientes de cerámica con relieve y mecha de madera."},
+  {c:"Velas",img:"s11",t:"Vela en cerámica con tapa",d:"Para regalar o para tu mesa de noche."},
+  {c:"Recuerdos",img:"s02",t:"Velas en frasco con eucalipto",d:"Tapa dorada, etiqueta con nombre y fecha."},
+  {c:"Recuerdos",img:"s01",t:"Recuerdo de primera comunión",d:"Vela en vaso y caja con el nombre del festejado."},
+  {c:"Recuerdos",img:"s04",t:"Caja de acrílico personalizada",d:"Con moño y tarjeta para cada invitado."},
+  {c:"Recuerdos",img:"s12",t:"Miel para Rosh Hashaná",d:"Frasco de miel con tarjeta “Shaná Tová”."},
+  {c:"Cajas",img:"s06",t:"Caja para padrino",d:"Termo grabado con su nombre, carta y snacks."},
+  {c:"Cajas",img:"s07",t:"Caja para madrina",d:"Termo rosa grabado, carta, flores secas y snacks."},
+  {c:"Cajas",img:"s08",t:"Caja de agradecimiento",d:"Termo con nombre, snacks, room spray y vela “Gracias”."},
+  {c:"Cajas",img:"s09",t:"Caja “Gracias” con moño",d:"Termo personalizado, carta, snacks y vela."},
+  {c:"Joyería",img:"s10",t:"Pulseras de hilo con dije",d:"Ideales como recuerdo; se arman en el color de tu evento."},
+  {c:"Joyería",img:"conjunto",t:"Conjunto de collar y pulsera",d:"Acero inoxidable con piedritas naturales o cristales.",p:460,from:1},
+];
+const money = n => "$" + n.toLocaleString("es-MX");
+function card(x, season){
+  const msg = encodeURIComponent(`Hola Ana, me interesa: ${x.t}${season==="navidad"?" (catálogo Navidad 2026)":""}`);
+  const price = x.p ? `<span class="price">${x.from?'<small>desde</small>':''}${money(x.p)}</span>` : `<span class="price"><small>Cotiza</small></span>`;
+  return `<article class="card" data-c="${x.c}">
+    <figure><img loading="lazy" src="img/${x.img}.jpg" alt="${x.t}"></figure>
+    <div class="tag caps">${x.c}</div><h3>${x.t}</h3><p>${x.d}</p>
+    <div class="foot">${price}<a class="ask" href="${WA}${msg}" target="_blank" rel="noopener">Pedir →</a></div>
+  </article>`;
+}
+function mount(id, list){
+  const grid = document.getElementById("grid-"+id), chips = document.getElementById("chips-"+id);
+  grid.innerHTML = list.map(x=>card(x,id)).join("");
+  const cats = ["Todo", ...new Set(list.map(x=>x.c))];
+  chips.innerHTML = cats.map((c,i)=>`<button type="button" id="f-${id}-${i}" aria-pressed="${i===0}" data-c="${c}">${c}</button>`).join("");
+  chips.addEventListener("click", e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    chips.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b));
+    grid.querySelectorAll(".card").forEach(el=>{ el.hidden = b.dataset.c!=="Todo" && el.dataset.c!==b.dataset.c; });
+  });
+}
+mount("navidad", navidad); mount("siempre", siempre);
+
+const copy = {
+  navidad:{e:"Catálogo Navidad 2026",h:'Velas, joyería y regalos <span class="script">hechos a mano</span>',wa:"me%20interesa%20el%20cat%C3%A1logo%20de%20Navidad",see:"#navidad"},
+  siempre:{e:"Estudio de detalles",h:'Detalles que se recuerdan, <span class="script">hechos a mano</span>',wa:"quiero%20cotizar%20un%20detalle",see:"#siempre"}
+};
+function setSeason(s){
+  document.body.dataset.season = s;
+  document.querySelectorAll(".season button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.s===s));
+  document.getElementById("hero-eyebrow").textContent = copy[s].e;
+  document.getElementById("hero-title").innerHTML = copy[s].h;
+  document.getElementById("hero-wa").href = WA + "Hola%20Ana%2C%20" + copy[s].wa;
+  document.getElementById("hero-see").href = copy[s].see;
+  try{ localStorage.setItem("byana-season", s); }catch(e){}
+}
+document.querySelector(".season").addEventListener("click", e=>{ const b=e.target.closest("button"); if(b) setSeason(b.dataset.s); });
+try{ const s = localStorage.getItem("byana-season"); if(s==="siempre"||s==="navidad") setSeason(s); }catch(e){}
+
+document.getElementById("copy-phone").addEventListener("click", async e=>{
+  const b = e.currentTarget;
+  try{ await navigator.clipboard.writeText("5511997696"); b.textContent="Copiado"; }
+  catch(err){ const r=document.createRange(); r.selectNodeContents(document.getElementById("phone")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent="Selecciónalo"; }
+  setTimeout(()=>b.textContent="Copiar",1800);
+});
+</script>
+</body>
+
+</html>
