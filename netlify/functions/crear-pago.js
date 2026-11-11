@@ -85,7 +85,8 @@ exports.handler = async (event) => {
     metadata: { cliente: r.cliente.nombre, telefono: r.cliente.tel, fecha_entrega: r.cliente.fecha, piezas: r.piezas,
       envio: r.envio.n, direccion: r.envio.dir ? Object.values(r.envio.dir).filter(Boolean).join(", ") : "Recoge" },
   };
-  if (process.env.MP_WEBHOOK_URL) preferencia.notification_url = process.env.MP_WEBHOOK_URL;
+  // Mercado Pago avisa aquí cada pago; mp-webhook lo verifica y le manda el correo a Ana.
+  preferencia.notification_url = process.env.MP_WEBHOOK_URL || `${base}/.netlify/functions/mp-webhook`;
 
   try {
     const res = await fetch("https://api.mercadopago.com/checkout/preferences", {

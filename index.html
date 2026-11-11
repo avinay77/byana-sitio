@@ -344,6 +344,13 @@ dialog::backdrop{background:rgba(40,35,32,.45)}
 <a class="wa-float" href="https://wa.me/525529434279?text=Hola%20Ana%2C%20vi%20tu%20p%C3%A1gina" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></a>
 <button class="cart-btn" id="cart-btn" type="button" hidden aria-label="Ver carrito"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM5.2 4l.4 2H21l-2.2 8.2a2 2 0 0 1-1.9 1.5H8.4a2 2 0 0 1-2-1.6L4 2H1V0h4.6l.6 4Z" transform="translate(0 1)"/></svg>Carrito <b id="cart-count">0</b></button>
 
+<!-- Formulario oculto: lo llena la función mp-webhook cuando Mercado Pago confirma un pago.
+     Netlify guarda cada envío en Forms y manda el correo de aviso a Ana. -->
+<form name="pedido" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input name="bot-field"><input name="pedido"><input name="estado"><input name="cliente"><input name="telefono"><input name="email">
+  <textarea name="productos"></textarea><input name="envio"><textarea name="direccion"></textarea><input name="total"><input name="pago_mp">
+</form>
+
 <dialog id="dlg-product" aria-labelledby="pd-title">
   <div class="dlg">
     <div class="dlg-h"><h2 id="pd-title"></h2><button class="x" type="button" aria-label="Cerrar">×</button></div>
