@@ -387,7 +387,7 @@ function mount(id, list){
   chips.addEventListener("click", e=>{
     const b = e.target.closest("button"); if(!b) return;
     chips.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b));
-    grid.querySelectorAll(".card").forEach(el=>{ el.hidden = b.dataset.c!=="Todo" && el.dataset.c!==b.dataset.c; });
+    grid.querySelectorAll(".card").forEach(el=>{ const hide = b.dataset.c!=="Todo" && el.dataset.c!==b.dataset.c; el.hidden = hide; el.style.display = hide ? "none" : ""; });
   });
 }
 mount("navidad", navidad); mount("siempre", siempre);
