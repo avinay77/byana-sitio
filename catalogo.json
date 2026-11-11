@@ -1207,22 +1207,9 @@
   "gratisDesde": null,
   "opciones": [
    {
-    "id": "recoger",
-    "n": "Recoger en punto de entrega",
-    "p": 0,
-    "dir": false,
-    "info": "Sin costo. Te mandamos la ubicación por WhatsApp."
-   },
-   {
     "id": "cdmx",
-    "n": "Envío en CDMX",
-    "p": 150,
-    "dir": true
-   },
-   {
-    "id": "zm",
-    "n": "Envío a zona metropolitana",
-    "p": 200,
+    "n": "Envío en CDMX y área metropolitana",
+    "p": 120,
     "dir": true
    },
    {
