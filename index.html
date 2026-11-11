@@ -386,7 +386,7 @@ dialog::backdrop{background:rgba(40,35,32,.45)}
       </div>
     </fieldset>
     <div class="sum tot"><span class="caps" style="font-size:.7rem">Total con envío</span><strong id="cart-grand">$0</strong></div>
-    <label class="fld"><span>¿Para cuándo lo necesitas? (opcional)</span><input id="c-fecha" type="date"><small>Entregamos en 2 a 7 días hábiles.</small></label>
+    <p class="fine" style="text-align:left">Entregamos en 2 a 7 días hábiles.</p>
     <p class="warn" id="cart-err" role="alert"></p>
     <button class="btn mp" id="cart-pay" type="submit">Pagar con Mercado Pago</button>
     <a class="btn ghost" id="cart-wa" href="#" target="_blank" rel="noopener">Mejor pedir por WhatsApp</a>
@@ -552,7 +552,7 @@ $("cart-form").addEventListener("submit", async e=>{
   if(!PAGO_ACTIVO){ window.open($("cart-wa").href, "_blank", "noopener"); return; }
   const btn = $("cart-pay"), err = $("cart-err");
   err.textContent = "";
-  const cliente = { nombre: $("c-nombre").value.trim(), tel: $("c-tel").value.trim(), fecha: $("c-fecha").value };
+  const cliente = { nombre: $("c-nombre").value.trim(), tel: $("c-tel").value.trim(), fecha: "" };
   const op = envioSel();
   if(!op){ err.textContent = "Elige cómo quieres recibir tu pedido."; return; }
   if(op.cotiza){ err.innerHTML = `El envío al resto del país se cotiza. <a href="${$("cart-wa").href}" target="_blank" rel="noopener">Manda tu pedido por WhatsApp</a>.`; return; }
