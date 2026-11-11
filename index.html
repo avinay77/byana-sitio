@@ -203,6 +203,14 @@ dialog::backdrop{background:rgba(40,35,32,.45)}
 .sum.tot{border-top:0;padding-top:0}
 .fine{margin:0;font-size:.75rem;color:var(--ink-soft);text-align:center}
 .fine a{color:var(--accent)}
+footer .legal{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;font-size:.64rem}
+footer .legal a{color:var(--ink-soft);text-decoration:none}
+footer .legal a:hover{color:var(--accent)}
+.acepto{display:flex;align-items:flex-start;gap:10px;font-size:.8rem;color:var(--ink-soft);cursor:pointer;line-height:1.5}
+.acepto input{margin-top:3px;width:16px;height:16px;flex:none;accent-color:var(--accent)}
+.acepto a{color:var(--accent)}
+.acepto[hidden]{display:none}
+@media (max-width:600px){footer{padding-bottom:96px}}
 .especial{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px 32px;padding:28px;border:1px solid var(--line);background:var(--accent-wash);border-radius:2px}
 .especial h2{margin:0;font-family:var(--caps);font-weight:300;font-size:clamp(1.3rem,2.6vw,1.8rem);letter-spacing:.05em}
 .especial h2 .script{color:var(--accent);font-size:1.5em}
@@ -340,6 +348,7 @@ dialog::backdrop{background:rgba(40,35,32,.45)}
     <a href="https://wa.me/525529434279" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></a>
   </div>
   <span>By Ana · Estudio de detalles · Regalos para cualquier ocasión</span>
+  <nav class="legal" aria-label="Información legal"><a href="terminos.html">Términos y condiciones</a><a href="privacidad.html">Aviso de privacidad</a></nav>
 </footer>
 <a class="wa-float" href="https://wa.me/525529434279?text=Hola%20Ana%2C%20vi%20tu%20p%C3%A1gina" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></a>
 <button class="cart-btn" id="cart-btn" type="button" hidden aria-label="Ver carrito"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM5.2 4l.4 2H21l-2.2 8.2a2 2 0 0 1-1.9 1.5H8.4a2 2 0 0 1-2-1.6L4 2H1V0h4.6l.6 4Z" transform="translate(0 1)"/></svg>Carrito <b id="cart-count">0</b></button>
@@ -387,6 +396,7 @@ dialog::backdrop{background:rgba(40,35,32,.45)}
     </fieldset>
     <div class="sum tot"><span class="caps" style="font-size:.7rem">Total con envío</span><strong id="cart-grand">$0</strong></div>
     <p class="fine" style="text-align:left">Entregamos en 2 a 7 días hábiles.</p>
+    <label class="acepto" id="acepto-wrap"><input type="checkbox" id="c-acepto"><span>Acepto los <a href="terminos.html" target="_blank" rel="noopener">Términos y Condiciones</a> y el <a href="privacidad.html" target="_blank" rel="noopener">Aviso de Privacidad</a>. Usamos tus datos solo para hacer y entregar tu pedido.</span></label>
     <p class="warn" id="cart-err" role="alert"></p>
     <button class="btn mp" id="cart-pay" type="submit">Pagar con Mercado Pago</button>
     <a class="btn ghost" id="cart-wa" href="#" target="_blank" rel="noopener">Mejor pedir por WhatsApp</a>
@@ -558,6 +568,7 @@ $("cart-form").addEventListener("submit", async e=>{
   if(op.cotiza){ err.innerHTML = `El envío al resto del país se cotiza. <a href="${$("cart-wa").href}" target="_blank" rel="noopener">Manda tu pedido por WhatsApp</a>.`; return; }
   const envio = { id: op.id, dir: op.dir ? leerDir() : null };
   if(op.dir){ const d = envio.dir; if(!d.calle||!d.colonia||!d.municipio||!d.estado||!/^\d{5}$/.test(d.cp)){ err.textContent = "Completa la dirección de envío (el código postal lleva 5 dígitos)."; return; } }
+  if(!$("c-acepto").checked){ err.textContent = "Para pagar, acepta los Términos y el Aviso de Privacidad."; $("c-acepto").focus(); return; }
   if(piezas() > MAX_PIEZAS){ err.innerHTML = `Máximo ${MAX_PIEZAS} piezas en línea. <a href="${waLimite()}" target="_blank" rel="noopener">Pide por WhatsApp</a>.`; return; }
   btn.disabled = true; btn.textContent = "Conectando con Mercado Pago…";
   try{
@@ -597,6 +608,7 @@ let PAGO_ACTIVO = false;
 function setPago(on){
   PAGO_ACTIVO = on;
   $("cart-pay").hidden = !on;
+  $("acepto-wrap").hidden = !on;
   const wa = $("cart-wa");
   wa.classList.toggle("solid", !on); wa.classList.toggle("ghost", on);
   wa.textContent = on ? "Mejor pedir por WhatsApp" : "Enviar pedido por WhatsApp";
