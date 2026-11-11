@@ -403,10 +403,15 @@ function setSeason(s){
   document.getElementById("hero-title").innerHTML = copy[s].h;
   document.getElementById("hero-wa").href = WA + "Hola%20Ana%2C%20" + copy[s].wa;
   document.getElementById("hero-see").href = copy[s].see;
+  ["navidad","siempre"].forEach(id=>{ document.getElementById(id).hidden = id!==s; });
   try{ localStorage.setItem("byana-season", s); }catch(e){}
 }
 document.querySelector(".season").addEventListener("click", e=>{ const b=e.target.closest("button"); if(b) setSeason(b.dataset.s); });
-try{ const s = localStorage.getItem("byana-season"); if(s==="siempre"||s==="navidad") setSeason(s); }catch(e){}
+document.querySelectorAll('a[href="#navidad"],a[href="#siempre"]').forEach(a=>a.addEventListener("click", ()=>setSeason(a.getAttribute("href").slice(1))));
+let s0 = "navidad";
+try{ const s = localStorage.getItem("byana-season"); if(s==="siempre"||s==="navidad") s0 = s; }catch(e){}
+if(location.hash==="#siempre"||location.hash==="#navidad") s0 = location.hash.slice(1);
+setSeason(s0);
 
 document.getElementById("copy-phone").addEventListener("click", async e=>{
   const b = e.currentTarget;
