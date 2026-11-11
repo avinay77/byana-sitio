@@ -76,7 +76,8 @@ exports.handler = async (event) => {
     const data = await res.json().catch(() => ({}));
     if (!res.ok || !data.init_point) {
       console.error("Mercado Pago respondió", res.status, JSON.stringify(data).slice(0, 500));
-      return json(502, { error: "No pudimos conectar con Mercado Pago. Intenta de nuevo o pide por WhatsApp." });
+      const motivo = [res.status, data.error, data.message].filter(Boolean).join(" · ").slice(0, 160);
+      return json(502, { error: "No pudimos conectar con Mercado Pago. Intenta de nuevo o pide por WhatsApp.", motivo });
     }
     const total = r.items.reduce((s, i) => s + i.unit_price * i.quantity, 0);
     return json(200, { url: data.init_point, ref, total });

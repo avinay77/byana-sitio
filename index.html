@@ -513,7 +513,8 @@ $("cart-form").addEventListener("submit", async e=>{
     location.href = data.url;
   }catch(ex){
     const off = ex.data && ex.data.sinConfigurar;
-    err.innerHTML = esc(off ? "El pago en línea todavía no está activo." : ex.message) + ` Puedes <a href="${$("cart-wa").href}" target="_blank" rel="noopener">mandar tu pedido por WhatsApp</a>.`;
+    const motivo = ex.data && ex.data.motivo ? ` <small style="display:block;color:var(--ink-soft)">(${esc(ex.data.motivo)})</small>` : "";
+    err.innerHTML = esc(off ? "El pago en línea todavía no está activo." : ex.message) + motivo + ` Puedes <a href="${$("cart-wa").href}" target="_blank" rel="noopener">mandar tu pedido por WhatsApp</a>.`;
     btn.disabled = false; btn.textContent = "Pagar con Mercado Pago";
   }
 });
