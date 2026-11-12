@@ -207,6 +207,12 @@ dialog::backdrop{background:rgba(40,35,32,.45)}
 .dlg{padding:24px;display:flex;flex-direction:column;gap:14px}
 .dlg-h{display:flex;justify-content:space-between;align-items:start;gap:12px}
 .dlg-h h2{margin:0;font-family:var(--caps);font-weight:400;font-size:1.15rem;letter-spacing:.04em;line-height:1.3}
+.dlg-acts{display:flex;align-items:center;gap:6px}
+.share-ic{border:1px solid var(--line);background:#fff;border-radius:50%;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;color:var(--accent)}
+.share-ic svg,.share-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.share-btn{display:inline-flex;align-items:center;gap:6px}
+.toast{position:fixed;left:50%;bottom:24px;width:max-content;transform:translateX(-50%);z-index:1000;background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-size:.88rem;box-shadow:0 6px 24px rgba(0,0,0,.18);display:flex;gap:12px;align-items:center;max-width:calc(100vw - 32px)}
+.toast a{color:#fff;font-weight:600}
 .x{border:0;background:none;font-size:1.6rem;line-height:1;color:var(--ink-soft);cursor:pointer;padding:0 4px}
 .pd-top{display:flex;flex-direction:column;gap:10px}
 .pd-top p{margin:0;font-size:.88rem;color:var(--ink-soft)}
@@ -328,7 +334,7 @@ footer .legal a:hover{color:var(--accent)}
       </div>
       <div class="chips" role="group" aria-label="Filtrar catálogo navideño" id="chips-navidad"></div>
       <div class="grid" id="grid-navidad"></div>
-      <p class="note">Aromas de temporada: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela. Todos los productos se pueden combinar y personalizar; escríbenos por WhatsApp para armar el tuyo.</p>
+      <p class="note">Aromas: Villa Navideña, Bergamota, Manzana-Canela, Vainilla-Canela, Cereza, Jazmín, Nardo y Gardenia; lo eliges al agregar tu vela. Todos los productos se pueden combinar y personalizar; escríbenos por WhatsApp para armar el tuyo.</p>
     </div>
   </section>
 
@@ -441,6 +447,10 @@ footer .legal a:hover{color:var(--accent)}
         <div><div class="k caps">Instagram</div><div class="v">@byana.mx</div></div>
         <div class="acts"><a class="mini" href="https://www.instagram.com/byana.mx/" target="_blank" rel="noopener">Ver perfil</a></div>
       </div>
+      <div class="line">
+        <div><div class="k caps">Recomiéndanos</div><div class="v">byana.mx</div></div>
+        <div class="acts"><button class="mini share-btn" type="button" data-share="pagina"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Compartir</button></div>
+      </div>
     </div>
   </div>
 </section>
@@ -457,7 +467,7 @@ footer .legal a:hover{color:var(--accent)}
 
 <dialog id="dlg-product" aria-labelledby="pd-title">
   <div class="dlg">
-    <div class="dlg-h"><h2 id="pd-title"></h2><button class="x" type="button" aria-label="Cerrar">×</button></div>
+    <div class="dlg-h"><h2 id="pd-title"></h2><div class="dlg-acts"><button class="share-ic" id="pd-share" type="button" aria-label="Compartir este producto" title="Compartir"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button><button class="x" type="button" aria-label="Cerrar">×</button></div></div>
     <div class="pd-top"><div class="gal"><img id="pd-img" alt=""><div class="thumbs" id="pd-thumbs" role="group" aria-label="Fotos del producto"></div></div><p id="pd-desc"></p></div>
     <label class="fld" id="pd-var-wrap"><span>Opción</span><select id="pd-var"></select></label>
     <label class="fld" id="pd-ar-wrap" hidden><span>Aroma</span><select id="pd-ar"></select></label>
@@ -772,8 +782,19 @@ fetch("catalogo.json").then(r=>r.json()).then(c=>{
   PRODUCTOS = new Map([...c.navidad, ...c.siempre].map(p=>[p.id,p]));
   if(c.envio) ENVIO = c.envio; renderEnvio();
   mount("navidad", c.navidad); mount("siempre", c.siempre); renderCart();
+  abrirDesdeEnlace();
 }).catch(()=>{ ["navidad","siempre"].forEach(id=>{ $("grid-"+id).innerHTML = '<p class="empty">No pudimos cargar el catálogo. Recarga la página o escríbenos por <a href="https://wa.me/525529434279" target="_blank" rel="noopener">WhatsApp</a>.</p>'; }); });
 
+// Enlace directo a un producto: byana.mx/#p-<id>
+function abrirDesdeEnlace(){
+  const m = location.hash.match(/^#p-([\w-]+)$/); if(!m || !PRODUCTOS.has(m[1])) return;
+  const id = m[1], sec = id.startsWith("s") ? "siempre" : "navidad";
+  setSeason(sec);
+  const fig = document.querySelector(`[data-id="${id}"]`);
+  if(fig) fig.closest(".card")?.scrollIntoView({block:"center"});
+  if(PRODUCTOS.get(id).v && PRODUCTOS.get(id).v.length) openProduct(id);
+}
+window.addEventListener("hashchange", abrirDesdeEnlace);
 const copy = {
   navidad:{e:"Catálogo Navidad 2026",h:'Velas, joyería y regalos <span class="script">hechos a mano</span>',wa:"me%20interesa%20el%20cat%C3%A1logo%20de%20Navidad",see:"#navidad"},
   siempre:{e:"Estudio de detalles",h:'Detalles que se recuerdan, <span class="script">hechos a mano</span>',wa:"quiero%20cotizar%20un%20detalle",see:"#siempre"}
@@ -794,6 +815,22 @@ let s0 = "navidad";
 try{ const s = localStorage.getItem("byana-season"); if(s==="siempre"||s==="navidad") s0 = s; }catch(e){}
 if(location.hash==="#siempre"||location.hash==="#navidad") s0 = location.hash.slice(1);
 setSeason(s0);
+
+// Compartir la página o un producto (menú nativo del celular; en computadora copia el enlace y ofrece WhatsApp)
+function toast(html){
+  document.querySelectorAll(".toast").forEach(t=>t.remove());
+  const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role","status"); t.innerHTML = html;
+  (document.querySelector("dialog[open]") || document.body).appendChild(t); setTimeout(()=>t.remove(), 6000);
+}
+async function compartir(title, text, url){
+  if(navigator.share){ try{ await navigator.share({ title, text, url }); return; }catch(e){ if(e && e.name === "AbortError") return; } }
+  let copiado = false; try{ await navigator.clipboard.writeText(url); copiado = true; }catch(e){}
+  const wa = "https://wa.me/?text=" + encodeURIComponent(text + " " + url);
+  toast(`${copiado ? "Enlace copiado." : ""} <a href="${wa}" target="_blank" rel="noopener">Compartir por WhatsApp</a>`);
+}
+const BASE = "https://byana.mx/";
+document.querySelectorAll('[data-share="pagina"]').forEach(b=>b.addEventListener("click", ()=>compartir("By Ana · Estudio de detalles", "Mira estos detalles hechos a mano de By Ana:", BASE)));
+$("pd-share").addEventListener("click", ()=>{ if(cur) compartir(cur.t + " · By Ana", `Mira esto de By Ana: ${cur.t}`, `${BASE}#p-${cur.id}`); });
 
 document.getElementById("copy-phone").addEventListener("click", async e=>{
   const b = e.currentTarget;
