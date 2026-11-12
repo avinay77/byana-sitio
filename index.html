@@ -142,6 +142,14 @@ section.block{padding-block:72px}
 .trust li{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;color:var(--ink-soft);line-height:1.35}
 .trust svg{flex:none;width:22px;height:22px;fill:none;stroke:var(--gold);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .trust b{display:block;color:var(--ink);font-weight:600;font-size:.82rem}
+.about{display:grid;grid-template-columns:240px 1fr;gap:40px;align-items:center;max-width:900px}
+.about-n{display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:1;border-radius:50%;background:var(--wash);text-align:center;padding:24px}
+.about-n .script{font-size:6rem;line-height:.9;color:var(--gold)}
+.about-n .caps{font-size:.62rem;letter-spacing:.18em;color:var(--ink-soft);max-width:10em}
+.about h2{margin:0 0 14px;font-family:var(--caps);font-weight:300;font-size:clamp(1.5rem,3vw,2.1rem);letter-spacing:.06em;line-height:1.15}
+.about h2 .script{display:block;font-size:1.7em;color:var(--accent);line-height:.9;margin-bottom:.05em}
+.about p{margin:0 0 12px;color:var(--ink-soft);max-width:36em}
+@media (max-width:640px){.about{grid-template-columns:1fr;gap:20px}.about-n{width:180px;justify-self:center}}
 .ops{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .op{margin:0;background:var(--wash);border-radius:4px;padding:22px 22px 18px;display:flex;flex-direction:column;gap:12px}
 .op blockquote{margin:0;font-size:1.02rem;line-height:1.5;color:var(--ink)}
@@ -370,6 +378,17 @@ footer .legal a:hover{color:var(--accent)}
         <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><span><b>Envío gratis</b>En CDMX y área metropolitana desde $1,500</span></li>
         <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 19Z"/></svg><span><b>Atención personal</b>Ana te confirma tu pedido por WhatsApp</span></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="block" id="ana" style="padding-top:0">
+    <div class="wrap about">
+      <div class="about-n"><span class="script">10</span><span class="caps">años creando detalles</span></div>
+      <div>
+        <h2><span class="script">Detrás de</span>By Ana</h2>
+        <p>Soy Ana y llevo 10 años haciendo joyería y regalos personalizados. Lo que empezó como un gusto por los detalles hoy es un pequeño estudio en la Ciudad de México donde cada vela, collar y caja se arma a mano.</p>
+        <p>Me encanta ayudarte a encontrar el regalo justo: para agradecer, celebrar o simplemente sorprender a alguien. Cuéntame qué tienes en mente y lo hacemos realidad.</p>
+      </div>
     </div>
   </section>
 
