@@ -3,8 +3,19 @@
 // (así nadie puede inventar un pedido) y le mandamos a Ana un correo con el pedido completo usando Resend.
 // Variables: MP_ACCESS_TOKEN, RESEND_API_KEY (secretos) y AVISO_EMAIL (a dónde llegan los pedidos).
 // Opcional: AVISO_FROM, p. ej. "By Ana <pedidos@byana.mx>" cuando el dominio esté verificado en Resend.
+import { sumarUso } from "../../lib/cupones.js";
+
 const money = n => "$" + Number(n || 0).toLocaleString("es-MX");
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+// Con cupón, el detalle real de productos viene en metadata.lineas (Mercado Pago solo trae una línea "Pedido By Ana").
+function lineasDe(md, items) {
+  let l = null;
+  try { l = md.lineas ? JSON.parse(md.lineas) : null; } catch {}
+  const envio = items.filter(i => String(i.id || "").startsWith("envio-") || /env[ií]o/i.test(i.title || ""));
+  if (Array.isArray(l) && l.length) return [...l.map(i => ({ t: i.t, q: Number(i.q), p: Number(i.p), d: i.d || "" })), ...envio.map(i => ({ t: i.title, q: Number(i.quantity), p: Number(i.unit_price), d: "" }))];
+  return items.map(i => ({ t: i.title, q: Number(i.quantity), p: Number(i.unit_price), d: i.description || "" }));
+}
 
 export function armarPedido(pago) {
   const md = pago.metadata || {};
@@ -14,7 +25,9 @@ export function armarPedido(pago) {
     cliente: md.cliente || [pago.payer && pago.payer.first_name, pago.payer && pago.payer.last_name].filter(Boolean).join(" "),
     telefono: md.telefono || "",
     email: (pago.payer && pago.payer.email) || "",
-    productos: items.map(i => ({ t: i.title, q: Number(i.quantity), p: Number(i.unit_price), d: i.description || "" })),
+    productos: lineasDe(md, items),
+    cupon: md.cupon || "",
+    descuento: Number(md.descuento) || 0,
     envio: md.envio || "",
     direccion: md.direccion || "",
     total: money(pago.transaction_amount),
@@ -29,11 +42,12 @@ export function correo(o) {
   <h2 style="margin:0 0 4px">Nuevo pedido pagado 🎁</h2><p style="margin:0 0 16px;color:#8A827D">${esc(o.ref)} · pago Mercado Pago ${esc(o.pago)}</p>
   <p style="margin:0"><b>${esc(o.cliente)}</b><br>Tel: ${esc(o.telefono)}${wa ? ` · <a href="${wa}">Abrir WhatsApp</a>` : ""}${o.email ? `<br>${esc(o.email)}` : ""}</p>
   <table style="width:100%;border-collapse:collapse;margin:16px 0;border-top:1px solid #E6E2DC;border-bottom:1px solid #E6E2DC">${filas}
+  ${o.descuento ? `<tr><td style="padding:6px 0;color:#4F6B55">Cupón ${esc(o.cupon)}</td><td style="padding:6px 0;text-align:right;color:#4F6B55">−${money(o.descuento)}</td></tr>` : ""}
   <tr><td style="padding:8px 0"><b>Total pagado</b></td><td style="text-align:right"><b>${esc(o.total)}</b></td></tr></table>
   <p style="margin:0"><b>Entrega:</b> ${esc(o.envio || "—")}${o.direccion ? `<br><b>Dirección:</b> ${esc(o.direccion)}` : ""}</p></div>`;
   const text = `Nuevo pedido pagado ${o.ref}\n${o.cliente} · ${o.telefono}\n` +
     o.productos.map(i => `${i.q} × ${i.t}${i.d ? ` (${i.d})` : ""} = ${money(i.p * i.q)}`).join("\n") +
-    `\nTotal: ${o.total}\nEntrega: ${o.envio}\n${o.direccion ? "Dirección: " + o.direccion : ""}`;
+    (o.descuento ? `\nCupón ${o.cupon}: −${money(o.descuento)}` : "") + `\nTotal: ${o.total}\nEntrega: ${o.envio}\n${o.direccion ? "Dirección: " + o.direccion : ""}`;
   return { subject: `Nuevo pedido ${o.ref} · ${o.total} · ${o.cliente}`, html, text };
 }
 
@@ -48,6 +62,7 @@ export function correoCliente(o) {
   <h1 style="margin:0 0 8px;font:600 20px Arial,sans-serif;color:#4F6B55">¡Gracias por tu pedido${nombre ? ", " + esc(nombre) : ""}!</h1>
   <p style="margin:0 0 18px;font:15px/1.5 Arial,sans-serif">Recibimos tu pago y Ana ya está preparando tus detalles. Te escribirá por WhatsApp para confirmar la entrega. Entregamos en 2 a 7 días hábiles.</p>
   <table style="width:100%;border-collapse:collapse;font:14px Arial,sans-serif">${filas}
+  ${o.descuento ? `<tr><td style="padding:8px 0;color:#4F6B55">Cupón ${esc(o.cupon)}</td><td style="padding:8px 0;text-align:right;color:#4F6B55">−${money(o.descuento)}</td></tr>` : ""}
   <tr><td style="padding:10px 0"><b>Total pagado</b></td><td style="padding:10px 0;text-align:right"><b>${esc(o.total)}</b></td></tr></table>
   <p style="margin:14px 0 0;font:14px/1.5 Arial,sans-serif"><b>Entrega:</b> ${esc(o.envio || "—")}${o.direccion ? `<br><b>Dirección:</b> ${esc(o.direccion)}` : ""}</p>
   <p style="margin:14px 0 0;font:12px Arial,sans-serif;color:#8A827D">Pedido ${esc(o.ref)} · Mercado Pago ${esc(o.pago)}</p>
@@ -55,7 +70,7 @@ export function correoCliente(o) {
   </div></div>`;
   const text = `¡Gracias por tu pedido${nombre ? ", " + nombre : ""}!\nRecibimos tu pago y Ana ya está preparando tus detalles. Te escribirá por WhatsApp para confirmar la entrega (2 a 7 días hábiles).\n\n` +
     o.productos.map(i => `${i.q} × ${i.t}${i.d ? ` (${i.d})` : ""} = ${money(i.p * i.q)}`).join("\n") +
-    `\nTotal pagado: ${o.total}\nEntrega: ${o.envio}${o.direccion ? "\nDirección: " + o.direccion : ""}\nPedido ${o.ref}\n\nDudas: WhatsApp 55 2943 4279 · ventas@byana.mx · byana.mx`;
+    (o.descuento ? `\nCupón ${o.cupon}: −${money(o.descuento)}` : "") + `\nTotal pagado: ${o.total}\nEntrega: ${o.envio}${o.direccion ? "\nDirección: " + o.direccion : ""}\nPedido ${o.ref}\n\nDudas: WhatsApp 55 2943 4279 · ventas@byana.mx · byana.mx`;
   return { subject: `¡Gracias por tu pedido! By Ana ${o.ref}`, html, text };
 }
 
@@ -94,6 +109,8 @@ export async function onRequest({ request, env }) {
 
   if (!env.RESEND_API_KEY || !env.AVISO_EMAIL) { console.error("Falta RESEND_API_KEY o AVISO_EMAIL"); return ok("sin correo"); }
   const pedido = armarPedido(pago);
+  // Cuenta el uso del cupón solo con el aviso real de Mercado Pago (no al reenviar correos a mano por GET).
+  if (pedido.cupon && request.method === "POST" && env.BYANA) { try { await sumarUso(env, pedido.cupon); } catch (e) { console.error("No se pudo contar el uso del cupón", e); } }
   const c = correo(pedido);
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",

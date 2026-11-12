@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cupones · By Ana</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Jost:wght@300;400;500&family=Mulish:wght@400;600&display=swap">
+<style>
+:root{--paper:#FEFEFC;--wash:#F3F6F2;--ink:#5E5753;--soft:#8A827D;--pine:#4F6B55;--gold:#B8955A;--accent:#A8312F;--line:#E6E2DC}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 Mulish,system-ui,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:24px 16px 64px}
+h1{margin:0;font:300 1.6rem Jost,sans-serif;letter-spacing:.05em}
+h1 .s{display:block;font:2.4rem Allura,cursive;color:var(--accent);line-height:1}
+h2{font:400 .8rem Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:32px 0 12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+label{display:flex;flex-direction:column;gap:4px;font-size:.85rem}
+label span{font:500 .62rem Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+input,select{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:3px;padding:9px 11px;width:100%}
+small{color:var(--soft)}
+button{font:500 .72rem Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:999px;padding:11px 20px;cursor:pointer}
+button.ghost{background:none;color:var(--accent)}
+button.mini{padding:6px 12px;font-size:.62rem}
+.row{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-top:14px}
+.msg{min-height:1.4em;margin:10px 0 0;font-size:.9rem}
+.msg.err{color:var(--accent)} .msg.ok{color:var(--pine)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 .62rem Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+td b{font-family:ui-monospace,Menlo,monospace;letter-spacing:.04em}
+.tag{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:999px;background:var(--wash);color:var(--pine)}
+.tag.off{background:#F7ECEA;color:var(--accent)}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.tbl{overflow-x:auto}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span class="s">By Ana</span>Cupones de descuento</h1>
+
+  <section id="login">
+    <h2>Entrar</h2>
+    <div class="card">
+      <label><span>Clave de administración</span><input id="key" type="password" autocomplete="current-password"></label>
+      <div class="row"><button id="entrar" type="button">Entrar</button></div>
+      <p class="msg" id="login-msg"></p>
+      <small>Es la clave que pusiste como ADMIN_KEY en Cloudflare.</small>
+    </div>
+  </section>
+
+  <section id="app" hidden>
+    <h2>Crear cupón</h2>
+    <form class="card" id="form">
+      <div class="grid">
+        <label><span>Código</span><input id="f-codigo" required maxlength="24" placeholder="NAVIDAD10" autocapitalize="characters"></label>
+        <label><span>Tipo</span><select id="f-tipo"><option value="pct">Porcentaje (%)</option><option value="monto">Pesos ($)</option></select></label>
+        <label><span id="f-valor-l">Descuento (%)</span><input id="f-valor" type="number" min="1" required inputmode="numeric" placeholder="10"></label>
+        <label><span>Compra mínima ($)</span><input id="f-minimo" type="number" min="0" inputmode="numeric" placeholder="Opcional"></label>
+        <label><span>Vence (incluido)</span><input id="f-vence" type="date"></label>
+        <label><span>Usos máximos</span><input id="f-usos" type="number" min="0" inputmode="numeric" placeholder="Sin límite"></label>
+      </div>
+      <label style="margin-top:12px"><span>Nota (solo para ti)</span><input id="f-nota" maxlength="120" placeholder="Ej. Para clientas de Instagram"></label>
+      <div class="row"><button type="submit">Guardar cupón</button><small>Si el código ya existe, se actualiza.</small></div>
+      <p class="msg" id="form-msg"></p>
+    </form>
+
+    <h2>Tus cupones</h2>
+    <div class="card tbl">
+      <table><thead><tr><th>Código</th><th>Descuento</th><th>Condiciones</th><th>Usos</th><th>Estado</th><th></th></tr></thead><tbody id="lista"><tr><td colspan="6">Cargando…</td></tr></tbody></table>
+    </div>
+    <div class="row"><button class="ghost" id="salir" type="button">Salir</button></div>
+  </section>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+const money = n => "$" + Number(n||0).toLocaleString("es-MX");
+let KEY = ""; try{ KEY = sessionStorage.getItem("byana-admin") || ""; }catch(e){}
+async function api(method, body, q=""){
+  const r = await fetch("/api/admin/cupones" + q, { method, headers: { "Content-Type":"application/json", "X-Admin-Key": KEY }, body: body ? JSON.stringify(body) : undefined });
+  const d = await r.json().catch(()=>({ error: "Respuesta inválida del servidor." }));
+  if(!r.ok) throw Object.assign(new Error(d.error || "Error"), { status: r.status });
+  return d;
+}
+const fecha = v => v ? new Date(v+"T12:00:00").toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"}) : "";
+async function cargar(){
+  const { cupones } = await api("GET");
+  $("lista").innerHTML = cupones.length ? cupones.map(c=>{
+    const venc = c.vence && new Date().toISOString().slice(0,10) > c.vence;
+    const agot = c.usosMax && c.usos >= c.usosMax;
+    const est = !c.activo ? ["Desactivado","off"] : venc ? ["Vencido","off"] : agot ? ["Agotado","off"] : ["Activo",""];
+    const cond = [c.minimo ? `Mín. ${money(c.minimo)}` : "", c.vence ? `Vence ${fecha(c.vence)}` : "", c.nota ? `<small>${esc(c.nota)}</small>` : ""].filter(Boolean).join("<br>") || "—";
+    return `<tr><td><b>${esc(c.codigo)}</b></td><td>${c.tipo==="pct" ? c.valor+"%" : money(c.valor)}</td><td>${cond}</td><td>${c.usos||0}${c.usosMax?` / ${c.usosMax}`:""}</td>
+      <td><span class="tag ${est[1]}">${est[0]}</span></td>
+      <td><div class="acts"><button class="mini ghost" data-a="toggle" data-c="${esc(c.codigo)}" data-on="${c.activo?1:0}">${c.activo?"Desactivar":"Activar"}</button><button class="mini ghost" data-a="edit" data-c="${esc(c.codigo)}">Editar</button><button class="mini ghost" data-a="del" data-c="${esc(c.codigo)}">Borrar</button></div></td></tr>`;
+  }).join("") : `<tr><td colspan="6">Todavía no hay cupones. Crea el primero arriba.</td></tr>`;
+  window.__cupones = cupones;
+}
+async function entrar(){
+  $("login-msg").textContent = ""; $("login-msg").className = "msg";
+  try{ await cargar(); try{ sessionStorage.setItem("byana-admin", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; }
+  catch(e){ $("login-msg").textContent = e.message; $("login-msg").className = "msg err"; }
+}
+$("entrar").onclick = () => { KEY = $("key").value.trim(); entrar(); };
+$("key").addEventListener("keydown", e => { if(e.key==="Enter"){ KEY = $("key").value.trim(); entrar(); } });
+$("salir").onclick = () => { KEY = ""; try{ sessionStorage.removeItem("byana-admin"); }catch(e){} location.reload(); };
+$("f-tipo").onchange = () => { $("f-valor-l").textContent = $("f-tipo").value==="pct" ? "Descuento (%)" : "Descuento ($)"; };
+$("f-codigo").addEventListener("input", e => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9-]/g,""); });
+$("form").addEventListener("submit", async e => {
+  e.preventDefault(); const m = $("form-msg"); m.className = "msg"; m.textContent = "Guardando…";
+  try{
+    const { cupon } = await api("POST", { codigo:$("f-codigo").value, tipo:$("f-tipo").value, valor:$("f-valor").value, minimo:$("f-minimo").value, vence:$("f-vence").value, usosMax:$("f-usos").value, nota:$("f-nota").value });
+    m.className = "msg ok"; m.textContent = `Listo: el cupón ${cupon.codigo} ya funciona en byana.mx.`;
+    $("form").reset(); $("f-tipo").onchange(); await cargar();
+  }catch(err){ m.className = "msg err"; m.textContent = err.message; }
+});
+$("lista").addEventListener("click", async e => {
+  const b = e.target.closest("button[data-a]"); if(!b) return;
+  const c = b.dataset.c;
+  try{
+    if(b.dataset.a==="toggle") await api("POST", { codigo:c, tipo:"pct", valor:1, soloActivo: b.dataset.on!=="1" });
+    if(b.dataset.a==="del"){ if(!confirm(`¿Borrar el cupón ${c}? Ya no se podrá usar.`)) return; await api("DELETE", null, "?codigo="+encodeURIComponent(c)); }
+    if(b.dataset.a==="edit"){
+      const x = (window.__cupones||[]).find(y=>y.codigo===c); if(!x) return;
+      $("f-codigo").value = x.codigo; $("f-tipo").value = x.tipo; $("f-tipo").onchange(); $("f-valor").value = x.valor;
+      $("f-minimo").value = x.minimo || ""; $("f-vence").value = x.vence || ""; $("f-usos").value = x.usosMax || ""; $("f-nota").value = x.nota || "";
+      $("form").scrollIntoView({ behavior:"smooth" }); return;
+    }
+    await cargar();
+  }catch(err){ alert(err.message); }
+});
+if(KEY) entrar();
+</script>
+</body>
+</html>

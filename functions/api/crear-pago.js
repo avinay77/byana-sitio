@@ -3,6 +3,7 @@
 // POST → valida el carrito con catalogo.json y crea la preferencia de Checkout Pro por el TOTAL (productos + envío).
 // Variables (Cloudflare → proyecto → Settings → Variables and Secrets): MP_ACCESS_TOKEN (secreto).
 import { validar } from "../../lib/pedido.js";
+import { leerCupon } from "../../lib/cupones.js";
 
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 const catalogo = async ({ env, request }) => (await env.ASSETS.fetch(new URL("/catalogo.json", request.url))).json();
@@ -16,7 +17,8 @@ export async function onRequestPost(context) {
 
   let pedido;
   try { pedido = await request.json(); } catch { return json(400, { error: "Pedido inválido." }); }
-  const r = validar(pedido, await catalogo(context));
+  const cupon = pedido && pedido.cupon ? await leerCupon(env, pedido.cupon) : null;
+  const r = validar(pedido, await catalogo(context), cupon);
   if (r.error) return json(400, r);
 
   const base = new URL(request.url).origin;
@@ -32,7 +34,8 @@ export async function onRequestPost(context) {
     // Mercado Pago avisa aquí cada pago; mp-webhook lo verifica y le manda el correo a Ana.
     notification_url: `${base}/api/mp-webhook`,
     metadata: { cliente: r.cliente.nombre, telefono: r.cliente.tel, piezas: r.piezas,
-      envio: r.envio.n, direccion: r.envio.dir ? Object.values(r.envio.dir).filter(Boolean).join(", ") : "" },
+      envio: r.envio.n, direccion: r.envio.dir ? Object.values(r.envio.dir).filter(Boolean).join(", ") : "",
+      ...(r.descuento ? { cupon: r.cupon, descuento: r.descuento, subtotal: r.subtotal, lineas: JSON.stringify(r.lineas).slice(0, 6000) } : {}) },
   };
 
   try {
