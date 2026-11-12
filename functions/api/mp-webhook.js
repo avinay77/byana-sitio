@@ -40,6 +40,16 @@ export function correo(o) {
 export async function onRequest({ request, env }) {
   const ok = (b = "ok") => new Response(b, { status: 200 });
   const url = new URL(request.url);
+  // GET sin parámetros: diagnóstico de la configuración (no muestra ninguna clave).
+  if (request.method === "GET" && !url.searchParams.has("id") && !url.searchParams.has("data.id")) {
+    const m = env.AVISO_EMAIL || "";
+    return new Response(JSON.stringify({
+      mercadopago: env.MP_ACCESS_TOKEN ? (env.MP_ACCESS_TOKEN.startsWith("TEST-") ? "token de prueba" : "token puesto") : "FALTA MP_ACCESS_TOKEN",
+      resend: env.RESEND_API_KEY ? "clave puesta" : "FALTA RESEND_API_KEY",
+      aviso_email: m ? m.replace(/^(.{2}).*(@.*)$/, "$1***$2") : "FALTA AVISO_EMAIL",
+    }, null, 1), { headers: { "Content-Type": "application/json; charset=utf-8" } });
+  }
+  console.log("Aviso de Mercado Pago", request.method, url.search);
   let b = {};
   try { b = await request.json(); } catch {}
   const tipo = b.type || url.searchParams.get("type") || url.searchParams.get("topic");
@@ -50,6 +60,7 @@ export async function onRequest({ request, env }) {
   const res = await fetch(`https://api.mercadopago.com/v1/payments/${id}`, { headers: { Authorization: `Bearer ${env.MP_ACCESS_TOKEN}` } });
   if (!res.ok) { console.error("No se pudo leer el pago", id, res.status); return new Response("reintentar", { status: 500 }); }
   const pago = await res.json();
+  console.log("Pago", id, pago.status, accion);
   if (pago.status !== "approved") return ok("no aprobado");
 
   // Mercado Pago manda varios avisos por pago: avisamos con el de creación (tarjeta, se aprueba al instante)
