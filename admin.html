@@ -71,6 +71,25 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--wash)}
 .det textarea{font:inherit;font-size:16px;width:100%;min-height:60px;border:1px solid var(--line);border-radius:3px;padding:9px 11px;color:var(--ink)}
 .chk{flex-direction:row;align-items:center;gap:8px;font-size:.9rem}
 .chk input{width:auto}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px}
+.kpi .k{font:500 .62rem Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+.kpi .n{font:300 2rem/1.1 Jost,sans-serif;color:var(--ink);margin-top:4px}
+.kpi small{display:block}
+.barras{display:flex;align-items:flex-end;gap:2px;height:140px;padding-top:8px}
+.barras div{flex:1;min-width:2px;background:var(--pine);border-radius:2px 2px 0 0;opacity:.85}
+.barras div.hoy{background:var(--accent)}
+.barras div:hover{opacity:1}
+.ejes{display:flex;justify-content:space-between;font-size:.75rem;color:var(--soft);margin-top:6px}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.rank{margin:0;padding:0;list-style:none}
+.rank li{position:relative;display:flex;justify-content:space-between;gap:10px;padding:7px 8px;font-size:.9rem;border-radius:3px;overflow:hidden}
+.rank li i{position:absolute;inset:0 auto 0 0;background:var(--wash);z-index:0}
+.rank li span,.rank li b{position:relative;z-index:1}
+.rank li b{font-family:inherit;font-weight:600;letter-spacing:0}
+.rank .vacio{color:var(--soft)}
+.card h4{margin:0 0 8px;font:500 .62rem Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+@media (max-width:600px){.kpi{padding:10px}.kpi .n{font-size:1.5rem}}
 </style>
 </head>
 <body>
@@ -94,6 +113,7 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--wash)}
       <button type="button" role="tab" id="tab-pedidos" aria-selected="true">Pedidos<b id="n-nuevos" hidden></b></button>
       <button type="button" role="tab" id="tab-clientes" aria-selected="false">Clientes</button>
       <button type="button" role="tab" id="tab-cupones" aria-selected="false">Cupones</button>
+      <button type="button" role="tab" id="tab-visitas" aria-selected="false">Visitas</button>
     </div>
 
     <div id="vista-pedidos">
@@ -145,6 +165,24 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--wash)}
     <div class="card tbl">
       <table><thead><tr><th>Código</th><th>Descuento</th><th>Condiciones</th><th>Usos</th><th>Estado</th><th></th></tr></thead><tbody id="lista"><tr><td colspan="6">Cargando…</td></tr></tbody></table>
     </div>
+    </div>
+    <div id="vista-visitas" hidden>
+      <h2>Visitas al sitio</h2>
+      <div class="filtros" id="v-rango">
+        <button type="button" class="mini" data-d="7" aria-pressed="false">7 días</button>
+        <button type="button" class="mini" data-d="30" aria-pressed="true">30 días</button>
+        <button type="button" class="mini" data-d="90" aria-pressed="false">90 días</button>
+      </div>
+      <div class="kpis" id="v-kpis"><div class="kpi"><div class="k">Cargando…</div></div></div>
+      <div class="card" style="margin-top:12px"><h4>Personas por día</h4><div class="barras" id="v-barras"></div><div class="ejes" id="v-ejes"></div></div>
+      <div class="cols2" style="margin-top:12px">
+        <div class="card"><h4>De dónde llegan</h4><ul class="rank" id="v-fuentes"></ul></div>
+        <div class="card"><h4>Aparato</h4><ul class="rank" id="v-aparatos"></ul></div>
+        <div class="card"><h4>Productos más vistos</h4><ul class="rank" id="v-productos"></ul></div>
+        <div class="card"><h4>Más agregados al carrito</h4><ul class="rank" id="v-carrito"></ul></div>
+      </div>
+      <label class="chk" style="margin-top:16px"><input type="checkbox" id="v-nocontar"> No contar mis visitas desde este aparato</label>
+      <p><small>Personas: cuántas personas distintas entraron cada día (se cuentan sin cookies ni datos personales). Visitas: cuántas veces abrieron el sitio. “Directo” es quien escribió byana.mx o abrió un enlace desde WhatsApp o un mensaje. Para que no se cuenten tus visitas ni las de Ana en el iPhone, abran una vez <b>byana.mx/?nocontar</b> en Safari. Se cuentan hasta <span id="v-tope">600</span> visitas al día para no pasar el plan gratis de Cloudflare.</small></p>
     </div>
     <div class="row"><button class="ghost" id="salir" type="button">Salir</button></div>
   </section>
@@ -285,13 +323,45 @@ async function abrirCliente(email){
 $("lista-c").addEventListener("click", e => { const tr = e.target.closest("tr[data-email]"); if(tr) abrirCliente(tr.dataset.email).catch(err=>alert(err.message)); });
 $("buscar-c").addEventListener("input", pintarClientes);
 
-const tab = t => { ["pedidos","clientes","cupones"].forEach(x=>{ $("tab-"+x).setAttribute("aria-selected", x===t); $("vista-"+x).hidden = x!==t; }); try{ sessionStorage.setItem("byana-admin-tab", t); }catch(e){} };
+/* ---------- Visitas ---------- */
+let V_DIAS = 30, NOMBRES = null;
+async function nombres(){
+  if(NOMBRES) return NOMBRES;
+  try{ const c = await (await fetch("/catalogo.json")).json(); NOMBRES = new Map([...c.navidad, ...c.siempre, ...(c.ocultos||[])].map(p=>[p.id, p.t])); }catch(e){ NOMBRES = new Map(); }
+  return NOMBRES;
+}
+const diaCorto = d => new Date(d+"T12:00:00").toLocaleDateString("es-MX",{day:"numeric",month:"short"});
+const num = n => Number(n||0).toLocaleString("es-MX");
+function rank(id, filas, nombre = k => k){
+  const max = Math.max(1, ...filas.map(f=>f[1]));
+  $(id).innerHTML = filas.length ? filas.map(([k,n])=>`<li><i style="width:${Math.round(n/max*100)}%"></i><span>${esc(nombre(k))}</span><b>${num(n)}</b></li>`).join("") : `<li class="vacio">Todavía sin datos.</li>`;
+}
+async function cargarVisitas(){
+  const r = await fetch("/api/admin/visitas?dias=" + V_DIAS, { headers: { "X-Admin-Key": KEY } });
+  const d = await r.json().catch(()=>({ error: "Respuesta inválida del servidor." }));
+  if(!r.ok) throw new Error(d.error || "Error");
+  const t = d.totales, k = (titulo, x, nota="") => `<div class="kpi"><div class="k">${titulo}</div><div class="n">${num(x.personas)}</div><small>personas · ${num(x.visitas)} visitas${nota}</small></div>`;
+  $("v-kpis").innerHTML = k("Hoy", t.hoy) + k("7 días", t.semana) + (V_DIAS === 7 ? k("Promedio diario", { personas: Math.round(t.semana.personas/7), visitas: Math.round(t.semana.visitas/7) }) : k(V_DIAS + " días", t.periodo));
+  const max = Math.max(1, ...d.dias.map(x=>x.personas));
+  $("v-barras").innerHTML = d.dias.map(x=>`<div class="${x.dia===d.hoy?"hoy":""}" style="height:${Math.max(x.personas?3:0, Math.round(x.personas/max*100))}%" title="${diaCorto(x.dia)}: ${x.personas} personas, ${x.visitas} visitas"></div>`).join("");
+  $("v-ejes").innerHTML = `<span>${diaCorto(d.dias[0].dia)}</span><span>máx. ${num(max)}</span><span>Hoy</span>`;
+  const N = await nombres(), prod = id => N.get(id) || id;
+  rank("v-fuentes", d.fuentes); rank("v-aparatos", d.aparatos);
+  rank("v-productos", d.productos, prod); rank("v-carrito", d.carrito, prod);
+  $("v-tope").textContent = num(d.tope);
+}
+$("v-rango").addEventListener("click", e => { const b = e.target.closest("button"); if(!b) return; V_DIAS = Number(b.dataset.d); $("v-rango").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); cargarVisitas().catch(err=>alert(err.message)); });
+try{ $("v-nocontar").checked = !!localStorage.getItem("byana-no-contar"); }catch(e){}
+$("v-nocontar").onchange = e => { try{ e.target.checked ? localStorage.setItem("byana-no-contar","1") : localStorage.removeItem("byana-no-contar"); }catch(err){} };
+
+const tab = t => { ["pedidos","clientes","cupones","visitas"].forEach(x=>{ $("tab-"+x).setAttribute("aria-selected", x===t); $("vista-"+x).hidden = x!==t; }); try{ sessionStorage.setItem("byana-admin-tab", t); }catch(e){} };
 $("tab-pedidos").onclick = () => tab("pedidos"); $("tab-cupones").onclick = () => tab("cupones");
 $("tab-clientes").onclick = () => { tab("clientes"); cargarClientes().catch(err=>alert(err.message)); };
+$("tab-visitas").onclick = () => { tab("visitas"); cargarVisitas().catch(err=>alert(err.message)); };
 
 async function entrar(){
   $("login-msg").textContent = ""; $("login-msg").className = "msg";
-  try{ await cargarPedidos(); await cargar(); await cargarClientes(); try{ tab(sessionStorage.getItem("byana-admin-tab") || "pedidos"); }catch(e){} try{ sessionStorage.setItem("byana-admin", KEY); if($("recordar").checked) localStorage.setItem("byana-admin-key", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; $("actualizar").hidden = false; prepararAvisos(); abrirDesdeAviso(); }
+  try{ await cargarPedidos(); await cargar(); await cargarClientes(); try{ const t0 = sessionStorage.getItem("byana-admin-tab") || "pedidos"; tab(t0); if(t0==="visitas") cargarVisitas().catch(()=>{}); }catch(e){} try{ if(!localStorage.getItem("byana-no-contar-visto")){ localStorage.setItem("byana-no-contar","1"); localStorage.setItem("byana-no-contar-visto","1"); $("v-nocontar").checked = true; } }catch(e){} try{ sessionStorage.setItem("byana-admin", KEY); if($("recordar").checked) localStorage.setItem("byana-admin-key", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; $("actualizar").hidden = false; prepararAvisos(); abrirDesdeAviso(); }
   catch(e){ $("login-msg").textContent = e.message; $("login-msg").className = "msg err"; }
 }
 $("entrar").onclick = () => { KEY = $("key").value.trim(); entrar(); };
@@ -299,7 +369,7 @@ $("key").addEventListener("keydown", e => { if(e.key==="Enter"){ KEY = $("key").
 $("salir").onclick = () => { if(!confirm("¿Salir? Tendrás que volver a escribir la clave en este aparato.")) return; KEY = ""; try{ sessionStorage.removeItem("byana-admin"); localStorage.removeItem("byana-admin-key"); }catch(e){} location.href = location.pathname; };
 
 /* ---------- App en el celular: actualizar, abrir pedido desde un aviso, notificaciones ---------- */
-async function refrescar(){ try{ await cargarPedidos(); await cargarClientes(); await cargar(); }catch(e){} }
+async function refrescar(){ try{ await cargarPedidos(); await cargarClientes(); await cargar(); if(!$("vista-visitas").hidden) await cargarVisitas(); }catch(e){} }
 $("actualizar").onclick = async () => { const b = $("actualizar"); b.disabled = true; b.textContent = "…"; await refrescar(); b.disabled = false; b.textContent = "Actualizar"; };
 document.addEventListener("visibilitychange", () => { if(document.visibilityState === "visible" && KEY && !$("app").hidden) refrescar(); });
 function abrirDesdeAviso(){
