@@ -2,16 +2,27 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Administración · By Ana</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="manifest" href="/admin.webmanifest">
+<link rel="apple-touch-icon" href="/img/admin-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="By Ana Admin">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FEFEFC">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Jost:wght@300;400;500&family=Mulish:wght@400;600&display=swap">
 <style>
 :root{--paper:#FEFEFC;--wash:#F3F6F2;--ink:#5E5753;--soft:#8A827D;--pine:#4F6B55;--gold:#B8955A;--accent:#A8312F;--line:#E6E2DC}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 Mulish,system-ui,sans-serif}
-.wrap{max-width:900px;margin:0 auto;padding:24px 16px 64px}
+.wrap{max-width:900px;margin:0 auto;padding:calc(24px + env(safe-area-inset-top,0px)) calc(16px + env(safe-area-inset-right,0px)) calc(64px + env(safe-area-inset-bottom,0px)) calc(16px + env(safe-area-inset-left,0px))}
+.avisos{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px;padding:12px 14px;background:var(--wash);border-radius:6px;font-size:.88rem}
+.avisos span{flex:1;min-width:200px}
+.top{display:flex;justify-content:space-between;align-items:end;gap:12px}
+@media (max-width:600px){.tabs{position:sticky;top:0;z-index:2;background:var(--paper)} .tabs button{flex:1;padding:12px 6px} td,th{padding:9px 5px} .filtros input{max-width:none;margin-left:0;flex-basis:100%}}
 h1{margin:0;font:300 1.6rem Jost,sans-serif;letter-spacing:.05em}
 h1 .s{display:block;font:2.4rem Allura,cursive;color:var(--accent);line-height:1}
 h2{font:400 .8rem Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:32px 0 12px}
@@ -64,12 +75,13 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--wash)}
 </head>
 <body>
 <div class="wrap">
-  <h1><span class="s">By Ana</span>Administración</h1>
+  <div class="top"><h1><span class="s">By Ana</span>Administración</h1><button type="button" class="mini ghost" id="actualizar" hidden>Actualizar</button></div>
 
   <section id="login">
     <h2>Entrar</h2>
     <div class="card">
       <label><span>Clave de administración</span><input id="key" type="password" autocomplete="current-password"></label>
+      <label class="chk" style="margin-top:10px"><input type="checkbox" id="recordar" checked> Recordar la clave en este aparato</label>
       <div class="row"><button id="entrar" type="button">Entrar</button></div>
       <p class="msg" id="login-msg"></p>
       <small>Es la clave que pusiste como ADMIN_KEY en Cloudflare. Aquí administras pedidos y cupones.</small>
@@ -77,6 +89,7 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--wash)}
   </section>
 
   <section id="app" hidden>
+    <div class="avisos" id="avisos" hidden><span id="avisos-txt"></span><button type="button" class="mini" id="avisos-on" hidden>Activar avisos</button><button type="button" class="mini ghost" id="avisos-test" hidden>Probar</button><button type="button" class="mini ghost" id="avisos-off" hidden>Desactivar</button></div>
     <div class="tabs" role="tablist">
       <button type="button" role="tab" id="tab-pedidos" aria-selected="true">Pedidos<b id="n-nuevos" hidden></b></button>
       <button type="button" role="tab" id="tab-clientes" aria-selected="false">Clientes</button>
@@ -140,7 +153,7 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--wash)}
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
 const money = n => "$" + Number(n||0).toLocaleString("es-MX");
-let KEY = ""; try{ KEY = sessionStorage.getItem("byana-admin") || ""; }catch(e){}
+let KEY = ""; try{ KEY = localStorage.getItem("byana-admin-key") || sessionStorage.getItem("byana-admin") || ""; }catch(e){}
 async function api(method, body, q=""){
   const r = await fetch("/api/admin/cupones" + q, { method, headers: { "Content-Type":"application/json", "X-Admin-Key": KEY }, body: body ? JSON.stringify(body) : undefined });
   const d = await r.json().catch(()=>({ error: "Respuesta inválida del servidor." }));
@@ -278,12 +291,61 @@ $("tab-clientes").onclick = () => { tab("clientes"); cargarClientes().catch(err=
 
 async function entrar(){
   $("login-msg").textContent = ""; $("login-msg").className = "msg";
-  try{ await cargarPedidos(); await cargar(); await cargarClientes(); try{ tab(sessionStorage.getItem("byana-admin-tab") || "pedidos"); }catch(e){} try{ sessionStorage.setItem("byana-admin", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; }
+  try{ await cargarPedidos(); await cargar(); await cargarClientes(); try{ tab(sessionStorage.getItem("byana-admin-tab") || "pedidos"); }catch(e){} try{ sessionStorage.setItem("byana-admin", KEY); if($("recordar").checked) localStorage.setItem("byana-admin-key", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; $("actualizar").hidden = false; prepararAvisos(); abrirDesdeAviso(); }
   catch(e){ $("login-msg").textContent = e.message; $("login-msg").className = "msg err"; }
 }
 $("entrar").onclick = () => { KEY = $("key").value.trim(); entrar(); };
 $("key").addEventListener("keydown", e => { if(e.key==="Enter"){ KEY = $("key").value.trim(); entrar(); } });
-$("salir").onclick = () => { KEY = ""; try{ sessionStorage.removeItem("byana-admin"); }catch(e){} location.reload(); };
+$("salir").onclick = () => { if(!confirm("¿Salir? Tendrás que volver a escribir la clave en este aparato.")) return; KEY = ""; try{ sessionStorage.removeItem("byana-admin"); localStorage.removeItem("byana-admin-key"); }catch(e){} location.href = location.pathname; };
+
+/* ---------- App en el celular: actualizar, abrir pedido desde un aviso, notificaciones ---------- */
+async function refrescar(){ try{ await cargarPedidos(); await cargarClientes(); await cargar(); }catch(e){} }
+$("actualizar").onclick = async () => { const b = $("actualizar"); b.disabled = true; b.textContent = "…"; await refrescar(); b.disabled = false; b.textContent = "Actualizar"; };
+document.addEventListener("visibilitychange", () => { if(document.visibilityState === "visible" && KEY && !$("app").hidden) refrescar(); });
+function abrirDesdeAviso(){
+  const q = new URLSearchParams(location.search), ref = q.get("ref");
+  if(!ref) return;
+  history.replaceState(null, "", location.pathname);
+  tab("pedidos"); abrirPedido(ref).catch(err=>alert(err.message));
+}
+const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const instalada = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+let REG = null;
+if("serviceWorker" in navigator) navigator.serviceWorker.register("/admin-sw.js", { scope: "/admin" }).then(r => { REG = r; }).catch(()=>{});
+const b64ToU8 = s => Uint8Array.from(atob(s.replace(/-/g,"+").replace(/_/g,"/") + "===".slice((s.length+3)%4)), c => c.charCodeAt(0));
+async function api4(method, body, q=""){
+  const r = await fetch("/api/admin/push" + q, { method, headers: { "Content-Type":"application/json", "X-Admin-Key": KEY }, body: body ? JSON.stringify(body) : undefined });
+  const d = await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.error || "Error"); return d;
+}
+async function prepararAvisos(){
+  const box = $("avisos"), txt = $("avisos-txt"), on = $("avisos-on"), test = $("avisos-test"), off = $("avisos-off");
+  const ver = (t, a, b, c) => { box.hidden = false; txt.textContent = t; on.hidden = !a; test.hidden = !b; off.hidden = !c; };
+  const soporta = "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+  if(!soporta){ ver(esIOS && !instalada ? "Para recibir avisos de pedidos nuevos, instala la app: botón Compartir → “Agregar a pantalla de inicio”, y ábrela desde el ícono." : "Este navegador no permite avisos de pedidos.", false, false, false); return; }
+  try{
+    const reg = REG || await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.getSubscription();
+    if(sub && Notification.permission === "granted"){ ver("🔔 Avisos de pedidos nuevos activados en este aparato.", false, true, true); return; }
+    if(Notification.permission === "denied"){ ver("Los avisos están bloqueados. Actívalos en Ajustes → Notificaciones → By Ana Admin.", false, false, false); return; }
+    ver(esIOS && !instalada ? "Para avisos de pedidos, primero agrega esta página a tu pantalla de inicio y ábrela desde el ícono." : "¿Quieres que te avise cuando entre un pedido pagado?", !(esIOS && !instalada), false, false);
+  }catch(e){ ver("No se pudieron revisar los avisos.", false, false, false); }
+}
+$("avisos-on").onclick = async () => {
+  try{
+    if(await Notification.requestPermission() !== "granted"){ prepararAvisos(); return; }
+    const reg = REG || await navigator.serviceWorker.ready;
+    const { publica } = await api4("GET");
+    const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(publica) });
+    await api4("POST", { suscripcion: sub.toJSON(), nombre: esIOS ? "iPhone" : navigator.platform });
+    await prepararAvisos();
+    await api4("POST", { prueba: true });
+  }catch(e){ alert("No se pudieron activar los avisos: " + e.message); }
+};
+$("avisos-test").onclick = async () => { try{ const r = await api4("POST", { prueba: true }); if(!r.enviados) alert("No se pudo mandar la prueba. Desactiva y vuelve a activar los avisos."); }catch(e){ alert(e.message); } };
+$("avisos-off").onclick = async () => {
+  try{ const reg = REG || await navigator.serviceWorker.ready; const sub = await reg.pushManager.getSubscription(); if(sub){ await api4("DELETE", null, "?endpoint=" + encodeURIComponent(sub.endpoint)); await sub.unsubscribe(); } }catch(e){}
+  prepararAvisos();
+};
 $("f-tipo").onchange = () => { $("f-valor-l").textContent = $("f-tipo").value==="pct" ? "Descuento (%)" : "Descuento ($)"; };
 $("f-codigo").addEventListener("input", e => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9-]/g,""); });
 $("form").addEventListener("submit", async e => {

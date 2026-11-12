@@ -5,6 +5,7 @@
 // Opcional: AVISO_FROM, p. ej. "By Ana <pedidos@byana.mx>" cuando el dominio esté verificado en Resend.
 import { sumarUso } from "../../lib/cupones.js";
 import { registrarPedido } from "../../lib/pedidos.js";
+import { avisarAdmins } from "../../lib/push.js";
 import { leerCliente, guardarCliente, leerReferido, limpiarCorreo, correoValido, soloTel, aleatorio, enviarCorreo, marco, PREMIO_REFERIDO, MINIMO_REFERIDO } from "../../lib/cuenta.js";
 
 const money = n => "$" + Number(n || 0).toLocaleString("es-MX");
@@ -114,7 +115,12 @@ export async function onRequest({ request, env }) {
 
   const pedido = armarPedido(pago);
   // Guarda el pedido para el panel de administración (también al reenviar a mano por GET, sin cambiar su estado).
-  if (env.BYANA) { try { await registrarPedido(env, pedido, pago); } catch (e) { console.error("No se pudo guardar el pedido", e); } }
+  if (env.BYANA) {
+    try {
+      if (await registrarPedido(env, pedido, pago))
+        await avisarAdmins(env, { title: `Nuevo pedido · ${pedido.total}`, body: `${pedido.cliente || "Cliente"} · ${pedido.productos.filter(i => !/env[ií]o/i.test(i.t)).map(i => `${i.q} × ${i.t}`).join(", ")}`.slice(0, 180), url: "/admin?ref=" + encodeURIComponent(pedido.ref) });
+    } catch (e) { console.error("No se pudo guardar el pedido o avisar", e); }
+  }
   if (!env.RESEND_API_KEY || !env.AVISO_EMAIL) { console.error("Falta RESEND_API_KEY o AVISO_EMAIL"); return ok("sin correo"); }
   // Registra el pedido (uso del cupón, historial de la cuenta, premio por recomendación) solo con el aviso real
   // de Mercado Pago, no al reenviar correos a mano por GET. Un mismo pago se registra una sola vez.
