@@ -69,6 +69,7 @@ export async function onRequest({ request, env }) {
       mercadopago: env.MP_ACCESS_TOKEN ? (env.MP_ACCESS_TOKEN.startsWith("TEST-") ? "token de prueba" : "token puesto") : "FALTA MP_ACCESS_TOKEN",
       resend: env.RESEND_API_KEY ? "clave puesta" : "FALTA RESEND_API_KEY",
       aviso_email: m ? m.replace(/^(.{2}).*(@.*)$/, "$1***$2") : "FALTA AVISO_EMAIL",
+      aviso_from: env.AVISO_FROM ? env.AVISO_FROM.replace(/<(.{2}).*(@.*)>/, "<$1***$2>") : "FALTA AVISO_FROM (no se manda correo al cliente)",
     }, null, 1), { headers: { "Content-Type": "application/json; charset=utf-8" } });
   }
   console.log("Aviso de Mercado Pago", request.method, url.search);
@@ -80,10 +81,10 @@ export async function onRequest({ request, env }) {
   if (!env.MP_ACCESS_TOKEN || tipo !== "payment" || !id) return ok("ignorado");
 
   const res = await fetch(`https://api.mercadopago.com/v1/payments/${id}`, { headers: { Authorization: `Bearer ${env.MP_ACCESS_TOKEN}` } });
-  if (!res.ok) { console.error("No se pudo leer el pago", id, res.status); return new Response("reintentar", { status: 500 }); }
+  if (!res.ok) { console.error("No se pudo leer el pago", id, res.status); return new Response("reintentar: Mercado Pago respondió " + res.status + " al leer el pago " + id, { status: 500 }); }
   const pago = await res.json();
   console.log("Pago", id, pago.status, accion);
-  if (pago.status !== "approved") return ok("no aprobado");
+  if (pago.status !== "approved") return ok("no aprobado: " + pago.status);
 
   // Mercado Pago manda varios avisos por pago: avisamos con el de creación (tarjeta, se aprueba al instante)
   // o con la actualización cuando la aprobación llegó después (OXXO, transferencia).
@@ -99,7 +100,7 @@ export async function onRequest({ request, env }) {
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.RESEND_API_KEY}` },
     body: JSON.stringify({ from: env.AVISO_FROM || "By Ana pedidos <onboarding@resend.dev>", to: env.AVISO_EMAIL.split(",").map(s => s.trim()), ...c }),
   });
-  if (!r.ok) { console.error("Resend respondió", r.status, (await r.text()).slice(0, 300)); return new Response("reintentar", { status: 500 }); }
+  if (!r.ok) { const t = (await r.text()).slice(0, 300); console.error("Resend respondió", r.status, t); return new Response("reintentar: Resend respondió " + r.status + " " + t, { status: 500 }); }
 
   // Confirmación al cliente: solo con remitente de byana.mx (Resend no deja mandar a clientes desde onboarding@resend.dev).
   const para = String(pedido.email || "").trim();
@@ -109,7 +110,8 @@ export async function onRequest({ request, env }) {
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.RESEND_API_KEY}` },
       body: JSON.stringify({ from: env.AVISO_FROM, to: [para], reply_to: "ventas@byana.mx", ...correoCliente(pedido) }),
     });
-    if (!rc.ok) console.error("Correo al cliente falló", rc.status, (await rc.text()).slice(0, 300));
+    if (!rc.ok) { const t = (await rc.text()).slice(0, 300); console.error("Correo al cliente falló", rc.status, t); return ok(`enviado a ${env.AVISO_EMAIL}; al cliente falló: ${rc.status} ${t}`); }
+    return ok(`enviado a ${env.AVISO_EMAIL} y al cliente ${para}`);
   }
-  return ok("enviado");
+  return ok(`enviado a ${env.AVISO_EMAIL}; al cliente no (${env.AVISO_FROM ? "el pago no trae correo" : "falta AVISO_FROM"})`);
 }
