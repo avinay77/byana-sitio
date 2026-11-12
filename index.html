@@ -64,7 +64,16 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:col
 nav{display:flex;gap:22px;font-size:.72rem}
 nav a{text-decoration:none;color:var(--ink-soft)}
 nav a:hover{color:var(--accent)}
-@media (max-width:760px){nav{display:none}.brand .caps{display:none}}
+.menu-btn{order:2;display:none;border:1px solid var(--line);background:#fff;border-radius:50%;width:40px;height:40px;place-items:center;cursor:pointer;color:var(--ink);flex:none}
+.menu-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+@media (max-width:760px){
+  .bar{flex-wrap:wrap}
+  .brand .caps{display:none}
+  .menu-btn{display:grid}
+  header nav.main{display:none;order:9;flex-basis:100%;flex-direction:column;gap:0;padding:4px 0 8px;font-size:.8rem}
+  header.open nav.main{display:flex}
+  header nav.main a{padding:13px 4px;border-top:1px solid var(--line)}
+}
 
 .season{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--paper)}
 .season button{font:500 .68rem var(--caps);letter-spacing:.16em;text-transform:uppercase;border:0;background:none;color:var(--ink-soft);padding:7px 12px;border-radius:999px;cursor:pointer}
@@ -287,7 +296,7 @@ footer .legal a:hover{color:var(--accent)}
 <header>
   <div class="wrap bar">
     <a class="brand" href="#inicio"><span class="script">By Ana</span><span class="caps">Estudio de detalles</span></a>
-    <nav class="caps" aria-label="Secciones">
+    <nav class="caps main" id="menu" aria-label="Secciones">
       <a href="#navidad">Navidad 2026</a><a href="#siempre">Todo el año</a><a href="#pedido">Cómo pedir</a><a href="#preguntas">Preguntas</a><a href="#contacto">Contacto</a>
     </nav>
     <div style="display:flex;align-items:center;gap:8px">
@@ -295,6 +304,7 @@ footer .legal a:hover{color:var(--accent)}
       <a href="https://www.instagram.com/byana.mx/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><use href="#i-ig"/></svg></a>
       <a href="https://wa.me/525529434279" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></a>
     </div>
+    <button class="menu-btn" id="menu-btn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <div class="season" role="group" aria-label="Temporada">
       <button id="s-navidad" aria-pressed="true" data-s="navidad">Navidad</button>
       <button id="s-siempre" aria-pressed="false" data-s="siempre">Todo el año</button>
@@ -846,6 +856,11 @@ function setSeason(s){
   ["navidad","siempre"].forEach(id=>{ document.getElementById(id).hidden = id!==s; });
   try{ localStorage.setItem("byana-season", s); }catch(e){}
 }
+(()=>{ const h = document.querySelector("header"), b = $("menu-btn");
+  const set = o => { h.classList.toggle("open", o); b.setAttribute("aria-expanded", o); b.setAttribute("aria-label", o ? "Cerrar menú" : "Abrir menú"); };
+  b.addEventListener("click", ()=>set(!h.classList.contains("open")));
+  $("menu").addEventListener("click", e=>{ if(e.target.closest("a")) set(false); });
+})();
 document.querySelector(".season").addEventListener("click", e=>{ const b=e.target.closest("button"); if(b) setSeason(b.dataset.s); });
 document.querySelectorAll('a[href="#navidad"],a[href="#siempre"]').forEach(a=>a.addEventListener("click", ()=>setSeason(a.getAttribute("href").slice(1))));
 let s0 = "navidad";
