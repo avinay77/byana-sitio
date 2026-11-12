@@ -1719,11 +1719,29 @@
    "id": "n68c",
    "c": "Joyería",
    "t": "Pulsera Abundancia y suerte",
-   "d": "Con 4 dijes.",
+   "d": "Hilo rojo con ojo turco y 4 dijes a elegir.",
    "v": [
     {
      "n": "",
      "p": 250
+    }
+   ],
+   "op": [
+    {
+     "n": "Dije",
+     "l": [
+      "Trébol",
+      "Estrella",
+      "Elefante",
+      "Herradura",
+      "Mano de Fátima",
+      "Medalla de San Benito",
+      "Medalla de la Virgen",
+      "Llave",
+      "Corazón",
+      "Flor"
+     ],
+     "c": 4
     }
    ]
   },
