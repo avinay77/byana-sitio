@@ -10,6 +10,9 @@
      "n": "",
      "p": 310
     }
+   ],
+   "f": [
+    "n05a-2"
    ]
   },
   {
@@ -22,6 +25,9 @@
      "n": "",
      "p": 300
     }
+   ],
+   "f": [
+    "n06a-2"
    ]
   },
   {
@@ -46,6 +52,9 @@
      "n": "",
      "p": 375
     }
+   ],
+   "f": [
+    "n08a-2"
    ]
   },
   {
@@ -58,6 +67,9 @@
      "n": "",
      "p": 130
     }
+   ],
+   "f": [
+    "n09a-2"
    ]
   },
   {
@@ -70,6 +82,9 @@
      "n": "",
      "p": 310
     }
+   ],
+   "f": [
+    "n10a-2"
    ]
   },
   {
@@ -111,6 +126,9 @@
      "n": "",
      "p": 130
     }
+   ],
+   "f": [
+    "n14a-2"
    ]
   },
   {
@@ -123,6 +141,9 @@
      "n": "",
      "p": 240
     }
+   ],
+   "f": [
+    "n15a-2"
    ]
   },
   {
@@ -144,7 +165,12 @@
      "p": 85
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n16a-2",
+    "n16a-3",
+    "n16a-4"
+   ]
   },
   {
    "id": "n16b",
@@ -161,7 +187,12 @@
      "p": 290
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n16b-2",
+    "n16b-3",
+    "n16b-4"
+   ]
   },
   {
    "id": "n18a",
@@ -173,6 +204,9 @@
      "n": "",
      "p": 260
     }
+   ],
+   "f": [
+    "n18a-2"
    ]
   },
   {
@@ -190,7 +224,10 @@
      "p": 260
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n19a-2"
+   ]
   },
   {
    "id": "n20a",
@@ -238,7 +275,11 @@
      "p": 400
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n21a-2",
+    "n21a-3"
+   ]
   },
   {
    "id": "n22a",
@@ -259,13 +300,17 @@
      "p": 385
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n22a-2",
+    "n22a-3"
+   ]
   },
   {
    "id": "n23a",
    "c": "Regalos",
    "t": "Room spray",
-   "d": "10 ml $60, 30 ml $90, ámbar 60 ml $120, 60 ml $150, ámbar 100 ml $190, 100 ml $230. Villa Navideña o Bergamota.",
+   "d": "10 ml $60, 30 ml $90, 60 ml ámbar $120 o transparente $150, 100 ml ámbar $190 o transparente $230. Villa Navideña o Bergamota.",
    "v": [
     {
      "n": "10 ml",
@@ -276,36 +321,39 @@
      "p": 90
     },
     {
-     "n": "Ámbar 60 ml",
+     "n": "60 ml ámbar",
      "p": 120
     },
     {
-     "n": "60 ml",
+     "n": "60 ml transparente",
      "p": 150
     },
     {
-     "n": "Ámbar 100 ml",
+     "n": "100 ml ámbar",
      "p": 190
     },
     {
-     "n": "100 ml",
+     "n": "100 ml transparente",
      "p": 230
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n23a-2"
+   ]
   },
   {
    "id": "n24a",
    "c": "Velas",
    "t": "Velas navideñas de soya",
-   "d": "Tapa de corcho $135, 4 oz $175, 7 oz ámbar $280, 9 oz $385. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.",
+   "d": "Tapa de corcho $135, 4 oz transparente $175, 7 oz ámbar $280, 9 oz transparente $385. Aromas: Villa Navideña, Bergamota, Manzana-Canela y Vainilla-Canela.",
    "v": [
     {
      "n": "Tapa de corcho",
      "p": 135
     },
     {
-     "n": "4 oz",
+     "n": "4 oz transparente",
      "p": 175
     },
     {
@@ -313,7 +361,7 @@
      "p": 280
     },
     {
-     "n": "9 oz",
+     "n": "9 oz transparente",
      "p": 385
     }
    ],
@@ -365,6 +413,9 @@
      "n": "",
      "p": 950
     }
+   ],
+   "f": [
+    "n28a-2"
    ]
   },
   {
@@ -529,7 +580,10 @@
      "p": 590
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n41a-2"
+   ]
   },
   {
    "id": "n43a",
@@ -620,7 +674,10 @@
      "p": 580
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n49a-2"
+   ]
   },
   {
    "id": "n50a",
@@ -661,7 +718,12 @@
      "p": 675
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n50a-2",
+    "n50a-3",
+    "n50a-4"
+   ]
   },
   {
    "id": "n51a",
@@ -731,7 +793,10 @@
      "p": 250
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n53a-2"
+   ]
   },
   {
    "id": "n54a",
@@ -755,7 +820,10 @@
     ],
     "max": 20,
     "label": "Nombre o texto para los tags"
-   }
+   },
+   "f": [
+    "n54a-2"
+   ]
   },
   {
    "id": "n57a",
@@ -807,6 +875,9 @@
      "n": "",
      "p": 700
     }
+   ],
+   "f": [
+    "n58a-2"
    ]
   },
   {
@@ -819,6 +890,10 @@
      "n": "",
      "p": 230
     }
+   ],
+   "f": [
+    "n59a-2",
+    "n59a-3"
    ]
   },
   {
@@ -831,6 +906,10 @@
      "n": "",
      "p": 210
     }
+   ],
+   "f": [
+    "n60a-2",
+    "n60a-3"
    ]
   },
   {
@@ -843,20 +922,32 @@
      "n": "",
      "p": 420
     }
+   ],
+   "f": [
+    "n61a-2",
+    "n61a-3"
    ]
   },
   {
    "id": "n62a",
    "c": "Joyería",
    "t": "Collar doble perla e inicial",
-   "d": "Perla de 40 cm e inicial de 45 cm, con extensión de 5 cm. En línea: solo perla $250. El collar doble, cotízalo por WhatsApp.",
+   "d": "Perla de 40 cm e inicial de 45 cm, con extensión de 5 cm. Doble $460 o solo el collar de perla $250.",
    "v": [
     {
-     "n": "Solo perla",
+     "n": "Doble: perla e inicial",
+     "p": 460
+    },
+    {
+     "n": "Solo collar de perla",
      "p": 250
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n62a-2",
+    "n62a-3"
+   ]
   },
   {
    "id": "n63a",
@@ -868,6 +959,10 @@
      "n": "",
      "p": 285
     }
+   ],
+   "f": [
+    "n63a-2",
+    "n63a-3"
    ]
   },
   {
@@ -885,7 +980,11 @@
      "p": 230
     }
    ],
-   "from": 1
+   "from": 1,
+   "f": [
+    "n64a-2",
+    "n64a-3"
+   ]
   },
   {
    "id": "n65a",
@@ -1112,6 +1211,9 @@
      "n": "",
      "p": 75
     }
+   ],
+   "f": [
+    "n71a-2"
    ]
   },
   {
@@ -1124,6 +1226,9 @@
      "n": "",
      "p": 290
     }
+   ],
+   "f": [
+    "n72a-2"
    ]
   }
  ],
@@ -1213,7 +1318,7 @@
   }
  ],
  "envio": {
-  "gratisDesde": 1000,
+  "gratisDesde": 1500,
   "opciones": [
    {
     "id": "cdmx",

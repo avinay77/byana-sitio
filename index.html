@@ -162,9 +162,18 @@ dialog::backdrop{background:rgba(40,35,32,.45)}
 .dlg-h{display:flex;justify-content:space-between;align-items:start;gap:12px}
 .dlg-h h2{margin:0;font-family:var(--caps);font-weight:400;font-size:1.15rem;letter-spacing:.04em;line-height:1.3}
 .x{border:0;background:none;font-size:1.6rem;line-height:1;color:var(--ink-soft);cursor:pointer;padding:0 4px}
-.pd-top{display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:start}
-.pd-top img{width:110px;height:110px;object-fit:cover;border-radius:2px;background:var(--wash)}
+.pd-top{display:flex;flex-direction:column;gap:10px}
 .pd-top p{margin:0;font-size:.88rem;color:var(--ink-soft)}
+.gal{display:flex;flex-direction:column;gap:8px}
+.gal>img{width:100%;aspect-ratio:1/1;max-height:min(46dvh,420px);object-fit:contain;border-radius:2px;background:var(--wash)}
+.thumbs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.thumbs:empty{display:none}
+.thumbs button{flex:0 0 auto;padding:0;border:2px solid transparent;border-radius:3px;background:none;cursor:pointer;line-height:0}
+.thumbs button[aria-current="true"]{border-color:var(--accent)}
+.thumbs img{width:56px;height:56px;object-fit:cover;border-radius:2px}
+.card figure{position:relative}
+.card figure.zoom{cursor:zoom-in}
+.nfotos{position:absolute;right:8px;bottom:8px;font:500 .62rem var(--caps);letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.88);color:var(--ink);padding:4px 8px;border-radius:999px}
 .fld{display:flex;flex-direction:column;gap:5px;font-size:.85rem}
 .fld>span:first-child{font:500 .62rem var(--caps);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
 .fld input,.fld select,.fld textarea{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:3px;padding:10px 12px;width:100%}
@@ -215,7 +224,7 @@ footer .legal a:hover{color:var(--accent)}
 .especial h2{margin:0;font-family:var(--caps);font-weight:300;font-size:clamp(1.3rem,2.6vw,1.8rem);letter-spacing:.05em}
 .especial h2 .script{color:var(--accent);font-size:1.5em}
 .especial p{margin:.3em 0 0;color:var(--ink-soft);max-width:36em}
-@media (max-width:520px){.row2{grid-template-columns:1fr}.pd-top{grid-template-columns:80px 1fr}.pd-top img{width:80px;height:80px}}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -314,7 +323,7 @@ footer .legal a:hover{color:var(--accent)}
       <div class="head"><h2><span class="script">Cómo pedir</span>En tres pasos</h2></div>
       <div class="steps">
         <div class="step"><h3>Elige tus detalles</h3><p>Agrégalos al carrito, hasta 20 piezas, o escríbenos por WhatsApp si quieres algo personalizado.</p></div>
-        <div class="step"><h3>Paga o aparta</h3><p id="step-pago">En la página pagas el total con Mercado Pago: tarjeta, OXXO o transferencia. Por WhatsApp apartas con el 50% de anticipo.</p></div>
+        <div class="step"><h3>Paga o aparta</h3><p id="step-pago">En la página pagas con Mercado Pago: tarjeta, OXXO o transferencia. Si pides por WhatsApp, te mandamos la cotización y empezamos al recibir tu pago.</p></div>
         <div class="step"><h3>Recibe en 2 a 7 días</h3><p>Días hábiles, según la cantidad y la personalización.</p></div>
       </div>
     </div>
@@ -356,7 +365,7 @@ footer .legal a:hover{color:var(--accent)}
 <dialog id="dlg-product" aria-labelledby="pd-title">
   <div class="dlg">
     <div class="dlg-h"><h2 id="pd-title"></h2><button class="x" type="button" aria-label="Cerrar">×</button></div>
-    <div class="pd-top"><img id="pd-img" alt=""><p id="pd-desc"></p></div>
+    <div class="pd-top"><div class="gal"><img id="pd-img" alt=""><div class="thumbs" id="pd-thumbs" role="group" aria-label="Fotos del producto"></div></div><p id="pd-desc"></p></div>
     <label class="fld" id="pd-var-wrap"><span>Opción</span><select id="pd-var"></select></label>
     <label class="fld"><span>Piezas</span><input id="pd-qty" type="number" inputmode="numeric" min="1" max="20" value="1"></label>
     <label class="fld" id="pd-tag-wrap" hidden><span id="pd-tag-label">Texto</span><input id="pd-tag" type="text" autocomplete="off" placeholder="Ej. Familia López"><small id="pd-tag-count"></small></label>
@@ -434,7 +443,7 @@ function card(x, season){
     ? `<button type="button" class="add" data-id="${x.id}">Agregar</button>`
     : `<a class="ask" href="${WA}${msg}" target="_blank" rel="noopener">Cotizar →</a>`;
   return `<article class="card" data-c="${esc(x.c)}">
-    <figure><img loading="lazy" src="img/${x.id}.jpg" alt="${esc(x.t)}"></figure>
+    <figure${x.v?` class="zoom" data-id="${x.id}"`:""}><img loading="lazy" src="img/${x.id}.jpg" alt="${esc(x.t)}">${x.f&&x.f.length?`<span class="nfotos">${x.f.length+1} fotos</span>`:""}</figure>
     <div class="tag caps">${esc(x.c)}</div><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p>
     <div class="foot">${price}<span class="acts">${x.v?`<a class="ask q" href="${WA}${msg}" target="_blank" rel="noopener" aria-label="Preguntar por WhatsApp">Preguntar</a>`:''}${acts}</span></div>
   </article>`;
@@ -450,13 +459,13 @@ function mount(id, list){
     chips.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b));
     grid.querySelectorAll(".card").forEach(el=>{ const hide = b.dataset.c!=="Todo" && el.dataset.c!==b.dataset.c; el.hidden = hide; el.style.display = hide ? "none" : ""; });
   });
-  grid.addEventListener("click", e=>{ const b = e.target.closest(".add"); if(b) openProduct(b.dataset.id); });
+  grid.addEventListener("click", e=>{ const b = e.target.closest(".add, figure.zoom"); if(b) openProduct(b.dataset.id); });
 }
 
 /* ---------- Carrito ---------- */
 let cart = [];
-try{ cart = JSON.parse(localStorage.getItem("byana-cart")||"[]"); if(!Array.isArray(cart)) cart = []; }catch(e){ cart = []; }
-const save = () => { try{ localStorage.setItem("byana-cart", JSON.stringify(cart)); }catch(e){} };
+try{ cart = JSON.parse(localStorage.getItem("byana-cart2")||"[]"); if(!Array.isArray(cart)) cart = []; }catch(e){ cart = []; }
+const save = () => { try{ localStorage.setItem("byana-cart2", JSON.stringify(cart)); }catch(e){} };
 const piezas = () => cart.reduce((s,i)=>s+i.qty,0);
 const lineInfo = i => { const p = PRODUCTOS.get(i.id); const v = p && p.v && p.v[i.v]; return p && v ? {p,v} : null; };
 const total = () => cart.reduce((s,i)=>{ const l=lineInfo(i); return s + (l ? l.v.p*i.qty : 0); },0);
@@ -491,7 +500,12 @@ let cur = null;
 function openProduct(id){
   const p = PRODUCTOS.get(id); if(!p) return; cur = p;
   $("pd-title").textContent = p.t;
-  $("pd-img").src = `img/${p.id}.jpg`; $("pd-img").alt = p.t;
+  const fotos = [p.id, ...(p.f||[])];
+  const verFoto = i => { $("pd-img").src = `img/${fotos[i]}.jpg`; $("pd-thumbs").querySelectorAll("button").forEach((b,k)=>b.setAttribute("aria-current", k===i)); };
+  $("pd-img").alt = p.t;
+  $("pd-thumbs").innerHTML = fotos.length > 1 ? fotos.map((f,i)=>`<button type="button" data-i="${i}" aria-label="Foto ${i+1}"><img src="img/${f}.jpg" alt="" loading="lazy"></button>`).join("") : "";
+  $("pd-thumbs").onclick = e => { const b = e.target.closest("button"); if(b) verFoto(+b.dataset.i); };
+  verFoto(0);
   $("pd-desc").textContent = p.d;
   const sel = $("pd-var");
   sel.innerHTML = p.v.map((v,i)=>`<option value="${i}">${esc(v.n||p.t)} · ${money(v.p)}</option>`).join("");
@@ -612,8 +626,8 @@ function setPago(on){
   const wa = $("cart-wa");
   wa.classList.toggle("solid", !on); wa.classList.toggle("ghost", on);
   wa.textContent = on ? "Mejor pedir por WhatsApp" : "Enviar pedido por WhatsApp";
-  $("cart-fine").firstChild.textContent = (on ? "Se paga el total del pedido. " : "Ana te confirma por WhatsApp y apartas con el 50%. ") + "¿Quieres algo especial o más de 20 piezas? ";
-  if(!on) $("step-pago").textContent = "Mándanos tu carrito por WhatsApp y aparta con el 50% de anticipo. El otro 50% se cubre antes de la entrega.";
+  $("cart-fine").firstChild.textContent = (on ? "Se paga el total del pedido. " : "Ana te confirma tu pedido por WhatsApp. ") + "¿Quieres algo especial o más de 20 piezas? ";
+  if(!on) $("step-pago").textContent = "Mándanos tu carrito por WhatsApp; Ana te confirma y empezamos al recibir tu pago.";
 }
 setPago(false);
 fetch("/api/crear-pago").then(r=>r.ok?r.json():{}).then(d=>setPago(!!d.activo)).catch(()=>{});
