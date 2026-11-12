@@ -66,7 +66,9 @@ nav a{text-decoration:none;color:var(--ink-soft)}
 nav a:hover{color:var(--accent)}
 .menu-btn{order:2;display:none;border:1px solid var(--line);background:#fff;border-radius:50%;width:40px;height:40px;place-items:center;cursor:pointer;color:var(--ink);flex:none}
 .menu-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
-@media (max-width:760px){
+header nav a{white-space:nowrap}
+@media (max-width:1180px){header .social{display:none}}
+@media (max-width:1024px){
   .bar{flex-wrap:wrap}
   .brand .caps{display:none}
   .menu-btn{display:grid}
@@ -75,8 +77,29 @@ nav a:hover{color:var(--accent)}
   header nav.main a{padding:13px 4px;border-top:1px solid var(--line)}
 }
 
+.acct-btn{order:1;position:relative;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:999px;height:40px;padding:0 14px 0 11px;cursor:pointer;color:var(--ink);font:500 .62rem var(--caps);letter-spacing:.14em;text-transform:uppercase;flex:none;max-width:160px}
+.acct-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;flex:none}
+.acct-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-btn.in{border-color:var(--pine);color:var(--pine)}
+.acct-btn{width:40px;padding:0;justify-content:center}.acct-btn span{display:none}
+.acct-btn.in::after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:var(--pine);border:2px solid var(--paper);transform:translate(12px,-12px)}
+.ct-sec{border-top:1px solid var(--line);padding-top:14px}
+.ct-sec h3{margin:0 0 8px;font:500 .66rem var(--caps);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.ct-ref{background:var(--wash);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.ct-ref p{margin:0;font-size:.92rem}
+.ct-code{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ct-code b{font:600 1.05rem ui-monospace,Menlo,monospace;letter-spacing:.06em;color:var(--accent);border:1px dashed var(--gold);border-radius:3px;padding:6px 10px;background:#fff}
+.ct-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:.9rem}
+.ct-list li{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);border-radius:3px;padding:9px 12px;background:#fff}
+.ct-list li div{min-width:0}
+.ct-list small{display:block;color:var(--ink-soft);font-size:.78rem}
+.ct-list .off{opacity:.55}
+.ct-links{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.82rem}
+.ct-links button{border:0;background:none;color:var(--ink-soft);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+.ct-hint{margin:0;font-size:.82rem;color:var(--ink-soft)}
+.ct-hint button{border:0;background:none;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
 .season{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--paper)}
-.season button{font:500 .68rem var(--caps);letter-spacing:.16em;text-transform:uppercase;border:0;background:none;color:var(--ink-soft);padding:7px 12px;border-radius:999px;cursor:pointer}
+.season button{white-space:nowrap;font:500 .68rem var(--caps);letter-spacing:.16em;text-transform:uppercase;border:0;background:none;color:var(--ink-soft);padding:7px 12px;border-radius:999px;cursor:pointer}
 .season button[aria-pressed="true"]{background:var(--accent);color:#fff}
 
 /* Hero */
@@ -342,6 +365,7 @@ body[data-season="siempre"] .prod,body[data-season="siempre"] .hs-ctl{display:no
       <a href="https://www.instagram.com/byana.mx/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><use href="#i-ig"/></svg></a>
       <a href="https://wa.me/525529434279" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></a>
     </div>
+    <button class="acct-btn" id="acct-btn" type="button" aria-label="Mi cuenta"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span id="acct-lbl">Mi cuenta</span></button>
     <button class="menu-btn" id="menu-btn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <div class="season" role="group" aria-label="Temporada">
       <button id="s-navidad" aria-pressed="true" data-s="navidad">Navidad</button>
@@ -577,11 +601,12 @@ body[data-season="siempre"] .prod,body[data-season="siempre"] .hs-ctl{display:no
     <ul class="cart-list" id="cart-items"></ul>
     <div class="sum"><span class="caps" style="font-size:.7rem" id="cart-pzs"></span><strong id="cart-total">$0</strong></div>
     <div class="cupon">
-      <div class="cup-row" id="cupon-form"><input id="c-cupon" maxlength="24" placeholder="¿Tienes un cupón?" autocomplete="off" autocapitalize="characters" aria-label="Código de cupón"><button type="button" class="mini" id="c-cupon-btn">Aplicar</button></div>
+      <div class="cup-row" id="cupon-form"><input id="c-cupon" maxlength="24" placeholder="¿Cupón o código de un amigo?" autocomplete="off" autocapitalize="characters" aria-label="Código de cupón"><button type="button" class="mini" id="c-cupon-btn">Aplicar</button></div>
       <div class="cup-ok" id="cupon-ok" hidden><span id="cupon-txt"></span><strong id="cupon-desc"></strong><button type="button" class="cup-x" id="c-cupon-x">Quitar</button></div>
       <p class="cup-msg" id="cupon-msg" role="status"></p>
     </div>
     <p class="warn" id="cart-limit"></p>
+    <p class="ct-hint" id="cart-cuenta"><button type="button" data-cuenta>Entra a tu cuenta</button> para llenar tus datos y guardar tu pedido, o sigue como invitado.</p>
     <div class="row2">
       <label class="fld"><span>Nombre</span><input id="c-nombre" required autocomplete="name" maxlength="60"></label>
       <label class="fld"><span>WhatsApp</span><input id="c-tel" required type="tel" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="10 dígitos"></label>
@@ -618,6 +643,46 @@ body[data-season="siempre"] .prod,body[data-season="siempre"] .hs-ctl{display:no
     <p id="ty-text" style="margin:0;color:var(--ink-soft)"></p>
     <p id="ty-ref" class="caps" style="margin:0;font-size:.7rem"></p>
     <a class="btn solid" id="ty-wa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>Enviar pedido a Ana</a>
+    <p class="ct-hint" id="ty-cuenta" hidden><button type="button" data-cuenta>Crea tu cuenta</button> para guardar tus datos, ver tus próximos pedidos y ganar $100 por cada amigo que nos compre.</p>
+  </div>
+</dialog>
+
+<dialog id="dlg-cuenta" aria-labelledby="ct-title">
+  <div class="dlg">
+    <div class="dlg-h"><h2 id="ct-title">Mi cuenta</h2><button class="x" type="button" aria-label="Cerrar">×</button></div>
+    <form id="ct-paso1" novalidate>
+      <p style="margin:0 0 12px;color:var(--ink-soft);font-size:.92rem">Entra con tu correo, sin contraseña: te mandamos un código de 6 dígitos. Con tu cuenta guardas tus datos, ves tus pedidos y ganas $100 por cada amigo que nos compre. Comprar sin cuenta sigue funcionando igual.</p>
+      <label class="fld"><span>Correo</span><input id="ct-email" type="email" autocomplete="email" inputmode="email" maxlength="120" required></label>
+      <p class="warn" id="ct-err1" role="alert"></p>
+      <button class="btn solid" type="submit" id="ct-mandar">Mandarme el código</button>
+    </form>
+    <form id="ct-paso2" novalidate hidden>
+      <p style="margin:0 0 12px;font-size:.92rem">Te mandamos un código a <b id="ct-email-v"></b>. Revisa también la carpeta de spam o promociones.</p>
+      <label class="fld"><span>Código</span><input id="ct-codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" required style="letter-spacing:.3em;font-size:20px"></label>
+      <p class="warn" id="ct-err2" role="alert"></p>
+      <button class="btn solid" type="submit" id="ct-entrar">Entrar</button>
+      <div class="ct-links" style="margin-top:10px"><button type="button" id="ct-otro">Cambiar correo</button><button type="button" id="ct-reenviar">Mandar otro código</button></div>
+    </form>
+    <div id="ct-panel" hidden style="display:flex;flex-direction:column;gap:14px">
+      <p style="margin:0" id="ct-hola"></p>
+      <div class="ct-ref">
+        <p><b>Recomienda a un amigo y gana <span id="ct-premio">$100</span>.</b> Cuando alguien haga su primera compra con tu código, te llega un cupón de <span class="ct-premio2">$100</span> para tu siguiente pedido.</p>
+        <div class="ct-code"><b id="ct-ref"></b><button type="button" class="mini" id="ct-ref-share">Compartir</button></div>
+        <p style="font-size:.8rem;color:var(--ink-soft)" id="ct-refs-n"></p>
+      </div>
+      <div class="ct-sec"><h3>Tus cupones</h3><ul class="ct-list" id="ct-cupones"></ul></div>
+      <div class="ct-sec"><h3>Tus pedidos</h3><ul class="ct-list" id="ct-pedidos"></ul></div>
+      <form class="ct-sec" id="ct-datos" novalidate>
+        <h3>Tus datos</h3>
+        <div class="row2">
+          <label class="fld"><span>Nombre</span><input id="ct-nombre" autocomplete="name" maxlength="60"></label>
+          <label class="fld"><span>WhatsApp</span><input id="ct-tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="10 dígitos"></label>
+        </div>
+        <p class="ct-hint" id="ct-dir" style="margin-top:8px"></p>
+        <button class="btn ghost" type="submit" style="margin-top:10px" id="ct-guardar">Guardar datos</button>
+      </form>
+      <div class="ct-links"><button type="button" id="ct-salir">Salir de mi cuenta</button><button type="button" id="ct-borrar">Borrar mi cuenta</button></div>
+    </div>
   </div>
 </dialog>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -700,7 +765,7 @@ function syncCupon(){
   $("cupon-form").hidden = !!CUPON; $("cupon-ok").hidden = !CUPON;
   if(!CUPON) return;
   const d = descuento();
-  $("cupon-txt").textContent = `Cupón ${CUPON.codigo} · ${CUPON.etiqueta}`;
+  $("cupon-txt").textContent = CUPON.tipo === "ref" ? `${CUPON.etiqueta} 💛` : `Cupón ${CUPON.codigo} · ${CUPON.etiqueta}`;
   $("cupon-desc").textContent = d ? "−" + money(d) : "";
   if(!d && CUPON.minimo && cart.length) $("cupon-msg").textContent = `Aplica desde ${money(CUPON.minimo)} en productos.`;
   else if($("cupon-msg").dataset.auto) $("cupon-msg").textContent = "";
@@ -876,7 +941,7 @@ $("cart-items").addEventListener("click", e=>{
 ["pd-var","pd-ar","pd-qty","pd-tag"].forEach(id=>$(id).addEventListener("input", syncProduct));
 $("pd-ops").addEventListener("change", syncProduct);
 $("pd-add").addEventListener("click", addCurrent);
-$("cart-btn").addEventListener("click", ()=>{ renderCart(); $("cart-err").textContent=""; $("dlg-cart").showModal(); });
+$("cart-btn").addEventListener("click", ()=>{ renderCart(); llenarCarrito(); $("cart-err").textContent=""; $("dlg-cart").showModal(); });
 document.querySelectorAll("dialog .x").forEach(b=>b.addEventListener("click", ()=>b.closest("dialog").close()));
 document.querySelectorAll("dialog").forEach(d=>d.addEventListener("click", e=>{ if(e.target===d) d.close(); }));
 
@@ -895,7 +960,7 @@ $("cart-form").addEventListener("submit", async e=>{
   if(piezas() > MAX_PIEZAS){ err.innerHTML = `Máximo ${MAX_PIEZAS} piezas en línea. <a href="${waLimite()}" target="_blank" rel="noopener">Pide por WhatsApp</a>.`; return; }
   btn.disabled = true; btn.textContent = "Conectando con Mercado Pago…";
   try{
-    const r = await fetch("/api/crear-pago", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ items: cart, cliente, envio, ...(descuento() ? { cupon: CUPON.codigo } : {}) }) });
+    const r = await fetch("/api/crear-pago", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ items: cart, cliente, envio, ...(CUPON && CUPON.tipo === "ref" ? { referido: CUPON.codigo } : descuento() ? { cupon: CUPON.codigo } : {}) }) });
     const data = await r.json().catch(()=>({}));
     if(!r.ok || !data.url) throw Object.assign(new Error(data.error || "No pudimos iniciar el pago."), {data});
     try{ localStorage.setItem("byana-pending", JSON.stringify({ ref:data.ref, cliente, resumen: resumen() })); }catch(e){}
@@ -924,6 +989,7 @@ $("cart-form").addEventListener("submit", async e=>{
   $("ty-wa").href = WA + encodeURIComponent(msg);
   if(ok || st==="pendiente"){ cart = []; save(); try{ localStorage.removeItem("byana-pending"); localStorage.removeItem("byana-cupon"); }catch(e){} CUPON = null; }
   history.replaceState(null, "", location.pathname + location.hash);
+  window.__gracias = true;
   addEventListener("load", ()=>$("dlg-thanks").showModal());
 })();
 
@@ -1007,6 +1073,113 @@ let s0 = "navidad";
 try{ const s = localStorage.getItem("byana-season"); if(s==="siempre"||s==="navidad") s0 = s; }catch(e){}
 if(location.hash==="#siempre"||location.hash==="#navidad") s0 = location.hash.slice(1);
 setSeason(s0);
+
+/* Cuenta de cliente (opcional) */
+let CUENTA = null;
+const primerNombre = n => String(n||"").trim().split(/\s+/)[0] || "";
+function pintarCuenta(){
+  const b = $("acct-btn"), n = CUENTA && primerNombre(CUENTA.nombre);
+  b.classList.toggle("in", !!CUENTA);
+  $("acct-lbl").textContent = CUENTA ? (n || "Mi cuenta") : "Entrar";
+  b.setAttribute("aria-label", CUENTA ? "Mi cuenta" : "Entrar a mi cuenta"); b.title = CUENTA ? `Mi cuenta${n ? " · " + n : ""}` : "Entrar a mi cuenta";
+  $("cart-cuenta").hidden = !!CUENTA;
+  $("ty-cuenta").hidden = !!CUENTA || !window.__gracias;
+  $("ct-paso1").hidden = !!CUENTA; $("ct-paso2").hidden = true; $("ct-panel").hidden = !CUENTA;
+  $("ct-title").textContent = CUENTA ? "Mi cuenta" : "Entrar a mi cuenta";
+  if(!CUENTA) return;
+  $("ct-hola").innerHTML = `Hola${n ? ", <b>" + esc(n) + "</b>" : ""}. <small style="color:var(--ink-soft)">${esc(CUENTA.email)}</small>`;
+  $("ct-ref").textContent = CUENTA.ref;
+  $("ct-premio").textContent = money(CUENTA.premio); document.querySelectorAll(".ct-premio2").forEach(x=>x.textContent = money(CUENTA.premio));
+  $("ct-refs-n").textContent = CUENTA.referidos ? `Llevas ${CUENTA.referidos} amigo${CUENTA.referidos===1?"":"s"} recomendado${CUENTA.referidos===1?"":"s"}. ¡Gracias!` : "Tus amigos lo escriben en el carrito, donde dice “¿Cupón o código de un amigo?”, o entran con tu enlace.";
+  $("ct-cupones").innerHTML = CUENTA.cupones.length ? CUENTA.cupones.map(c=>`<li class="${c.estado==="disponible"?"":"off"}"><div><b>${esc(c.codigo)}</b> · ${esc(c.etiqueta)}<small>${c.estado==="disponible" ? (c.minimo ? "En compras desde " + money(c.minimo) : "Listo para usar") : c.estado==="usado" ? "Ya lo usaste" : "Ya no está disponible"}</small></div>${c.estado==="disponible" ? `<button type="button" class="mini" data-usar="${esc(c.codigo)}">Usar</button>` : ""}</li>`).join("") : `<li><div><small>Aquí aparecerán los cupones que ganes al recomendarnos.</small></div></li>`;
+  $("ct-pedidos").innerHTML = CUENTA.pedidos.length ? CUENTA.pedidos.map(p=>`<li><div><b>${esc(p.total)}</b> · ${esc(new Date(p.fecha).toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"}))}<small>${esc((p.productos||[]).join(", "))}</small><small>Pedido ${esc(p.ref)}</small></div></li>`).join("") : `<li><div><small>Todavía no tienes pedidos con esta cuenta.</small></div></li>`;
+  $("ct-nombre").value = CUENTA.nombre || ""; $("ct-tel").value = CUENTA.tel || "";
+  const d = CUENTA.dir;
+  $("ct-dir").textContent = d && d.calle ? `Dirección guardada: ${[d.calle, d.colonia, d.cp, d.municipio, d.estado].filter(Boolean).join(", ")}. Se actualiza cada vez que pagas.` : "Tu dirección se guarda la primera vez que pagas un envío.";
+}
+// Llena el carrito con los datos guardados (sin borrar lo que la persona ya escribió).
+function llenarCarrito(){
+  if(!CUENTA) return;
+  const pon = (id, v) => { if(v && !$(id).value.trim()) $(id).value = v; };
+  pon("c-nombre", CUENTA.nombre); pon("c-tel", CUENTA.tel);
+  const d = CUENTA.dir;
+  if(d && d.calle && !$("d-calle").value.trim()){
+    pon("d-cp", d.cp); pon("d-colonia", d.colonia); pon("d-calle", d.calle); pon("d-municipio", d.municipio); pon("d-estado", d.estado); pon("d-refs", d.refs);
+    $("d-colsel-wrap").hidden = true; $("d-colonia-wrap").hidden = false;
+  }
+}
+async function cargarCuenta(){
+  try{ const r = await fetch("/api/cuenta", { credentials:"same-origin" }); CUENTA = r.ok ? await r.json() : null; }
+  catch(e){ CUENTA = null; }
+  pintarCuenta(); llenarCarrito();
+}
+const apiCuenta = async (url, body, method="POST") => {
+  const r = await fetch(url, { method, headers:{ "Content-Type":"application/json" }, credentials:"same-origin", body: body ? JSON.stringify(body) : undefined });
+  const d = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(d.error || "Algo falló. Intenta de nuevo.");
+  return d;
+};
+function abrirCuenta(){ pintarCuenta(); document.querySelectorAll("dialog[open]").forEach(d=>d.close()); $("dlg-cuenta").showModal(); if(!CUENTA) setTimeout(()=>$("ct-email").focus(), 50); }
+$("acct-btn").addEventListener("click", abrirCuenta);
+document.querySelectorAll("[data-cuenta]").forEach(b=>b.addEventListener("click", abrirCuenta));
+async function mandarCodigo(){
+  const email = $("ct-email").value.trim(), err = $("ct-err1"), b = $("ct-mandar");
+  err.textContent = "";
+  if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)){ err.textContent = "Escribe un correo válido."; $("ct-email").focus(); return false; }
+  b.disabled = true; b.textContent = "Mandando…";
+  try{ await apiCuenta("/api/cuenta/codigo", { email }); $("ct-email-v").textContent = email; $("ct-paso1").hidden = true; $("ct-paso2").hidden = false; $("ct-err2").textContent = ""; $("ct-codigo").value = ""; $("ct-codigo").focus(); return true; }
+  catch(e){ (($("ct-paso2").hidden) ? err : $("ct-err2")).textContent = e.message; return false; }
+  finally{ b.disabled = false; b.textContent = "Mandarme el código"; }
+}
+$("ct-paso1").addEventListener("submit", e=>{ e.preventDefault(); mandarCodigo(); });
+$("ct-reenviar").addEventListener("click", async ()=>{ if(await mandarCodigo()) $("ct-err2").textContent = "Listo, te mandamos otro código."; });
+$("ct-otro").addEventListener("click", ()=>{ $("ct-paso2").hidden = true; $("ct-paso1").hidden = false; $("ct-email").focus(); });
+$("ct-codigo").addEventListener("input", e=>{ e.target.value = e.target.value.replace(/\D/g,"").slice(0,6); if(e.target.value.length===6) $("ct-paso2").requestSubmit(); });
+$("ct-paso2").addEventListener("submit", async e=>{
+  e.preventDefault(); const b = $("ct-entrar"), err = $("ct-err2"); err.textContent = "";
+  if($("ct-codigo").value.length !== 6){ err.textContent = "El código tiene 6 dígitos."; return; }
+  b.disabled = true; b.textContent = "Entrando…";
+  try{
+    await apiCuenta("/api/cuenta/entrar", { email: $("ct-email-v").textContent, codigo: $("ct-codigo").value });
+    await cargarCuenta();
+    if(CUENTA && !CUENTA.nombre){
+      const n = $("c-nombre").value.trim(), t = $("c-tel").value.trim();
+      if(n || t){ await apiCuenta("/api/cuenta", { nombre:n, tel:t }).catch(()=>{}); await cargarCuenta(); }
+      else setTimeout(()=>$("ct-nombre").focus(), 50);
+    }
+    toast("Listo, ya entraste a tu cuenta.");
+  }catch(ex){ err.textContent = ex.message; }
+  b.disabled = false; b.textContent = "Entrar";
+});
+$("ct-datos").addEventListener("submit", async e=>{
+  e.preventDefault(); const b = $("ct-guardar");
+  b.disabled = true;
+  try{ await apiCuenta("/api/cuenta", { nombre: $("ct-nombre").value, tel: $("ct-tel").value }); await cargarCuenta(); toast("Guardamos tus datos."); }
+  catch(ex){ toast(esc(ex.message)); }
+  b.disabled = false;
+});
+$("ct-salir").addEventListener("click", async ()=>{ try{ await apiCuenta("/api/cuenta/salir"); }catch(e){} CUENTA = null; pintarCuenta(); $("dlg-cuenta").close(); toast("Saliste de tu cuenta."); });
+$("ct-borrar").addEventListener("click", async ()=>{
+  if(!confirm("¿Borrar tu cuenta? Se borran tus datos guardados, tu historial y tu código para recomendar. Tus cupones sin usar se pierden.")) return;
+  try{ await apiCuenta("/api/cuenta", null, "DELETE"); CUENTA = null; pintarCuenta(); $("dlg-cuenta").close(); toast("Borramos tu cuenta."); }
+  catch(ex){ toast(esc(ex.message)); }
+});
+$("ct-ref-share").addEventListener("click", ()=>{ if(CUENTA) compartir("By Ana · Estudio de detalles", `Te recomiendo By Ana, detalles hechos a mano. Usa mi código ${CUENTA.ref} al pedir:`, `${BASE}?ref=${encodeURIComponent(CUENTA.ref)}`); });
+$("ct-cupones").addEventListener("click", e=>{
+  const b = e.target.closest("[data-usar]"); if(!b) return;
+  $("c-cupon").value = b.dataset.usar; CUPON = null; guardarCupon();
+  if(cart.length){ $("dlg-cuenta").close(); renderCart(); $("cart-err").textContent = ""; $("dlg-cart").showModal(); aplicarCupon(); }
+  else toast("Tu cupón quedó escrito en el carrito. Agrega tus productos y se aplica al pedir.");
+});
+// Enlace de recomendación: byana.mx/?ref=CODIGO deja el código listo en el carrito.
+(async ()=>{
+  const q = new URLSearchParams(location.search), ref = (q.get("ref")||"").toUpperCase().replace(/[^A-Z0-9-]/g,"");
+  if(!ref) return;
+  q.delete("ref"); history.replaceState(null, "", location.pathname + (q.toString() ? "?" + q : "") + location.hash);
+  if(CUPON) return;
+  try{ const d = await (await fetch(`/api/cupon?codigo=${encodeURIComponent(ref)}&subtotal=0`)).json(); if(d.ok && d.cupon && d.cupon.tipo==="ref"){ CUPON = d.cupon; guardarCupon(); renderCart(); toast(`${esc(d.cupon.etiqueta)}: ¡bienvenido a By Ana! 💛`); } }catch(e){}
+})();
+cargarCuenta();
 
 // Compartir la página o un producto (menú nativo del celular; en computadora copia el enlace y ofrece WhatsApp)
 function toast(html){

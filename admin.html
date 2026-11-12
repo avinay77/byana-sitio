@@ -93,7 +93,7 @@ async function cargar(){
     const venc = c.vence && new Date().toISOString().slice(0,10) > c.vence;
     const agot = c.usosMax && c.usos >= c.usosMax;
     const est = !c.activo ? ["Desactivado","off"] : venc ? ["Vencido","off"] : agot ? ["Agotado","off"] : ["Activo",""];
-    const cond = [c.minimo ? `Mín. ${money(c.minimo)}` : "", c.vence ? `Vence ${fecha(c.vence)}` : "", c.nota ? `<small>${esc(c.nota)}</small>` : ""].filter(Boolean).join("<br>") || "—";
+    const cond = [c.origen==="referido" ? "Premio por recomendar" : "", c.minimo ? `Mín. ${money(c.minimo)}` : "", c.vence ? `Vence ${fecha(c.vence)}` : "", c.nota ? `<small>${esc(c.nota)}</small>` : ""].filter(Boolean).join("<br>") || "—";
     return `<tr><td><b>${esc(c.codigo)}</b></td><td>${c.tipo==="pct" ? c.valor+"%" : money(c.valor)}</td><td>${cond}</td><td>${c.usos||0}${c.usosMax?` / ${c.usosMax}`:""}</td>
       <td><span class="tag ${est[1]}">${est[0]}</span></td>
       <td><div class="acts"><button class="mini ghost" data-a="toggle" data-c="${esc(c.codigo)}" data-on="${c.activo?1:0}">${c.activo?"Desactivar":"Activar"}</button><button class="mini ghost" data-a="edit" data-c="${esc(c.codigo)}">Editar</button><button class="mini ghost" data-a="del" data-c="${esc(c.codigo)}">Borrar</button></div></td></tr>`;
