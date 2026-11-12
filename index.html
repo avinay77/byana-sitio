@@ -666,7 +666,7 @@ body[data-season="siempre"] .prod,body[data-season="siempre"] .hs-ctl{display:no
     <div id="ct-panel" hidden style="display:flex;flex-direction:column;gap:14px">
       <p style="margin:0" id="ct-hola"></p>
       <div class="ct-ref">
-        <p><b>Recomienda a un amigo y gana <span id="ct-premio">$100</span>.</b> Cuando alguien haga su primera compra con tu código, te llega un cupón de <span class="ct-premio2">$100</span> para tu siguiente pedido.</p>
+        <p><b>Recomienda a un amigo y ganan los dos.</b> <span id="ct-ref-txt">Tu amigo tiene $100 de descuento en su primera compra desde $500, y cuando la pague te llega un cupón de $100 para tu siguiente pedido (también desde $500).</span></p>
         <div class="ct-code"><b id="ct-ref"></b><button type="button" class="mini" id="ct-ref-share">Compartir</button></div>
         <p style="font-size:.8rem;color:var(--ink-soft)" id="ct-refs-n"></p>
       </div>
@@ -960,7 +960,7 @@ $("cart-form").addEventListener("submit", async e=>{
   if(piezas() > MAX_PIEZAS){ err.innerHTML = `Máximo ${MAX_PIEZAS} piezas en línea. <a href="${waLimite()}" target="_blank" rel="noopener">Pide por WhatsApp</a>.`; return; }
   btn.disabled = true; btn.textContent = "Conectando con Mercado Pago…";
   try{
-    const r = await fetch("/api/crear-pago", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ items: cart, cliente, envio, ...(CUPON && CUPON.tipo === "ref" ? { referido: CUPON.codigo } : descuento() ? { cupon: CUPON.codigo } : {}) }) });
+    const r = await fetch("/api/crear-pago", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ items: cart, cliente, envio, ...(descuento() ? (CUPON.tipo === "ref" ? { referido: CUPON.codigo } : { cupon: CUPON.codigo }) : {}) }) });
     const data = await r.json().catch(()=>({}));
     if(!r.ok || !data.url) throw Object.assign(new Error(data.error || "No pudimos iniciar el pago."), {data});
     try{ localStorage.setItem("byana-pending", JSON.stringify({ ref:data.ref, cliente, resumen: resumen() })); }catch(e){}
@@ -1089,7 +1089,7 @@ function pintarCuenta(){
   if(!CUENTA) return;
   $("ct-hola").innerHTML = `Hola${n ? ", <b>" + esc(n) + "</b>" : ""}. <small style="color:var(--ink-soft)">${esc(CUENTA.email)}</small>`;
   $("ct-ref").textContent = CUENTA.ref;
-  $("ct-premio").textContent = money(CUENTA.premio); document.querySelectorAll(".ct-premio2").forEach(x=>x.textContent = money(CUENTA.premio));
+  $("ct-ref-txt").textContent = `Tu amigo tiene ${money(CUENTA.amigo)} de descuento en su primera compra desde ${money(CUENTA.minimo)}, y cuando la pague te llega un cupón de ${money(CUENTA.premio)} para tu siguiente pedido (también desde ${money(CUENTA.minimo)}).`;
   $("ct-refs-n").textContent = CUENTA.referidos ? `Llevas ${CUENTA.referidos} amigo${CUENTA.referidos===1?"":"s"} recomendado${CUENTA.referidos===1?"":"s"}. ¡Gracias!` : "Tus amigos lo escriben en el carrito, donde dice “¿Cupón o código de un amigo?”, o entran con tu enlace.";
   $("ct-cupones").innerHTML = CUENTA.cupones.length ? CUENTA.cupones.map(c=>`<li class="${c.estado==="disponible"?"":"off"}"><div><b>${esc(c.codigo)}</b> · ${esc(c.etiqueta)}<small>${c.estado==="disponible" ? (c.minimo ? "En compras desde " + money(c.minimo) : "Listo para usar") : c.estado==="usado" ? "Ya lo usaste" : "Ya no está disponible"}</small></div>${c.estado==="disponible" ? `<button type="button" class="mini" data-usar="${esc(c.codigo)}">Usar</button>` : ""}</li>`).join("") : `<li><div><small>Aquí aparecerán los cupones que ganes al recomendarnos.</small></div></li>`;
   $("ct-pedidos").innerHTML = CUENTA.pedidos.length ? CUENTA.pedidos.map(p=>`<li><div><b>${esc(p.total)}</b> · ${esc(new Date(p.fecha).toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"}))}<small>${esc((p.productos||[]).join(", "))}</small><small>Pedido ${esc(p.ref)}</small></div></li>`).join("") : `<li><div><small>Todavía no tienes pedidos con esta cuenta.</small></div></li>`;
@@ -1164,7 +1164,7 @@ $("ct-borrar").addEventListener("click", async ()=>{
   try{ await apiCuenta("/api/cuenta", null, "DELETE"); CUENTA = null; pintarCuenta(); $("dlg-cuenta").close(); toast("Borramos tu cuenta."); }
   catch(ex){ toast(esc(ex.message)); }
 });
-$("ct-ref-share").addEventListener("click", ()=>{ if(CUENTA) compartir("By Ana · Estudio de detalles", `Te recomiendo By Ana, detalles hechos a mano. Usa mi código ${CUENTA.ref} al pedir:`, `${BASE}?ref=${encodeURIComponent(CUENTA.ref)}`); });
+$("ct-ref-share").addEventListener("click", ()=>{ if(CUENTA) compartir("By Ana · Estudio de detalles", `Te recomiendo By Ana, detalles hechos a mano. Con mi código ${CUENTA.ref} tienes ${money(CUENTA.amigo)} de descuento en tu primera compra desde ${money(CUENTA.minimo)}:`, `${BASE}?ref=${encodeURIComponent(CUENTA.ref)}`); });
 $("ct-cupones").addEventListener("click", e=>{
   const b = e.target.closest("[data-usar]"); if(!b) return;
   $("c-cupon").value = b.dataset.usar; CUPON = null; guardarCupon();
@@ -1177,7 +1177,7 @@ $("ct-cupones").addEventListener("click", e=>{
   if(!ref) return;
   q.delete("ref"); history.replaceState(null, "", location.pathname + (q.toString() ? "?" + q : "") + location.hash);
   if(CUPON) return;
-  try{ const d = await (await fetch(`/api/cupon?codigo=${encodeURIComponent(ref)}&subtotal=0`)).json(); if(d.ok && d.cupon && d.cupon.tipo==="ref"){ CUPON = d.cupon; guardarCupon(); renderCart(); toast(`${esc(d.cupon.etiqueta)}: ¡bienvenido a By Ana! 💛`); } }catch(e){}
+  try{ const d = await (await fetch(`/api/cupon?codigo=${encodeURIComponent(ref)}&subtotal=0`)).json(); if(d.cupon && d.cupon.tipo==="ref"){ CUPON = d.cupon; guardarCupon(); renderCart(); toast(`¡Bienvenido a By Ana! Tienes ${money(d.cupon.valor)} de descuento en tu primera compra desde ${money(d.cupon.minimo)} 💛`); } }catch(e){}
 })();
 cargarCuenta();
 

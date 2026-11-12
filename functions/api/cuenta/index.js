@@ -2,7 +2,7 @@
 // GET    → datos de la cuenta, cupones y pedidos (401 si no hay sesión).
 // POST   { nombre, tel, dir } → guarda los datos para no escribirlos en cada compra.
 // DELETE → borra la cuenta (los pedidos ya hechos siguen en los registros de la tienda).
-import { json, sesion, leerCliente, guardarCliente, cerrarSesion, cookieSesion, soloTel, PREMIO_REFERIDO } from "../../../lib/cuenta.js";
+import { json, sesion, leerCliente, guardarCliente, cerrarSesion, cookieSesion, soloTel, PREMIO_REFERIDO, DESCUENTO_AMIGO, MINIMO_REFERIDO } from "../../../lib/cuenta.js";
 import { leerCupon, evaluar, etiqueta } from "../../../lib/cupones.js";
 import { limpiar } from "../../../lib/pedido.js";
 
@@ -25,7 +25,7 @@ export async function onRequestGet(ctx) {
       estado: usado ? "usado" : ev.ok ? "disponible" : "no disponible" });
   }
   return json(200, { email: c.email, nombre: c.nombre, tel: c.tel, dir: c.dir, ref: c.ref, referidos: c.referidos || 0,
-    premio: PREMIO_REFERIDO, pedidos: (c.pedidos || []).slice(-30).reverse(), cupones: cupones.reverse() });
+    premio: PREMIO_REFERIDO, amigo: DESCUENTO_AMIGO, minimo: MINIMO_REFERIDO, pedidos: (c.pedidos || []).slice(-30).reverse(), cupones: cupones.reverse() });
 }
 
 export async function onRequestPost(ctx) {

@@ -4,7 +4,7 @@
 // Variables (Cloudflare → proyecto → Settings → Variables and Secrets): MP_ACCESS_TOKEN (secreto).
 import { validar } from "../../lib/pedido.js";
 import { leerCupon } from "../../lib/cupones.js";
-import { sesion, leerCliente, guardarCliente, leerReferido, soloTel } from "../../lib/cuenta.js";
+import { sesion, leerCliente, guardarCliente, leerReferido, soloTel, cuponAmigo, MINIMO_REFERIDO } from "../../lib/cuenta.js";
 
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 const catalogo = async ({ env, request }) => (await env.ASSETS.fetch(new URL("/catalogo.json", request.url))).json();
@@ -18,19 +18,21 @@ export async function onRequestPost(context) {
 
   let pedido;
   try { pedido = await request.json(); } catch { return json(400, { error: "Pedido inválido." }); }
-  const cupon = pedido && pedido.cupon ? await leerCupon(env, pedido.cupon) : null;
-  const r = validar(pedido, await catalogo(context), cupon);
-  if (r.error) return json(400, r);
-
-  // Cuenta (opcional) y "recomienda a un amigo".
-  const cuenta = env.BYANA ? await sesion(env, request) : "";
-  let referido = "";
-  if (pedido.referido && env.BYANA) {
+  // Cuenta (opcional) y "recomienda a un amigo": el código de amigo da $100 desde $500, solo en la primera compra.
+  const cuenta = env.BYANA && pedido ? await sesion(env, request) : "";
+  let referido = "", cupon = null;
+  if (pedido && pedido.referido && env.BYANA) {
     const rf = await leerReferido(env, pedido.referido);
-    if (rf && (rf.email === cuenta || (rf.tel && rf.tel === soloTel(r.cliente.tel))))
+    if (!rf) return json(400, { error: "Ese código de amigo ya no existe.", cupon: true });
+    const tel = soloTel(pedido.cliente && pedido.cliente.tel);
+    if (rf.email === cuenta || (rf.tel && rf.tel === tel))
       return json(400, { error: "No puedes usar tu propio código de recomendación.", cupon: true });
-    if (rf) referido = rf.codigo;
-  }
+    const ya = (tel.length === 10 && await env.BYANA.get("compro:tel:" + tel)) || (cuenta && await env.BYANA.get("compro:" + cuenta));
+    if (ya) return json(400, { error: "El descuento de amigo es solo para la primera compra.", cupon: true });
+    referido = rf.codigo; cupon = cuponAmigo(rf); pedido.cupon = rf.codigo;
+  } else if (pedido && pedido.cupon) cupon = await leerCupon(env, pedido.cupon);
+  const r = validar(pedido, await catalogo(context), cupon);
+  if (r.error) return json(400, r.cupon && referido ? { ...r, error: `El descuento de amigo aplica en compras desde $${MINIMO_REFERIDO} en productos.` } : r);
   if (cuenta) {
     // Guarda nombre, WhatsApp y dirección para la próxima compra.
     try {

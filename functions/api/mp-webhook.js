@@ -4,7 +4,7 @@
 // Variables: MP_ACCESS_TOKEN, RESEND_API_KEY (secretos) y AVISO_EMAIL (a dónde llegan los pedidos).
 // Opcional: AVISO_FROM, p. ej. "By Ana <pedidos@byana.mx>" cuando el dominio esté verificado en Resend.
 import { sumarUso } from "../../lib/cupones.js";
-import { leerCliente, guardarCliente, leerReferido, limpiarCorreo, correoValido, soloTel, aleatorio, enviarCorreo, marco, PREMIO_REFERIDO } from "../../lib/cuenta.js";
+import { leerCliente, guardarCliente, leerReferido, limpiarCorreo, correoValido, soloTel, aleatorio, enviarCorreo, marco, PREMIO_REFERIDO, MINIMO_REFERIDO } from "../../lib/cuenta.js";
 
 const money = n => "$" + Number(n || 0).toLocaleString("es-MX");
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -144,7 +144,7 @@ export async function registrar(env, pedido, pago) {
   const marca = "pago:" + pago.id;
   if (await env.BYANA.get(marca)) return;
   await env.BYANA.put(marca, "1", { expirationTtl: 400 * 86400 });
-  if (pedido.cupon) await sumarUso(env, pedido.cupon);
+  if (pedido.cupon && pedido.cupon !== pedido.referido) await sumarUso(env, pedido.cupon);
 
   const correos = [...new Set([limpiarCorreo(pedido.cuenta), limpiarCorreo(pedido.email)].filter(correoValido))];
   const tel = soloTel(pedido.telefono);
@@ -171,7 +171,7 @@ export async function registrar(env, pedido, pago) {
   let codigo = "";
   for (let i = 0; i < 6 && !codigo; i++) { const x = "GRACIAS-" + aleatorio(5); if (!(await env.BYANA.get("cupon:" + x))) codigo = x; }
   const amigo = String(pedido.cliente || "").split(" ")[0];
-  const cupon = { codigo, tipo: "monto", valor: PREMIO_REFERIDO, minimo: 0, vence: "", usosMax: 1, usos: 0, activo: true,
+  const cupon = { codigo, tipo: "monto", valor: PREMIO_REFERIDO, minimo: MINIMO_REFERIDO, vence: "", usosMax: 1, usos: 0, activo: true,
     nota: `Por recomendar a ${amigo || "un amigo"} (${pedido.ref}) · ${rf.email}`.slice(0, 120), origen: "referido", para: rf.email, creado: new Date().toISOString() };
   await env.BYANA.put("cupon:" + codigo, JSON.stringify(cupon));
   quien.cupones = [...(quien.cupones || []), codigo];
@@ -183,7 +183,7 @@ export async function registrar(env, pedido, pago) {
     html: marco(`<h1 style="margin:0 0 10px;font-size:20px;color:#4F6B55">¡Gracias por recomendarnos${nombre ? ", " + esc(nombre) : ""}!</h1>
       <p style="margin:0 0 14px">${amigo ? esc(amigo) : "Alguien que recomendaste"} hizo su primera compra con tu código. Aquí tienes <b>$${PREMIO_REFERIDO} de descuento</b> para tu próximo pedido:</p>
       <p style="margin:0 0 14px;text-align:center;font:600 22px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#A8312F;border:1px dashed #B8955A;border-radius:4px;padding:12px">${codigo}</p>
-      <p style="margin:0">Escríbelo en el carrito de <a href="https://byana.mx" style="color:#4F6B55">byana.mx</a> o úsalo desde tu cuenta. Es de un solo uso.</p>`),
-    text: `¡Gracias por recomendarnos! ${amigo || "Alguien que recomendaste"} hizo su primera compra con tu código. Tu cupón de $${PREMIO_REFERIDO} para tu próximo pedido es ${codigo} (un solo uso). Úsalo en byana.mx.`,
+      <p style="margin:0">Escríbelo en el carrito de <a href="https://byana.mx" style="color:#4F6B55">byana.mx</a> o úsalo desde tu cuenta. Es de un solo uso, en compras desde $${MINIMO_REFERIDO} en productos.</p>`),
+    text: `¡Gracias por recomendarnos! ${amigo || "Alguien que recomendaste"} hizo su primera compra con tu código. Tu cupón de $${PREMIO_REFERIDO} para tu próximo pedido es ${codigo} (un solo uso, en compras desde $${MINIMO_REFERIDO}). Úsalo en byana.mx.`,
   });
 }
