@@ -1311,6 +1311,46 @@
    ]
   },
   {
+   "id": "n75a",
+   "c": "Regalos",
+   "t": "Tarjeta de Navidad con velita de estrella",
+   "d": "Tarjeta navideña con una velita de cera de soya en forma de estrella. Diseño a elegir: Feliz Navidad o Merry Christmas.",
+   "v": [
+    {
+     "n": "",
+     "p": 45
+    }
+   ],
+   "f": [
+    "n75a-2",
+    "n75a-3"
+   ],
+   "op": [
+    {
+     "n": "Diseño",
+     "l": [
+      "Feliz Navidad",
+      "Merry Christmas"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "n75b",
+   "c": "Regalos",
+   "t": "Tarjeta Navidad deseos 2027",
+   "d": "Tarjeta “Bienvenido 2027” con deseos para el año nuevo y una velita de estrella en varita.",
+   "v": [
+    {
+     "n": "",
+     "p": 45
+    }
+   ],
+   "f": [
+    "n75b-2"
+   ]
+  },
+  {
    "id": "n57a",
    "c": "Joyería",
    "t": "Conjunto piedritas naturales",
