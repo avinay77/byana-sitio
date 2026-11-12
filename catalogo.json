@@ -1455,6 +1455,27 @@
      "n": "Grabado",
      "p": 265
     }
+   ],
+   "f": [
+    "n52a-2",
+    "n52a-3"
+   ],
+   "op": [
+    {
+     "n": "Color",
+     "l": [
+      "Negro",
+      "Gris",
+      "Blanco",
+      "Azul marino",
+      "Rojo",
+      "Rosa claro",
+      "Azul claro",
+      "Aqua",
+      "Amarillo",
+      "Morado"
+     ]
+    }
    ]
   },
   {
