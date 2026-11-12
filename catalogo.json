@@ -1253,7 +1253,7 @@
    "id": "n60a",
    "c": "Joyería",
    "t": "Collares cortos con dije chico",
-   "d": "Escoge tu dije y tu cadena. 40 cm con extensión de 5 cm.",
+   "d": "40 cm con extensión de 5 cm.",
    "v": [
     {
      "n": "",
@@ -1264,13 +1264,36 @@
     "n60a-2",
     "n60a-3",
     "n60a-4"
+   ],
+   "op": [
+    {
+     "n": "Dije",
+     "l": [
+      "Cruz",
+      "Corazón liso",
+      "Estrella",
+      "Corazón con relieve",
+      "Elefante bebé",
+      "Hueso de la suerte",
+      "Ala",
+      "Elefante",
+      "Medalla de la Virgen",
+      "Ojo turco",
+      "Corazón calado",
+      "Ángel",
+      "Llave",
+      "Pluma",
+      "Concha",
+      "Medalla de flor"
+     ]
+    }
    ]
   },
   {
    "id": "n61a",
    "c": "Joyería",
    "t": "Collar doble dije chico e inicial",
-   "d": "Escoge tu dije e inicial.",
+   "d": "Collar doble con dije chico e inicial.",
    "v": [
     {
      "n": "",
@@ -1284,6 +1307,29 @@
    ],
    "ini": [
     1
+   ],
+   "op": [
+    {
+     "n": "Dije",
+     "l": [
+      "Cruz",
+      "Corazón liso",
+      "Estrella",
+      "Corazón con relieve",
+      "Elefante bebé",
+      "Hueso de la suerte",
+      "Ala",
+      "Elefante",
+      "Medalla de la Virgen",
+      "Ojo turco",
+      "Corazón calado",
+      "Ángel",
+      "Llave",
+      "Pluma",
+      "Concha",
+      "Medalla de flor"
+     ]
+    }
    ]
   },
   {
@@ -1315,7 +1361,7 @@
    "id": "n63a",
    "c": "Joyería",
    "t": "Collares con dije grande",
-   "d": "Escoge tu dije. 43 cm con extensión de 5 cm.",
+   "d": "43 cm con extensión de 5 cm.",
    "v": [
     {
      "n": "",
@@ -1326,6 +1372,29 @@
     "n63a-2",
     "n63a-3",
     "n63a-4"
+   ],
+   "op": [
+    {
+     "n": "Dije",
+     "l": [
+      "Elefante",
+      "Corazón",
+      "Medalla de la Virgen",
+      "Llave con corazón",
+      "Concha",
+      "Flor",
+      "Luna",
+      "Medalla con corazón",
+      "Medalla calada",
+      "Nudo",
+      "Pluma",
+      "Cactus",
+      "Ojo",
+      "Trébol",
+      "Mano de Fátima",
+      "Ojo turco"
+     ]
+    }
    ]
   },
   {
@@ -1347,6 +1416,21 @@
    "f": [
     "n64a-2",
     "n64a-3"
+   ],
+   "op": [
+    {
+     "n": "Dije",
+     "l": [
+      "Borrego",
+      "Santa",
+      "Galleta de jengibre",
+      "Cascanueces",
+      "Árbol"
+     ],
+     "v": [
+      0
+     ]
+    }
    ]
   },
   {
@@ -1579,7 +1663,7 @@
    "id": "n71a",
    "c": "Joyería",
    "t": "Pulseras de hilo con dije mini",
-   "d": "Ajustables; escoge el dije y el color del hilo.",
+   "d": "Ajustables.",
    "v": [
     {
      "n": "",
@@ -1588,13 +1672,45 @@
    ],
    "f": [
     "n71a-2"
+   ],
+   "op": [
+    {
+     "n": "Dije",
+     "l": [
+      "Estrella",
+      "Corazón calado",
+      "Flor",
+      "Estrella fugaz",
+      "Corazón",
+      "Mano de Fátima"
+     ]
+    },
+    {
+     "n": "Color de hilo",
+     "l": [
+      "Blanco",
+      "Rosa pastel",
+      "Rosa",
+      "Rosa mexicano",
+      "Lila",
+      "Morado",
+      "Azul marino",
+      "Azul rey",
+      "Azul cielo",
+      "Turquesa",
+      "Verde",
+      "Amarillo",
+      "Naranja",
+      "Rojo"
+     ]
+    }
    ]
   },
   {
    "id": "n72a",
    "c": "Joyería",
    "t": "Pulseras de perlas de río",
-   "d": "Escoge el color de la mota y la inicial.",
+   "d": "Perlas de río con mota de color e inicial.",
    "v": [
     {
      "n": "",
@@ -1606,6 +1722,31 @@
    ],
    "ini": [
     1
+   ],
+   "op": [
+    {
+     "n": "Color de la mota",
+     "l": [
+      "Rosa pastel",
+      "Coral",
+      "Naranja",
+      "Amarillo",
+      "Rojo",
+      "Turquesa",
+      "Verde",
+      "Azul marino",
+      "Lila",
+      "Morado"
+     ]
+    },
+    {
+     "n": "Talla",
+     "l": [
+      "Chica (16 cm)",
+      "Mediana (17 cm)",
+      "Grande (18 cm)"
+     ]
+    }
    ]
   }
  ],

@@ -472,6 +472,7 @@ footer .legal a:hover{color:var(--accent)}
     <div class="dlg-h"><h2 id="pd-title"></h2><div class="dlg-acts"><button class="share-ic" id="pd-share" type="button" aria-label="Compartir este producto" title="Compartir"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button><button class="x" type="button" aria-label="Cerrar">×</button></div></div>
     <div class="pd-top"><div class="gal"><img id="pd-img" alt=""><div class="thumbs" id="pd-thumbs" role="group" aria-label="Fotos del producto"></div></div><p id="pd-desc"></p></div>
     <label class="fld" id="pd-var-wrap"><span>Opción</span><select id="pd-var"></select></label>
+    <div id="pd-ops"></div>
     <div class="fld" id="pd-ini-wrap" hidden><span id="pd-ini-label">Inicial</span><div class="ini-row" id="pd-ini"></div></div>
     <label class="fld" id="pd-ar-wrap" hidden><span>Aroma</span><select id="pd-ar"></select></label>
     <label class="fld"><span>Piezas</span><input id="pd-qty" type="number" inputmode="numeric" min="1" max="20" value="1"></label>
@@ -636,7 +637,7 @@ $("d-cp").addEventListener("input", async ()=>{
 document.querySelectorAll("#dir-wrap input").forEach(i=>i.addEventListener("input", ()=>{ $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen()); }));
 const waLimite = () => WA + encodeURIComponent(`Hola Ana, quiero hacer un pedido de más de ${MAX_PIEZAS} piezas:\n` + resumen());
 function resumen(){
-  return cart.map(i=>{ const l=lineInfo(i); if(!l) return ""; return `• ${i.qty} × ${l.p.t}${l.v.n?" ("+l.v.n+")":""}${i.ini?` – inicial${i.ini.includes(",")?"es":""}: ${i.ini}`:""}${i.ar?` – aroma: ${i.ar}`:""}${i.tag?` – texto: “${i.tag}”`:""}${i.nota?` – ${i.nota}`:""} = ${money(l.v.p*i.qty)}`; }).filter(Boolean).join("\n") + textoEnvio() + `\nTotal: ${money(total() + costoEnvio())}${(envioSel()&&envioSel().cotiza)?" + envío":""}`;
+  return cart.map(i=>{ const l=lineInfo(i); if(!l) return ""; return `• ${i.qty} × ${l.p.t}${l.v.n?" ("+l.v.n+")":""}${i.op?` – ${opsTexto(i)}`:""}${i.ini?` – inicial${i.ini.includes(",")?"es":""}: ${i.ini}`:""}${i.ar?` – aroma: ${i.ar}`:""}${i.tag?` – texto: “${i.tag}”`:""}${i.nota?` – ${i.nota}`:""} = ${money(l.v.p*i.qty)}`; }).filter(Boolean).join("\n") + textoEnvio() + `\nTotal: ${money(total() + costoEnvio())}${(envioSel()&&envioSel().cotiza)?" + envío":""}`;
 }
 
 let cur = null;
@@ -655,8 +656,8 @@ function openProduct(id){
   $("pd-var-wrap").hidden = p.v.length < 2;
   $("pd-ar").innerHTML = p.ar ? `<option value="">Elige un aroma</option>` + p.ar.map(a=>`<option>${esc(a)}</option>`).join("") : "";
   $("pd-ar-wrap").hidden = !p.ar;
-  $("pd-nota").placeholder = [!p.ar && "Aroma", "dije", !p.ini && "inicial", "color…"].filter(Boolean).join(", ").replace(/^./, c=>c.toUpperCase());
-  $("pd-ini").innerHTML = ""; $("pd-ini").dataset.id = "";
+  $("pd-nota").placeholder = [!p.ar && "Aroma", !(p.op||[]).some(o=>o.n==="Dije") && "dije", !p.ini && "inicial", "color…"].filter(Boolean).join(", ").replace(/^./, c=>c.toUpperCase());
+  $("pd-ini").innerHTML = ""; $("pd-ini").dataset.id = ""; $("pd-ops").innerHTML = ""; $("pd-ops").dataset.key = "";
   $("pd-qty").value = 1; $("pd-tag").value = ""; $("pd-nota").value = "";
   $("pd-err").textContent = "";
   syncProduct();
@@ -667,6 +668,7 @@ function syncProduct(){
   const p = cur, vi = +$("pd-var").value, needTag = !!(p.tag && p.tag.v.includes(vi));
   $("pd-tag-wrap").hidden = !needTag;
   syncIniciales(p, vi);
+  syncOps(p, vi);
   if(needTag){ $("pd-tag-label").textContent = p.tag.label + ` (máx. ${p.tag.max} caracteres)`; $("pd-tag").maxLength = p.tag.max; $("pd-tag-count").textContent = `${$("pd-tag").value.length}/${p.tag.max}`; }
   const qty = Math.max(1, Math.floor(+$("pd-qty").value||1));
   $("pd-total").textContent = money(p.v[vi].p * qty);
@@ -675,6 +677,15 @@ function syncProduct(){
     ? `En línea puedes pedir hasta ${MAX_PIEZAS} piezas${left<MAX_PIEZAS?` (ya tienes ${MAX_PIEZAS-left} en el carrito)`:""}. Para más, <a href="${WA}${encodeURIComponent(`Hola Ana, quiero ${qty} piezas de: ${p.t}${p.v[vi].n?" ("+p.v[vi].n+")":""}`)}" target="_blank" rel="noopener">escríbenos por WhatsApp</a>.`
     : "";
   $("pd-add").disabled = qty > left;
+}
+const opsDe = (p, vi) => (p.op || []).filter(o => !o.v || o.v.includes(vi));
+const opsTexto = i => i.op ? Object.entries(i.op).map(([k,v])=>`${k}: ${v}`).join(" · ") : "";
+function syncOps(p, vi){
+  const box = $("pd-ops"), ops = opsDe(p, vi), key = p.id + "|" + ops.map(o=>o.n).join(",");
+  if(box.dataset.key === key) return;
+  const prev = {}; box.querySelectorAll("select").forEach(s=>prev[s.dataset.n]=s.value);
+  box.dataset.key = key;
+  box.innerHTML = ops.map(o=>`<label class="fld"><span>${esc(o.n)}</span><select data-n="${esc(o.n)}"><option value="">Elige</option>${o.l.map(x=>`<option${prev[o.n]===x?" selected":""}>${esc(x)}</option>`).join("")}</select></label>`).join("");
 }
 const LETRAS = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("");
 function syncIniciales(p, vi){
@@ -695,12 +706,15 @@ function addCurrent(){
   const nIni = (p.ini && p.ini[vi]) || 0, iniSel = [...$("pd-ini").querySelectorAll("select")], inis = iniSel.map(s=>s.value);
   if(nIni && inis.some(x=>!x)){ $("pd-err").textContent = nIni > 1 ? "Elige cada una de las iniciales." : "Elige la inicial."; iniSel.find(s=>!s.value)?.focus(); return; }
   const ini = nIni ? inis.join(", ") : "";
+  const opSel = [...$("pd-ops").querySelectorAll("select")], falta = opSel.find(s=>!s.value);
+  if(falta){ $("pd-err").textContent = `Falta elegir: ${falta.dataset.n.toLowerCase()}.`; falta.focus(); return; }
+  const op = opSel.length ? Object.fromEntries(opSel.map(s=>[s.dataset.n, s.value])) : null;
   if(qty < 1){ $("pd-err").textContent = "Elige cuántas piezas."; return; }
   if(p.ar && !p.ar.includes(ar)){ $("pd-err").textContent = "Elige el aroma."; $("pd-ar").focus(); return; }
   if(needTag && !tag){ $("pd-err").textContent = "Escribe el texto para tus tags."; $("pd-tag").focus(); return; }
   if(piezas() + qty > MAX_PIEZAS){ syncProduct(); return; }
-  const same = cart.find(i=>i.id===p.id && i.v===vi && (i.ar||"")===ar && (i.ini||"")===ini && i.tag===tag && i.nota===nota);
-  if(same) same.qty += qty; else cart.push({id:p.id, v:vi, qty, ini, ar, tag, nota});
+  const same = cart.find(i=>i.id===p.id && i.v===vi && (i.ar||"")===ar && (i.ini||"")===ini && opsTexto(i)===opsTexto({op}) && i.tag===tag && i.nota===nota);
+  if(same) same.qty += qty; else cart.push({id:p.id, v:vi, qty, ...(op?{op}:{}), ini, ar, tag, nota});
   save(); renderCart(); $("dlg-product").close();
   const b = $("cart-btn"); b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
 }
@@ -711,7 +725,7 @@ function renderCart(){
   $("cart-count").textContent = n;
   $("cart-items").innerHTML = cart.length ? cart.map((i,k)=>{ const {p,v}=lineInfo(i); return `<li>
       <img src="img/${p.id}.jpg" alt="">
-      <div class="ci"><strong>${esc(p.t)}</strong>${v.n?`<span>${esc(v.n)}</span>`:""}${i.ini?`<span>Inicial${i.ini.includes(",")?"es":""}: ${esc(i.ini)}</span>`:""}${i.ar?`<span>Aroma: ${esc(i.ar)}</span>`:""}${i.tag?`<span>Texto: “${esc(i.tag)}”</span>`:""}${i.nota?`<span>${esc(i.nota)}</span>`:""}
+      <div class="ci"><strong>${esc(p.t)}</strong>${v.n?`<span>${esc(v.n)}</span>`:""}${i.op?`<span>${esc(opsTexto(i))}</span>`:""}${i.ini?`<span>Inicial${i.ini.includes(",")?"es":""}: ${esc(i.ini)}</span>`:""}${i.ar?`<span>Aroma: ${esc(i.ar)}</span>`:""}${i.tag?`<span>Texto: “${esc(i.tag)}”</span>`:""}${i.nota?`<span>${esc(i.nota)}</span>`:""}
         <div class="qty"><button type="button" data-k="${k}" data-d="-1" aria-label="Quitar una">−</button><span>${i.qty}</span><button type="button" data-k="${k}" data-d="1" aria-label="Agregar una" ${n>=MAX_PIEZAS?"disabled":""}>+</button><button type="button" class="rm" data-k="${k}" data-d="x">Quitar</button></div></div>
       <div class="cp">${money(v.p*i.qty)}</div></li>`; }).join("") : `<li class="none">Tu carrito está vacío.</li>`;
   $("cart-total").textContent = money(total());
