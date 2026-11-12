@@ -291,7 +291,7 @@ footer .legal a:hover{color:var(--accent)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 /* Destacados (carrusel) */
-.dest{padding-block:28px 8px}
+.dest{padding-block:0 40px}
 .dest-vp{position:relative}
 .dest-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:4px;background:var(--accent-wash)}
 .dest-track::-webkit-scrollbar{display:none}
@@ -344,6 +344,26 @@ body[data-season="siempre"] .dest{display:none}
 </header>
 
 <main id="inicio">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="logo">
+        <img class="l-navidad" src="img/logo-navidad.jpg" alt="Logo navideño de By Ana, Estudio de detalles">
+        <img class="l-siempre" src="img/logo-siempre.jpg" alt="Logo de By Ana, Estudio de detalles">
+      </div>
+      <div class="hero-copy">
+        <div class="eyebrow caps" id="hero-eyebrow">Catálogo Navidad 2026</div>
+        <h1 id="hero-title">Velas, joyería y regalos <span class="script">hechos a mano</span></h1>
+        <p id="hero-text">Velas de cera de soya aromáticas, joyería delicada y cajas de regalo que armamos a tu gusto: con tu combinación favorita, tu nombre o el logo de tu empresa.</p>
+        <div class="ctas">
+          <a class="btn solid" id="hero-wa" href="https://wa.me/525529434279?text=Hola%20Ana%2C%20me%20interesa%20el%20cat%C3%A1logo%20de%20Navidad" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+            Pedir por WhatsApp</a>
+          <a class="btn ghost" id="hero-see" href="#navidad">Ver catálogo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="dest" aria-label="Productos destacados">
     <div class="wrap">
       <div class="dest-vp">
@@ -365,26 +385,6 @@ body[data-season="siempre"] .dest{display:none}
         <button class="dest-nav next" type="button" aria-label="Siguiente">›</button>
       </div>
       <div class="dest-dots" id="dest-dots"></div>
-    </div>
-  </section>
-
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="logo">
-        <img class="l-navidad" src="img/logo-navidad.jpg" alt="Logo navideño de By Ana, Estudio de detalles">
-        <img class="l-siempre" src="img/logo-siempre.jpg" alt="Logo de By Ana, Estudio de detalles">
-      </div>
-      <div class="hero-copy">
-        <div class="eyebrow caps" id="hero-eyebrow">Catálogo Navidad 2026</div>
-        <h1 id="hero-title">Velas, joyería y regalos <span class="script">hechos a mano</span></h1>
-        <p id="hero-text">Velas de cera de soya aromáticas, joyería delicada y cajas de regalo que armamos a tu gusto: con tu combinación favorita, tu nombre o el logo de tu empresa.</p>
-        <div class="ctas">
-          <a class="btn solid" id="hero-wa" href="https://wa.me/525529434279?text=Hola%20Ana%2C%20me%20interesa%20el%20cat%C3%A1logo%20de%20Navidad" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
-            Pedir por WhatsApp</a>
-          <a class="btn ghost" id="hero-see" href="#navidad">Ver catálogo</a>
-        </div>
-      </div>
     </div>
   </section>
 
