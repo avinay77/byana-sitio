@@ -1830,6 +1830,15 @@
    ],
    "op": [
     {
+     "n": "Color del ojo",
+     "l": [
+      "Azul marino",
+      "Azul claro",
+      "Rojo",
+      "Blanco"
+     ]
+    },
+    {
      "n": "Color de la mota",
      "l": [
       "Rosa pastel",
