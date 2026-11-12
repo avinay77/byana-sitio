@@ -314,7 +314,7 @@ footer .legal a:hover{color:var(--accent)}
       <div class="head"><h2><span class="script">Cómo pedir</span>En tres pasos</h2></div>
       <div class="steps">
         <div class="step"><h3>Elige tus detalles</h3><p>Agrégalos al carrito, hasta 20 piezas, o escríbenos por WhatsApp si quieres algo personalizado.</p></div>
-        <div class="step"><h3>Paga o aparta</h3><p id="step-pago">En la página pagas el total con Mercado Pago: tarjeta, OXXO o transferencia. Por WhatsApp apartas con el 50% de anticipo.</p></div>
+        <div class="step"><h3>Paga o aparta</h3><p id="step-pago">En la página pagas el total con Mercado Pago: tarjeta, OXXO o transferencia. Por WhatsApp también se paga el total antes de empezar tu pedido.</p></div>
         <div class="step"><h3>Recibe en 2 a 7 días</h3><p>Días hábiles, según la cantidad y la personalización.</p></div>
       </div>
     </div>
@@ -612,8 +612,8 @@ function setPago(on){
   const wa = $("cart-wa");
   wa.classList.toggle("solid", !on); wa.classList.toggle("ghost", on);
   wa.textContent = on ? "Mejor pedir por WhatsApp" : "Enviar pedido por WhatsApp";
-  $("cart-fine").firstChild.textContent = (on ? "Se paga el total del pedido. " : "Ana te confirma por WhatsApp y apartas con el 50%. ") + "¿Quieres algo especial o más de 20 piezas? ";
-  if(!on) $("step-pago").textContent = "Mándanos tu carrito por WhatsApp y aparta con el 50% de anticipo. El otro 50% se cubre antes de la entrega.";
+  $("cart-fine").firstChild.textContent = (on ? "Se paga el total del pedido. " : "Ana te confirma por WhatsApp y pagas el total para empezar. ") + "¿Quieres algo especial o más de 20 piezas? ";
+  if(!on) $("step-pago").textContent = "Mándanos tu carrito por WhatsApp. Ana te confirma y pagas el total para empezar tu pedido.";
 }
 setPago(false);
 fetch("/api/crear-pago").then(r=>r.ok?r.json():{}).then(d=>setPago(!!d.activo)).catch(()=>{});
