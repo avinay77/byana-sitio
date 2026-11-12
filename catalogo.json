@@ -128,27 +128,36 @@
   {
    "id": "n16a",
    "c": "Velas",
-   "t": "Velas decorativas",
-   "d": "En bolsa de celofán $75, postal $80 o cajita $85. Kit de 2 en cajita $160, kit de 4 $290.",
+   "t": "Vela decorativa",
+   "d": "Una vela aromática de cera de soya con figura a elegir: árbol, galleta de jengibre, reno, copo de nieve, estrella, regalo, muñeco de nieve, cara de reno o trineo. Elige cómo la quieres envuelta.",
    "v": [
     {
      "n": "En bolsa de celofán",
      "p": 75
     },
     {
-     "n": "Con postal",
+     "n": "Con postal navideña",
      "p": 80
     },
     {
-     "n": "En cajita",
+     "n": "En cajita transparente",
      "p": 85
-    },
+    }
+   ],
+   "from": 1
+  },
+  {
+   "id": "n16b",
+   "c": "Velas",
+   "t": "Kit de velas decorativas",
+   "d": "Cajita con 2 o 4 velas aromáticas de cera de soya. Figuras a elegir: árbol, galleta de jengibre, reno, copo de nieve, estrella, regalo, muñeco de nieve, cara de reno o trineo.",
+   "v": [
     {
-     "n": "Kit de 2 en cajita",
+     "n": "Kit de 2 velas",
      "p": 160
     },
     {
-     "n": "Kit de 4",
+     "n": "Kit de 4 velas",
      "p": 290
     }
    ],
