@@ -742,7 +742,7 @@
    "id": "n28a",
    "c": "Cajas y kits",
    "t": "Caja de madera con taza",
-   "d": "Room spray 100 ml, vela ámbar 7 oz, 2 snacks en frasco, taza navideña, vela decorativa y tag con moño.",
+   "d": "Room spray 100 ml, vela ámbar 7 oz, 2 snacks en frasco, taza navideña, vela decorativa y tag con moño. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "",
@@ -761,6 +761,22 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": 2
+    }
    ]
   },
   {
@@ -801,7 +817,7 @@
    "id": "n31a",
    "c": "Cajas y kits",
    "t": "Caja de madera con vino y 3 snacks",
-   "d": "Vino 750 ml a elegir: Finca Las Moras $1000, Cune $1150 o Casa Madero 3V $1400. 3 snacks en frasco y tag personalizable con logo.",
+   "d": "Vino 750 ml a elegir: Finca Las Moras $1000, Cune $1150 o Casa Madero 3V $1400. 3 snacks en frasco y tag personalizable con logo. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "Finca Las Moras",
@@ -816,13 +832,29 @@
      "p": 1400
     }
    ],
-   "from": 1
+   "from": 1,
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": 3
+    }
+   ]
   },
   {
    "id": "n32a",
    "c": "Cajas y kits",
    "t": "Caja de madera con vino y vela",
-   "d": "Vino, 2 snacks en frasco y vela de concreto. Finca Las Moras $1200, Cune $1330, Casa Madero 3V $1600.",
+   "d": "Vino, 2 snacks en frasco y vela de concreto. Finca Las Moras $1200, Cune $1330, Casa Madero 3V $1600. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "Finca Las Moras",
@@ -847,13 +879,29 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": 2
+    }
    ]
   },
   {
    "id": "n33a",
    "c": "Cajas y kits",
    "t": "Caja de madera con vino y vela 4 oz",
-   "d": "Vino, 2 snacks en frasco y vela de soya 4 oz. Finca Las Moras $1050, Cune $1180, Casa Madero 3V $1450.",
+   "d": "Vino, 2 snacks en frasco y vela de soya 4 oz. Finca Las Moras $1050, Cune $1180, Casa Madero 3V $1450. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "Finca Las Moras",
@@ -878,17 +926,49 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": 2
+    }
    ]
   },
   {
    "id": "n35a",
    "c": "Cajas y kits",
    "t": "Caja roja con vaso de vidrio",
-   "d": "Vaso navideño con tapa de bambú y 2 snacks grandes a elegir.",
+   "d": "Vaso navideño con tapa de bambú y 2 snacks grandes a elegir. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "",
      "p": 370
+    }
+   ],
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": 2
     }
    ]
   },
@@ -918,7 +998,7 @@
    "id": "n37a",
    "c": "Cajas y kits",
    "t": "Caja roja con taza y snacks",
-   "d": "Taza navideña, 2 snacks grandes y vela decorativa.",
+   "d": "Taza navideña, 2 snacks grandes y vela decorativa. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "",
@@ -934,6 +1014,22 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": 2
+    }
    ]
   },
   {
@@ -962,7 +1058,7 @@
    "id": "n39a",
    "c": "Cajas y kits",
    "t": "Caja roja con termo whiskero",
-   "d": "Termo whiskero personalizado, vela 4 oz, snack y collar chapa de oro.",
+   "d": "Termo whiskero personalizado, vela 4 oz, snack y collar chapa de oro. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "",
@@ -978,13 +1074,29 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": 1
+    }
    ]
   },
   {
    "id": "n41a",
    "c": "Cajas y kits",
    "t": "Caja rectangular con termo",
-   "d": "Termo whiskero personalizado con 2 snacks $460, o con vela 9 oz y snack $590.",
+   "d": "Termo whiskero personalizado con 2 snacks $460, o con vela 9 oz y snack $590. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "Con 2 snacks",
@@ -1008,13 +1120,32 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": [
+      2,
+      1
+     ]
+    }
    ]
   },
   {
    "id": "n43a",
    "c": "Cajas y kits",
    "t": "Caja con tapa transparente y vino",
-   "d": "Vino 750 ml y 3 snacks en frasco. Finca Las Moras $700, Cune $830, Casa Madero 3V $1100.",
+   "d": "Vino 750 ml y 3 snacks en frasco. Finca Las Moras $700, Cune $830, Casa Madero 3V $1100. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "Finca Las Moras",
@@ -1029,13 +1160,29 @@
      "p": 1100
     }
    ],
-   "from": 1
+   "from": 1,
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": 3
+    }
+   ]
   },
   {
    "id": "n44a",
    "c": "Cajas y kits",
    "t": "Caja tapa transparente Mixta 1",
-   "d": "Vaso navideño, vela de concreto, 2 snacks, room spray 120 ml y miel con jengibre.",
+   "d": "Vaso navideño, vela de concreto, 2 snacks, room spray 120 ml y miel con jengibre. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "",
@@ -1051,13 +1198,29 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": 2
+    }
    ]
   },
   {
    "id": "n45a",
    "c": "Cajas y kits",
    "t": "Caja tapa transparente Mixta 2",
-   "d": "Termo de café 20 oz, 3 snacks grandes y vela decorativa.",
+   "d": "Termo de café 20 oz, 3 snacks grandes y vela decorativa. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "",
@@ -1073,6 +1236,22 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": 3
+    }
    ]
   },
   {
@@ -1128,7 +1307,7 @@
    "id": "n49a",
    "c": "Cajas y kits",
    "t": "Caja cobija con snacks o vela",
-   "d": "Cobija polar con 3 snacks $580, o con vela ámbar y room spray 100 ml $550.",
+   "d": "Cobija polar con 3 snacks $580, o con vela ámbar y room spray 100 ml $550. Snacks a elegir: cacahuates enchilados, mix de nueces y arándanos, nuez de la india (+$20), gomitas o pasitas con chocolate.",
    "v": [
     {
      "n": "Con vela ámbar y room spray 100 ml",
@@ -1152,6 +1331,28 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Snack",
+     "l": [
+      "Cacahuates enchilados",
+      "Mix nueces y arándanos",
+      "Nuez de la india",
+      "Gomitas",
+      "Pasitas con chocolate"
+     ],
+     "x": {
+      "Nuez de la india": 20
+     },
+     "c": [
+      0,
+      3
+     ],
+     "v": [
+      1
+     ]
+    }
    ]
   },
   {

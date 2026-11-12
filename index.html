@@ -585,8 +585,8 @@ let cart = [];
 try{ cart = JSON.parse(localStorage.getItem("byana-cart2")||"[]"); if(!Array.isArray(cart)) cart = []; }catch(e){ cart = []; }
 const save = () => { try{ localStorage.setItem("byana-cart2", JSON.stringify(cart)); }catch(e){} };
 const piezas = () => cart.reduce((s,i)=>s+i.qty,0);
-const lineInfo = i => { const p = PRODUCTOS.get(i.id); const v = p && p.v && p.v[i.v]; return p && v && (!p.ar || p.ar.includes(i.ar)) ? {p,v} : null; };
-const total = () => cart.reduce((s,i)=>{ const l=lineInfo(i); return s + (l ? l.v.p*i.qty : 0); },0);
+const lineInfo = i => { const p = PRODUCTOS.get(i.id); const v = p && p.v && p.v[i.v]; return p && v && (!p.ar || p.ar.includes(i.ar)) ? {p,v,u:v.p+extraOps(p,i.v,i.op)} : null; };
+const total = () => cart.reduce((s,i)=>{ const l=lineInfo(i); return s + (l ? l.u*i.qty : 0); },0);
 let ENVIO = { opciones: [] };
 const envioSel = () => { const r = document.querySelector('input[name="envio"]:checked'); return r ? ENVIO.opciones.find(o=>o.id===r.value) : null; };
 const costoEnvio = () => { const o = envioSel(); if(!o || o.cotiza) return 0; if(cart.length && cart.every(i=>PRODUCTOS.get(i.id)?.prueba)) return 0; return (typeof ENVIO.gratisDesde==="number" && total()>=ENVIO.gratisDesde) ? 0 : o.p; };
@@ -647,7 +647,7 @@ $("d-cp").addEventListener("input", async ()=>{
 document.querySelectorAll("#dir-wrap input").forEach(i=>i.addEventListener("input", ()=>{ $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen()); }));
 const waLimite = () => WA + encodeURIComponent(`Hola Ana, quiero hacer un pedido de más de ${MAX_PIEZAS} piezas:\n` + resumen());
 function resumen(){
-  return cart.map(i=>{ const l=lineInfo(i); if(!l) return ""; return `• ${i.qty} × ${l.p.t}${l.v.n?" ("+l.v.n+")":""}${i.op?` – ${opsTexto(i)}`:""}${i.ini?` – inicial${i.ini.includes(",")?"es":""}: ${i.ini}`:""}${i.ar?` – aroma: ${i.ar}`:""}${i.tag?` – texto: “${i.tag}”`:""}${i.nota?` – ${i.nota}`:""} = ${money(l.v.p*i.qty)}`; }).filter(Boolean).join("\n") + textoEnvio() + `\nTotal: ${money(total() + costoEnvio())}${(envioSel()&&envioSel().cotiza)?" + envío":""}`;
+  return cart.map(i=>{ const l=lineInfo(i); if(!l) return ""; return `• ${i.qty} × ${l.p.t}${l.v.n?" ("+l.v.n+")":""}${i.op?` – ${opsTexto(i)}`:""}${i.ini?` – inicial${i.ini.includes(",")?"es":""}: ${i.ini}`:""}${i.ar?` – aroma: ${i.ar}`:""}${i.tag?` – texto: “${i.tag}”`:""}${i.nota?` – ${i.nota}`:""} = ${money(l.u*i.qty)}`; }).filter(Boolean).join("\n") + textoEnvio() + `\nTotal: ${money(total() + costoEnvio())}${(envioSel()&&envioSel().cotiza)?" + envío":""}`;
 }
 
 let cur = null;
@@ -683,7 +683,7 @@ function syncProduct(){
     $("pd-tag").placeholder = p.tag.ph || "Ej. Familia López"; $("pd-tag").autocapitalize = p.tag.letras ? "characters" : "sentences";
     $("pd-tag-label").textContent = p.tag.label + ` (máx. ${p.tag.max} ${p.tag.letras ? "letras" : "caracteres"})`; $("pd-tag").maxLength = p.tag.max; $("pd-tag-count").textContent = `${$("pd-tag").value.length}/${p.tag.max}`; }
   const qty = Math.max(1, Math.floor(+$("pd-qty").value||1));
-  $("pd-total").textContent = money(p.v[vi].p * qty);
+  $("pd-total").textContent = money((p.v[vi].p + extraOps(p, vi, opsAhora())) * qty);
   const left = MAX_PIEZAS - piezas();
   $("pd-limit").innerHTML = qty > left
     ? `En línea puedes pedir hasta ${MAX_PIEZAS} piezas${left<MAX_PIEZAS?` (ya tienes ${MAX_PIEZAS-left} en el carrito)`:""}. Para más, <a href="${WA}${encodeURIComponent(`Hola Ana, quiero ${qty} piezas de: ${p.t}${p.v[vi].n?" ("+p.v[vi].n+")":""}`)}" target="_blank" rel="noopener">escríbenos por WhatsApp</a>.`
@@ -694,13 +694,15 @@ const opsDe = (p, vi) => (p.op || []).filter(o => !o.v || o.v.includes(vi)).flat
   const n = Array.isArray(o.c) ? (o.c[vi] || 1) : (o.c || 1);
   return n > 1 ? Array.from({length:n}, (_,k)=>({...o, n:`${o.n} ${k+1}`})) : [o];
 });
+const extraOps = (p, vi, op) => op ? opsDe(p, vi).reduce((s,o)=>s + ((o.x && o.x[op[o.n]]) || 0), 0) : 0;
+const opsAhora = () => Object.fromEntries([...$("pd-ops").querySelectorAll("select")].map(s=>[s.dataset.n, s.value]));
 const opsTexto = i => i.op ? Object.entries(i.op).map(([k,v])=>`${k}: ${v}`).join(" · ") : "";
 function syncOps(p, vi){
   const box = $("pd-ops"), ops = opsDe(p, vi), key = p.id + "|" + ops.map(o=>o.n).join(",");
   if(box.dataset.key === key) return;
   const prev = {}; box.querySelectorAll("select").forEach(s=>prev[s.dataset.n]=s.value);
   box.dataset.key = key;
-  box.innerHTML = ops.map(o=>`<label class="fld"><span>${esc(o.n)}</span><select data-n="${esc(o.n)}"><option value="">Elige</option>${o.l.map(x=>`<option${prev[o.n]===x?" selected":""}>${esc(x)}</option>`).join("")}</select></label>`).join("");
+  box.innerHTML = ops.map(o=>`<label class="fld"><span>${esc(o.n)}</span><select data-n="${esc(o.n)}"><option value="">Elige</option>${o.l.map(x=>`<option value="${esc(x)}"${prev[o.n]===x?" selected":""}>${esc(x)}${o.x&&o.x[x]?` (+${money(o.x[x])})`:""}</option>`).join("")}</select></label>`).join("");
 }
 const LETRAS = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("");
 function syncIniciales(p, vi){
@@ -738,11 +740,11 @@ function renderCart(){
   const n = piezas();
   $("cart-btn").hidden = n === 0;
   $("cart-count").textContent = n;
-  $("cart-items").innerHTML = cart.length ? cart.map((i,k)=>{ const {p,v}=lineInfo(i); return `<li>
+  $("cart-items").innerHTML = cart.length ? cart.map((i,k)=>{ const {p,v,u}=lineInfo(i); return `<li>
       <img src="img/${p.id}.jpg" alt="">
       <div class="ci"><strong>${esc(p.t)}</strong>${v.n?`<span>${esc(v.n)}</span>`:""}${i.op?`<span>${esc(opsTexto(i))}</span>`:""}${i.ini?`<span>Inicial${i.ini.includes(",")?"es":""}: ${esc(i.ini)}</span>`:""}${i.ar?`<span>Aroma: ${esc(i.ar)}</span>`:""}${i.tag?`<span>Texto: “${esc(i.tag)}”</span>`:""}${i.nota?`<span>${esc(i.nota)}</span>`:""}
         <div class="qty"><button type="button" data-k="${k}" data-d="-1" aria-label="Quitar una">−</button><span>${i.qty}</span><button type="button" data-k="${k}" data-d="1" aria-label="Agregar una" ${n>=MAX_PIEZAS?"disabled":""}>+</button><button type="button" class="rm" data-k="${k}" data-d="x">Quitar</button></div></div>
-      <div class="cp">${money(v.p*i.qty)}</div></li>`; }).join("") : `<li class="none">Tu carrito está vacío.</li>`;
+      <div class="cp">${money(u*i.qty)}</div></li>`; }).join("") : `<li class="none">Tu carrito está vacío.</li>`;
   $("cart-total").textContent = money(total());
   $("cart-pzs").textContent = `${n} de ${MAX_PIEZAS} piezas`;
   $("cart-limit").innerHTML = n >= MAX_PIEZAS ? `Llegaste al máximo de ${MAX_PIEZAS} piezas en línea. ¿Necesitas más? <a href="${waLimite()}" target="_blank" rel="noopener">Pídelo por WhatsApp</a>.` : "";
@@ -758,6 +760,7 @@ $("cart-items").addEventListener("click", e=>{
   save(); renderCart();
 });
 ["pd-var","pd-ar","pd-qty","pd-tag"].forEach(id=>$(id).addEventListener("input", syncProduct));
+$("pd-ops").addEventListener("change", syncProduct);
 $("pd-add").addEventListener("click", addCurrent);
 $("cart-btn").addEventListener("click", ()=>{ renderCart(); $("cart-err").textContent=""; $("dlg-cart").showModal(); });
 document.querySelectorAll("dialog .x").forEach(b=>b.addEventListener("click", ()=>b.closest("dialog").close()));
