@@ -1,0 +1,2 @@
+Datos de códigos postales de SEPOMEX, tomados del paquete @webrek/mx-cp (licencia MIT).
+Formato: {"CP": [estado, alcaldía o municipio, [colonias]]}, un archivo por los 2 primeros dígitos.

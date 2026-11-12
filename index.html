@@ -392,11 +392,10 @@ footer .legal a:hover{color:var(--accent)}
       <legend class="caps">¿Cómo lo recibes?</legend>
       <div id="envio-ops"></div>
       <div id="dir-wrap" hidden>
-        <label class="fld"><span>Calle y número</span><input id="d-calle" autocomplete="street-address" maxlength="100"></label>
-        <div class="row2">
-          <label class="fld"><span>Colonia</span><input id="d-colonia" maxlength="60"></label>
-          <label class="fld"><span>Código postal</span><input id="d-cp" inputmode="numeric" autocomplete="postal-code" maxlength="5"></label>
-        </div>
+        <label class="fld"><span>Código postal</span><input id="d-cp" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="5 dígitos"><small id="d-cp-msg" aria-live="polite"></small></label>
+        <label class="fld" id="d-colsel-wrap" hidden><span>Colonia</span><select id="d-colsel"></select></label>
+        <label class="fld" id="d-colonia-wrap"><span>Colonia</span><input id="d-colonia" maxlength="60"></label>
+        <label class="fld"><span>Calle y número</span><input id="d-calle" autocomplete="street-address" maxlength="100" placeholder="Calle, número exterior e interior"></label>
         <div class="row2">
           <label class="fld"><span>Alcaldía o municipio</span><input id="d-municipio" maxlength="60"></label>
           <label class="fld"><span>Estado</span><input id="d-estado" autocomplete="address-level1" maxlength="40"></label>
@@ -491,6 +490,42 @@ function syncEnvio(){
   $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen());
 }
 $("envio-ops").addEventListener("change", syncEnvio);
+// Código postal → colonia, alcaldía/municipio y estado (datos SEPOMEX en /cp/<2 dígitos>.json)
+const cpCache = {};
+async function buscarCP(cp){
+  const k = cp.slice(0,2);
+  if(!(k in cpCache)) cpCache[k] = fetch(`cp/${k}.json`).then(r=>r.ok?r.json():{}).catch(()=>{ delete cpCache[k]; return null; });
+  const t = await cpCache[k]; return t ? (t[cp] || false) : null;
+}
+const OTRA = "__otra";
+function syncColonia(){
+  const sel = $("d-colsel"), otra = $("d-colsel-wrap").hidden || sel.value === OTRA;
+  $("d-colonia-wrap").hidden = !otra;
+  if(!$("d-colsel-wrap").hidden && sel.value !== OTRA) $("d-colonia").value = sel.value;
+  else if(!$("d-colsel-wrap").hidden && sel.value === OTRA) { $("d-colonia").value = ""; $("d-colonia").focus(); }
+}
+$("d-colsel").addEventListener("change", ()=>{ syncColonia(); $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen()); });
+$("d-cp").addEventListener("input", async ()=>{
+  const inp = $("d-cp"); inp.value = inp.value.replace(/\D/g,"").slice(0,5);
+  const cp = inp.value, msg = $("d-cp-msg");
+  if(cp.length < 5){ msg.textContent = ""; $("d-colsel-wrap").hidden = true; syncColonia(); return; }
+  msg.textContent = "Buscando…";
+  const r = await buscarCP(cp);
+  if(inp.value !== cp) return;
+  if(r === null){ msg.textContent = "No pudimos buscar el código postal; escribe tus datos."; return; }
+  if(!r){ msg.textContent = "No encontramos ese código postal; revisa o escribe tus datos."; $("d-colsel-wrap").hidden = true; syncColonia(); return; }
+  const [estado, municipio, cols] = r;
+  $("d-estado").value = estado; $("d-municipio").value = municipio;
+  const metro = estado === "Ciudad de México" || estado === "Estado de México" || estado === "Hidalgo";
+  msg.textContent = `${municipio}, ${estado}` + (metro ? "" : " · fuera de CDMX: el envío se cotiza por WhatsApp");
+  const sel = $("d-colsel");
+  sel.innerHTML = (cols.length > 1 ? `<option value="" disabled selected>Elige tu colonia</option>` : "") + cols.map(c=>`<option>${esc(c)}</option>`).join("") + `<option value="${OTRA}">Otra (escribirla)</option>`;
+  $("d-colsel-wrap").hidden = !cols.length;
+  if(cols.length === 1) sel.value = cols[0];
+  syncColonia();
+  if(cols.length !== 1) sel.focus(); else $("d-calle").focus();
+  $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen());
+});
 document.querySelectorAll("#dir-wrap input").forEach(i=>i.addEventListener("input", ()=>{ $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen()); }));
 const waLimite = () => WA + encodeURIComponent(`Hola Ana, quiero hacer un pedido de más de ${MAX_PIEZAS} piezas:\n` + resumen());
 function resumen(){
