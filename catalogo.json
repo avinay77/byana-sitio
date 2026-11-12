@@ -23,6 +23,23 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Figura",
+     "l": [
+      "Árbol",
+      "Galleta de jengibre",
+      "Reno",
+      "Copo de nieve",
+      "Estrella",
+      "Regalo",
+      "Muñeco de nieve",
+      "Cara de reno",
+      "Trineo"
+     ],
+     "c": 2
+    }
    ]
   },
   {
@@ -48,6 +65,23 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Figura",
+     "l": [
+      "Árbol",
+      "Galleta de jengibre",
+      "Reno",
+      "Copo de nieve",
+      "Estrella",
+      "Regalo",
+      "Muñeco de nieve",
+      "Cara de reno",
+      "Trineo"
+     ],
+     "c": 2
+    }
    ]
   },
   {
@@ -70,6 +104,15 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Palabras",
+     "l": [
+      "Joy · Hope · Love",
+      "Luz · Amor · Paz"
+     ]
+    }
    ]
   },
   {
@@ -270,6 +313,22 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Figura",
+     "l": [
+      "Árbol",
+      "Galleta de jengibre",
+      "Reno",
+      "Copo de nieve",
+      "Estrella",
+      "Regalo",
+      "Muñeco de nieve",
+      "Cara de reno",
+      "Trineo"
+     ]
+    }
    ]
   },
   {
@@ -302,6 +361,26 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Figura",
+     "l": [
+      "Árbol",
+      "Galleta de jengibre",
+      "Reno",
+      "Copo de nieve",
+      "Estrella",
+      "Regalo",
+      "Muñeco de nieve",
+      "Cara de reno",
+      "Trineo"
+     ],
+     "c": [
+      2,
+      4
+     ]
+    }
    ]
   },
   {
@@ -327,6 +406,23 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Figura",
+     "l": [
+      "Árbol",
+      "Galleta de jengibre",
+      "Reno",
+      "Copo de nieve",
+      "Estrella",
+      "Regalo",
+      "Muñeco de nieve",
+      "Cara de reno",
+      "Trineo"
+     ],
+     "c": 2
+    }
    ]
   },
   {
@@ -357,6 +453,19 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Intención de la vela",
+     "l": [
+      "Love",
+      "Hope",
+      "Joy",
+      "Paz",
+      "Luz",
+      "Amor"
+     ]
+    }
    ]
   },
   {
@@ -386,6 +495,22 @@
     "Jazmín",
     "Nardo",
     "Gardenia"
+   ],
+   "op": [
+    {
+     "n": "Figura",
+     "l": [
+      "Árbol",
+      "Galleta de jengibre",
+      "Reno",
+      "Copo de nieve",
+      "Estrella",
+      "Regalo",
+      "Muñeco de nieve",
+      "Cara de reno",
+      "Trineo"
+     ]
+    }
    ]
   },
   {
@@ -500,6 +625,15 @@
    "from": 1,
    "f": [
     "n23a-2"
+   ],
+   "op": [
+    {
+     "n": "Aroma",
+     "l": [
+      "Villa Navideña",
+      "Bergamota"
+     ]
+    }
    ]
   },
   {
@@ -1228,6 +1362,17 @@
    ],
    "f": [
     "n58a-2"
+   ],
+   "op": [
+    {
+     "n": "Piedra",
+     "l": [
+      "Ágata de colores",
+      "Lapislázuli",
+      "Jade",
+      "Aguamarina"
+     ]
+    }
    ]
   },
   {
@@ -1467,6 +1612,15 @@
      "n": "",
      "p": 450
     }
+   ],
+   "op": [
+    {
+     "n": "Dije",
+     "l": [
+      "Corazón",
+      "Flor"
+     ]
+    }
    ]
   },
   {
@@ -1548,6 +1702,17 @@
      "n": "",
      "p": 100
     }
+   ],
+   "op": [
+    {
+     "n": "Dije",
+     "l": [
+      "Borrego",
+      "Cruz",
+      "Corazón",
+      "Estrella"
+     ]
+    }
    ]
   },
   {
@@ -1577,17 +1742,60 @@
      "p": 290
     }
    ],
-   "from": 1
+   "from": 1,
+   "op": [
+    {
+     "n": "Color de la mota",
+     "l": [
+      "Rosa pastel",
+      "Coral",
+      "Naranja",
+      "Amarillo",
+      "Rojo",
+      "Turquesa",
+      "Verde",
+      "Azul marino",
+      "Lila",
+      "Morado"
+     ]
+    }
+   ]
   },
   {
    "id": "n69b",
    "c": "Joyería",
    "t": "Pulsera de bolitas personalizada",
-   "d": "Con palabra, borrego y mota.",
+   "d": "Con la palabra que quieras (hasta 5 letras), borrego y mota de color.",
    "v": [
     {
      "n": "",
      "p": 260
+    }
+   ],
+   "tag": {
+    "v": [
+     0
+    ],
+    "max": 5,
+    "label": "Letras de las bolitas",
+    "letras": true,
+    "ph": "Ej. LOVE"
+   },
+   "op": [
+    {
+     "n": "Color de la mota",
+     "l": [
+      "Rosa pastel",
+      "Coral",
+      "Naranja",
+      "Amarillo",
+      "Rojo",
+      "Turquesa",
+      "Verde",
+      "Azul marino",
+      "Lila",
+      "Morado"
+     ]
     }
    ]
   },
@@ -1600,6 +1808,23 @@
     {
      "n": "",
      "p": 200
+    }
+   ],
+   "op": [
+    {
+     "n": "Color de la mota",
+     "l": [
+      "Rosa pastel",
+      "Coral",
+      "Naranja",
+      "Amarillo",
+      "Rojo",
+      "Turquesa",
+      "Verde",
+      "Azul marino",
+      "Lila",
+      "Morado"
+     ]
     }
    ]
   },

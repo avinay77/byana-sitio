@@ -669,7 +669,9 @@ function syncProduct(){
   $("pd-tag-wrap").hidden = !needTag;
   syncIniciales(p, vi);
   syncOps(p, vi);
-  if(needTag){ $("pd-tag-label").textContent = p.tag.label + ` (máx. ${p.tag.max} caracteres)`; $("pd-tag").maxLength = p.tag.max; $("pd-tag-count").textContent = `${$("pd-tag").value.length}/${p.tag.max}`; }
+  if(needTag){ if(p.tag.letras){ const t=$("pd-tag"), v=t.value.toUpperCase().replace(/[^A-ZÑ]/g,""); if(v!==t.value) t.value=v; }
+    $("pd-tag").placeholder = p.tag.ph || "Ej. Familia López"; $("pd-tag").autocapitalize = p.tag.letras ? "characters" : "sentences";
+    $("pd-tag-label").textContent = p.tag.label + ` (máx. ${p.tag.max} ${p.tag.letras ? "letras" : "caracteres"})`; $("pd-tag").maxLength = p.tag.max; $("pd-tag-count").textContent = `${$("pd-tag").value.length}/${p.tag.max}`; }
   const qty = Math.max(1, Math.floor(+$("pd-qty").value||1));
   $("pd-total").textContent = money(p.v[vi].p * qty);
   const left = MAX_PIEZAS - piezas();
@@ -678,7 +680,10 @@ function syncProduct(){
     : "";
   $("pd-add").disabled = qty > left;
 }
-const opsDe = (p, vi) => (p.op || []).filter(o => !o.v || o.v.includes(vi));
+const opsDe = (p, vi) => (p.op || []).filter(o => !o.v || o.v.includes(vi)).flatMap(o => {
+  const n = Array.isArray(o.c) ? (o.c[vi] || 1) : (o.c || 1);
+  return n > 1 ? Array.from({length:n}, (_,k)=>({...o, n:`${o.n} ${k+1}`})) : [o];
+});
 const opsTexto = i => i.op ? Object.entries(i.op).map(([k,v])=>`${k}: ${v}`).join(" · ") : "";
 function syncOps(p, vi){
   const box = $("pd-ops"), ops = opsDe(p, vi), key = p.id + "|" + ops.map(o=>o.n).join(",");
@@ -711,7 +716,7 @@ function addCurrent(){
   const op = opSel.length ? Object.fromEntries(opSel.map(s=>[s.dataset.n, s.value])) : null;
   if(qty < 1){ $("pd-err").textContent = "Elige cuántas piezas."; return; }
   if(p.ar && !p.ar.includes(ar)){ $("pd-err").textContent = "Elige el aroma."; $("pd-ar").focus(); return; }
-  if(needTag && !tag){ $("pd-err").textContent = "Escribe el texto para tus tags."; $("pd-tag").focus(); return; }
+  if(needTag && !tag){ $("pd-err").textContent = p.tag.letras ? "Escribe las letras de tu pulsera." : "Escribe el texto para tus tags."; $("pd-tag").focus(); return; }
   if(piezas() + qty > MAX_PIEZAS){ syncProduct(); return; }
   const same = cart.find(i=>i.id===p.id && i.v===vi && (i.ar||"")===ar && (i.ini||"")===ini && opsTexto(i)===opsTexto({op}) && i.tag===tag && i.nota===nota);
   if(same) same.qty += qty; else cart.push({id:p.id, v:vi, qty, ...(op?{op}:{}), ini, ar, tag, nota});
