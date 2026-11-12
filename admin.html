@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Cupones · By Ana</title>
+<title>Administración · By Ana</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Jost:wght@300;400;500&family=Mulish:wght@400;600&display=swap">
 <style>
@@ -21,6 +21,7 @@ label{display:flex;flex-direction:column;gap:4px;font-size:.85rem}
 label span{font:500 .62rem Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
 input,select{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:3px;padding:9px 11px;width:100%}
 small{color:var(--soft)}
+a{color:var(--pine)}
 button{font:500 .72rem Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:999px;padding:11px 20px;cursor:pointer}
 button.ghost{background:none;color:var(--accent)}
 button.mini{padding:6px 12px;font-size:.62rem}
@@ -36,11 +37,34 @@ td b{font-family:ui-monospace,Menlo,monospace;letter-spacing:.04em}
 .acts{display:flex;gap:6px;flex-wrap:wrap}
 .tbl{overflow-x:auto}
 [hidden]{display:none!important}
+.tabs{display:flex;gap:6px;margin:22px 0 0;border-bottom:1px solid var(--line)}
+.tabs button{background:none;color:var(--soft);border:0;border-bottom:2px solid transparent;border-radius:0;padding:10px 14px}
+.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.tabs b{display:inline-block;min-width:18px;margin-left:6px;padding:1px 6px;border-radius:999px;background:var(--accent);color:#fff;font-size:.62rem}
+.filtros{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.filtros button{background:#fff;color:var(--ink);border-color:var(--line)}
+.filtros button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.filtros input{max-width:240px;margin-left:auto}
+tr.click{cursor:pointer} tr.click:hover td{background:var(--wash)}
+.est{display:inline-block;font-size:.72rem;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.est.pagado{background:#FBEFD9;color:#8A5A12}.est.preparacion{background:#E7EEF7;color:#2F527A}.est.enviado{background:#EDE7F6;color:#5B3F8C}.est.entregado{background:var(--wash);color:var(--pine)}.est.cancelado{background:#F7ECEA;color:var(--accent)}
+.det{margin-bottom:18px}
+.det h3{margin:0;font:400 1.2rem Jost,sans-serif;letter-spacing:.03em}
+.det .sub{color:var(--soft);font-size:.85rem;margin:2px 0 14px}
+.det .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.det ul{margin:0;padding:0;list-style:none}
+.det li{padding:8px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}
+.det li small{display:block;color:var(--soft)}
+.det .k{font:500 .62rem Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin:14px 0 4px}
+.det p{margin:0}
+.det textarea{font:inherit;font-size:16px;width:100%;min-height:60px;border:1px solid var(--line);border-radius:3px;padding:9px 11px;color:var(--ink)}
+.chk{flex-direction:row;align-items:center;gap:8px;font-size:.9rem}
+.chk input{width:auto}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1><span class="s">By Ana</span>Cupones de descuento</h1>
+  <h1><span class="s">By Ana</span>Administración</h1>
 
   <section id="login">
     <h2>Entrar</h2>
@@ -48,11 +72,36 @@ td b{font-family:ui-monospace,Menlo,monospace;letter-spacing:.04em}
       <label><span>Clave de administración</span><input id="key" type="password" autocomplete="current-password"></label>
       <div class="row"><button id="entrar" type="button">Entrar</button></div>
       <p class="msg" id="login-msg"></p>
-      <small>Es la clave que pusiste como ADMIN_KEY en Cloudflare.</small>
+      <small>Es la clave que pusiste como ADMIN_KEY en Cloudflare. Aquí administras pedidos y cupones.</small>
     </div>
   </section>
 
   <section id="app" hidden>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="tab-pedidos" aria-selected="true">Pedidos<b id="n-nuevos" hidden></b></button>
+      <button type="button" role="tab" id="tab-cupones" aria-selected="false">Cupones</button>
+    </div>
+
+    <div id="vista-pedidos">
+      <h2>Pedidos pagados</h2>
+      <div class="card det" id="det" hidden></div>
+      <div class="filtros" id="filtros">
+        <button type="button" class="mini" data-f="activos" aria-pressed="true">Por atender</button>
+        <button type="button" class="mini" data-f="pagado" aria-pressed="false">Pagado</button>
+        <button type="button" class="mini" data-f="preparacion" aria-pressed="false">En preparación</button>
+        <button type="button" class="mini" data-f="enviado" aria-pressed="false">Enviado</button>
+        <button type="button" class="mini" data-f="entregado" aria-pressed="false">Entregado</button>
+        <button type="button" class="mini" data-f="cancelado" aria-pressed="false">Cancelado</button>
+        <button type="button" class="mini" data-f="todos" aria-pressed="false">Todos</button>
+        <input id="buscar" type="search" placeholder="Buscar nombre o pedido" aria-label="Buscar">
+      </div>
+      <div class="card tbl">
+        <table><thead><tr><th>Fecha</th><th>Cliente</th><th>Piezas</th><th>Total</th><th>Estado</th></tr></thead><tbody id="lista-p"><tr><td colspan="5">Cargando…</td></tr></tbody></table>
+      </div>
+      <p><small>Aquí aparecen los pedidos pagados en línea desde hoy. Los pedidos por WhatsApp no se registran aquí.</small></p>
+    </div>
+
+    <div id="vista-cupones" hidden>
     <h2>Crear cupón</h2>
     <form class="card" id="form">
       <div class="grid">
@@ -71,6 +120,7 @@ td b{font-family:ui-monospace,Menlo,monospace;letter-spacing:.04em}
     <h2>Tus cupones</h2>
     <div class="card tbl">
       <table><thead><tr><th>Código</th><th>Descuento</th><th>Condiciones</th><th>Usos</th><th>Estado</th><th></th></tr></thead><tbody id="lista"><tr><td colspan="6">Cargando…</td></tr></tbody></table>
+    </div>
     </div>
     <div class="row"><button class="ghost" id="salir" type="button">Salir</button></div>
   </section>
@@ -100,9 +150,77 @@ async function cargar(){
   }).join("") : `<tr><td colspan="6">Todavía no hay cupones. Crea el primero arriba.</td></tr>`;
   window.__cupones = cupones;
 }
+/* ---------- Pedidos ---------- */
+let PEDIDOS = [], ESTADOS = {}, FILTRO = "activos", ABIERTO = "";
+const fechaHora = v => v ? new Date(v).toLocaleString("es-MX",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}) : "";
+const est = e => `<span class="est ${esc(e)}">${esc(ESTADOS[e] || e || "")}</span>`;
+async function api2(method, body, q=""){
+  const r = await fetch("/api/admin/pedidos" + q, { method, headers: { "Content-Type":"application/json", "X-Admin-Key": KEY }, body: body ? JSON.stringify(body) : undefined });
+  const d = await r.json().catch(()=>({ error: "Respuesta inválida del servidor." }));
+  if(!r.ok) throw Object.assign(new Error(d.error || "Error"), { status: r.status });
+  return d;
+}
+function pintarPedidos(){
+  const q = $("buscar").value.trim().toLowerCase();
+  const l = PEDIDOS.filter(p => (FILTRO==="todos" || (FILTRO==="activos" ? ["pagado","preparacion","enviado"].includes(p.estado) : p.estado===FILTRO)) &&
+    (!q || (p.cliente||"").toLowerCase().includes(q) || p.ref.toLowerCase().includes(q)));
+  $("lista-p").innerHTML = l.length ? l.map(p=>`<tr class="click" data-ref="${esc(p.ref)}"><td>${esc(fechaHora(p.fecha))}<br><small>${esc(p.ref)}</small></td><td>${esc(p.cliente)}</td><td>${p.piezas||""}</td><td>${esc(p.total)}</td><td>${est(p.estado)}</td></tr>`).join("")
+    : `<tr><td colspan="5">${PEDIDOS.length ? "No hay pedidos con ese filtro." : "Todavía no hay pedidos registrados. Aparecerán aquí en cuanto alguien pague en línea."}</td></tr>`;
+  const n = PEDIDOS.filter(p=>p.estado==="pagado").length;
+  $("n-nuevos").hidden = !n; $("n-nuevos").textContent = n;
+}
+async function cargarPedidos(){ const d = await api2("GET"); PEDIDOS = d.pedidos; ESTADOS = d.estados; pintarPedidos(); }
+async function abrirPedido(ref){
+  const { pedido:p } = await api2("GET", null, "?ref=" + encodeURIComponent(ref));
+  ABIERTO = ref;
+  const tel = String(p.telefono||"").replace(/\D/g,"").slice(-10);
+  $("det").innerHTML = `<div style="display:flex;justify-content:space-between;gap:12px;align-items:start"><div><h3>${esc(p.cliente)}</h3><p class="sub">Pedido ${esc(p.ref)} · ${esc(fechaHora(p.fecha))} · Mercado Pago ${esc(p.pago)}</p></div><button type="button" class="mini ghost" id="det-x">Cerrar</button></div>
+    <div class="cols">
+      <div>
+        <div class="k">Productos</div>
+        <ul>${(p.productos||[]).map(i=>`<li><div>${i.q} × ${esc(i.t)}${i.d?`<small>${esc(i.d)}</small>`:""}</div><div>${money(i.p*i.q)}</div></li>`).join("")}
+        ${p.descuento?`<li><div>Cupón ${esc(p.cupon)}${p.referido?" <small>(código de amigo)</small>":""}</div><div>−${money(p.descuento)}</div></li>`:""}
+        <li><div><b>Total pagado</b></div><div><b>${esc(p.total)}</b></div></li></ul>
+      </div>
+      <div>
+        <div class="k">Cliente</div>
+        <p>${tel?`<a href="https://wa.me/52${tel}" target="_blank" rel="noopener">WhatsApp ${esc(tel)}</a>`:"Sin teléfono"}${p.email?`<br><a href="mailto:${esc(p.email)}">${esc(p.email)}</a>`:""}${p.cuenta?`<br><small>Tiene cuenta (${esc(p.cuenta)})</small>`:""}</p>
+        <div class="k">Entrega</div>
+        <p>${esc(p.envio||"—")}${p.direccion?`<br>${esc(p.direccion)}`:""}</p>
+        <div class="k">Historial</div>
+        <p><small>${(p.historial||[]).map(h=>`${esc(ESTADOS[h.estado]||h.estado)}: ${esc(fechaHora(h.fecha))}`).join("<br>")}</small></p>
+      </div>
+      <form id="det-form">
+        <div class="k">Actualizar</div>
+        <label><span>Estado</span><select id="d-estado">${Object.entries(ESTADOS).map(([k,v])=>`<option value="${k}"${k===p.estado?" selected":""}>${esc(v)}</option>`).join("")}</select></label>
+        <label style="margin-top:10px"><span>Guía de rastreo (opcional)</span><input id="d-guia" maxlength="120" value="${esc(p.guia||"")}" placeholder="Número o enlace"></label>
+        <label style="margin-top:10px"><span>Nota interna (solo para ti)</span><textarea id="d-nota" maxlength="500">${esc(p.notaInterna||"")}</textarea></label>
+        <label class="chk" id="d-avisar-w" style="margin-top:10px"${p.estado==="enviado"?"":" hidden"}><input type="checkbox" id="d-avisar" ${p.email?"checked":"disabled"}> Avisar al cliente por correo que va en camino${p.email?"":" (no hay correo)"}</label>
+        <div class="row"><button type="submit">Guardar</button></div>
+        <p class="msg" id="d-msg"></p>
+      </form>
+    </div>`;
+  $("det").hidden = false; $("det").scrollIntoView({ behavior:"smooth", block:"start" });
+  $("det-x").onclick = () => { $("det").hidden = true; ABIERTO = ""; };
+  $("d-estado").onchange = () => { $("d-avisar-w").hidden = $("d-estado").value !== "enviado"; };
+  $("det-form").onsubmit = async e => {
+    e.preventDefault(); const m = $("d-msg"); m.className = "msg"; m.textContent = "Guardando…";
+    try{
+      const r = await api2("POST", { ref, estado: $("d-estado").value, guia: $("d-guia").value, notaInterna: $("d-nota").value, avisar: $("d-estado").value==="enviado" && $("d-avisar").checked });
+      await cargarPedidos(); await abrirPedido(ref);
+      $("d-msg").className = "msg ok"; $("d-msg").textContent = "Guardado. " + (r.aviso || "");
+    }catch(err){ m.className = "msg err"; m.textContent = err.message; }
+  };
+}
+$("lista-p").addEventListener("click", e => { const tr = e.target.closest("tr[data-ref]"); if(tr) abrirPedido(tr.dataset.ref).catch(err=>alert(err.message)); });
+$("filtros").addEventListener("click", e => { const b = e.target.closest("button[data-f]"); if(!b) return; FILTRO = b.dataset.f; document.querySelectorAll("#filtros button").forEach(x=>x.setAttribute("aria-pressed", x===b)); pintarPedidos(); });
+$("buscar").addEventListener("input", pintarPedidos);
+const tab = t => { ["pedidos","cupones"].forEach(x=>{ $("tab-"+x).setAttribute("aria-selected", x===t); $("vista-"+x).hidden = x!==t; }); try{ sessionStorage.setItem("byana-admin-tab", t); }catch(e){} };
+$("tab-pedidos").onclick = () => tab("pedidos"); $("tab-cupones").onclick = () => tab("cupones");
+
 async function entrar(){
   $("login-msg").textContent = ""; $("login-msg").className = "msg";
-  try{ await cargar(); try{ sessionStorage.setItem("byana-admin", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; }
+  try{ await cargarPedidos(); await cargar(); try{ tab(sessionStorage.getItem("byana-admin-tab") || "pedidos"); }catch(e){} try{ sessionStorage.setItem("byana-admin", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; }
   catch(e){ $("login-msg").textContent = e.message; $("login-msg").className = "msg err"; }
 }
 $("entrar").onclick = () => { KEY = $("key").value.trim(); entrar(); };

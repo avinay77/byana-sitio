@@ -94,6 +94,7 @@ header nav a{white-space:nowrap}
 .ct-list li div{min-width:0}
 .ct-list small{display:block;color:var(--ink-soft);font-size:.78rem}
 .ct-list .off{opacity:.55}
+.ct-est{flex:none;font-size:.72rem;padding:3px 9px;border-radius:999px;background:var(--wash);color:var(--pine);white-space:nowrap}
 .ct-links{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.82rem}
 .ct-links button{border:0;background:none;color:var(--ink-soft);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
 .ct-hint{margin:0;font-size:.82rem;color:var(--ink-soft)}
@@ -1092,7 +1093,7 @@ function pintarCuenta(){
   $("ct-ref-txt").textContent = `Tu amigo tiene ${money(CUENTA.amigo)} de descuento en su primera compra desde ${money(CUENTA.minimo)}, y cuando la pague te llega un cupón de ${money(CUENTA.premio)} para tu siguiente pedido (también desde ${money(CUENTA.minimo)}).`;
   $("ct-refs-n").textContent = CUENTA.referidos ? `Llevas ${CUENTA.referidos} amigo${CUENTA.referidos===1?"":"s"} recomendado${CUENTA.referidos===1?"":"s"}. ¡Gracias!` : "Tus amigos lo escriben en el carrito, donde dice “¿Cupón o código de un amigo?”, o entran con tu enlace.";
   $("ct-cupones").innerHTML = CUENTA.cupones.length ? CUENTA.cupones.map(c=>`<li class="${c.estado==="disponible"?"":"off"}"><div><b>${esc(c.codigo)}</b> · ${esc(c.etiqueta)}<small>${c.estado==="disponible" ? (c.minimo ? "En compras desde " + money(c.minimo) : "Listo para usar") : c.estado==="usado" ? "Ya lo usaste" : "Ya no está disponible"}</small></div>${c.estado==="disponible" ? `<button type="button" class="mini" data-usar="${esc(c.codigo)}">Usar</button>` : ""}</li>`).join("") : `<li><div><small>Aquí aparecerán los cupones que ganes al recomendarnos.</small></div></li>`;
-  $("ct-pedidos").innerHTML = CUENTA.pedidos.length ? CUENTA.pedidos.map(p=>`<li><div><b>${esc(p.total)}</b> · ${esc(new Date(p.fecha).toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"}))}<small>${esc((p.productos||[]).join(", "))}</small><small>Pedido ${esc(p.ref)}</small></div></li>`).join("") : `<li><div><small>Todavía no tienes pedidos con esta cuenta.</small></div></li>`;
+  $("ct-pedidos").innerHTML = CUENTA.pedidos.length ? CUENTA.pedidos.map(p=>`<li><div><b>${esc(p.total)}</b> · ${esc(new Date(p.fecha).toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"}))}<small>${esc((p.productos||[]).join(", "))}</small><small>Pedido ${esc(p.ref)}${p.guia ? " · Guía: " + esc(p.guia) : ""}</small></div>${p.estado ? `<span class="ct-est">${esc(p.estado)}</span>` : ""}</li>`).join("") : `<li><div><small>Todavía no tienes pedidos con esta cuenta.</small></div></li>`;
   $("ct-nombre").value = CUENTA.nombre || ""; $("ct-tel").value = CUENTA.tel || "";
   const d = CUENTA.dir;
   $("ct-dir").textContent = d && d.calle ? `Dirección guardada: ${[d.calle, d.colonia, d.cp, d.municipio, d.estado].filter(Boolean).join(", ")}. Se actualiza cada vez que pagas.` : "Tu dirección se guarda la primera vez que pagas un envío.";

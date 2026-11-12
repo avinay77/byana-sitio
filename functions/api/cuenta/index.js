@@ -5,6 +5,7 @@
 import { json, sesion, leerCliente, guardarCliente, cerrarSesion, cookieSesion, soloTel, PREMIO_REFERIDO, DESCUENTO_AMIGO, MINIMO_REFERIDO } from "../../../lib/cuenta.js";
 import { leerCupon, evaluar, etiqueta } from "../../../lib/cupones.js";
 import { limpiar } from "../../../lib/pedido.js";
+import { leerPedido, ESTADOS } from "../../../lib/pedidos.js";
 
 async function quien(ctx) {
   if (!ctx.env.BYANA) return [null, json(503, { error: "Las cuentas todavía no están activas." })];
@@ -24,8 +25,10 @@ export async function onRequestGet(ctx) {
     cupones.push({ codigo: x.codigo, etiqueta: etiqueta(x), nota: x.nota || "", minimo: x.minimo || 0, vence: x.vence || "",
       estado: usado ? "usado" : ev.ok ? "disponible" : "no disponible" });
   }
+  const pedidos = (c.pedidos || []).slice(-30).reverse();
+  for (const p of pedidos) { const x = await leerPedido(ctx.env, p.ref); if (x) { p.estado = ESTADOS[x.estado] || ""; p.guia = x.guia || ""; } }
   return json(200, { email: c.email, nombre: c.nombre, tel: c.tel, dir: c.dir, ref: c.ref, referidos: c.referidos || 0,
-    premio: PREMIO_REFERIDO, amigo: DESCUENTO_AMIGO, minimo: MINIMO_REFERIDO, pedidos: (c.pedidos || []).slice(-30).reverse(), cupones: cupones.reverse() });
+    premio: PREMIO_REFERIDO, amigo: DESCUENTO_AMIGO, minimo: MINIMO_REFERIDO, pedidos, cupones: cupones.reverse() });
 }
 
 export async function onRequestPost(ctx) {

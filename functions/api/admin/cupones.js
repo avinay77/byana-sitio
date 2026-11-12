@@ -2,16 +2,7 @@
 // Protegido con la clave ADMIN_KEY (variable secreta en Cloudflare), que se manda en el encabezado X-Admin-Key.
 // Requiere el KV con binding BYANA.
 import { normalizar } from "../../../lib/cupones.js";
-
-const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" } });
-
-function revisar({ request, env }) {
-  if (!env.ADMIN_KEY) return json(503, { error: "Falta la variable ADMIN_KEY en Cloudflare." });
-  if (!env.BYANA) return json(503, { error: "Falta conectar el KV con el nombre BYANA en Cloudflare." });
-  const k = request.headers.get("X-Admin-Key") || "";
-  if (k.length !== env.ADMIN_KEY.length || k !== env.ADMIN_KEY) return json(401, { error: "Clave incorrecta." });
-  return null;
-}
+import { json, revisar } from "../../../lib/admin.js";
 
 export async function onRequestGet(ctx) {
   const no = revisar(ctx); if (no) return no;
