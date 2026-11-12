@@ -40,6 +40,15 @@
      "n": "",
      "p": 400
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -55,6 +64,13 @@
    ],
    "f": [
     "n08a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza"
    ]
   },
   {
@@ -70,6 +86,12 @@
    ],
    "f": [
     "n09a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela"
    ]
   },
   {
@@ -85,6 +107,12 @@
    ],
    "f": [
     "n10a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela"
    ]
   },
   {
@@ -102,7 +130,13 @@
      "p": 110
     }
    ],
-   "from": 1
+   "from": 1,
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela"
+   ]
   },
   {
    "id": "n13a",
@@ -114,6 +148,12 @@
      "n": "",
      "p": 280
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela"
    ]
   },
   {
@@ -129,6 +169,13 @@
    ],
    "f": [
     "n14a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza"
    ]
   },
   {
@@ -365,7 +412,13 @@
      "p": 385
     }
    ],
-   "from": 1
+   "from": 1,
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela"
+   ]
   },
   {
    "id": "n25a",
@@ -377,6 +430,12 @@
      "n": "",
      "p": 550
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela"
    ]
   },
   {
@@ -909,7 +968,8 @@
    ],
    "f": [
     "n60a-2",
-    "n60a-3"
+    "n60a-3",
+    "n60a-4"
    ]
   },
   {
@@ -925,7 +985,8 @@
    ],
    "f": [
     "n61a-2",
-    "n61a-3"
+    "n61a-3",
+    "n61a-4"
    ]
   },
   {
@@ -962,7 +1023,8 @@
    ],
    "f": [
     "n63a-2",
-    "n63a-3"
+    "n63a-3",
+    "n63a-4"
    ]
   },
   {

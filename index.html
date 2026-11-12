@@ -367,6 +367,7 @@ footer .legal a:hover{color:var(--accent)}
     <div class="dlg-h"><h2 id="pd-title"></h2><button class="x" type="button" aria-label="Cerrar">×</button></div>
     <div class="pd-top"><div class="gal"><img id="pd-img" alt=""><div class="thumbs" id="pd-thumbs" role="group" aria-label="Fotos del producto"></div></div><p id="pd-desc"></p></div>
     <label class="fld" id="pd-var-wrap"><span>Opción</span><select id="pd-var"></select></label>
+    <label class="fld" id="pd-ar-wrap" hidden><span>Aroma</span><select id="pd-ar"></select></label>
     <label class="fld"><span>Piezas</span><input id="pd-qty" type="number" inputmode="numeric" min="1" max="20" value="1"></label>
     <label class="fld" id="pd-tag-wrap" hidden><span id="pd-tag-label">Texto</span><input id="pd-tag" type="text" autocomplete="off" placeholder="Ej. Familia López"><small id="pd-tag-count"></small></label>
     <label class="fld"><span>Indicaciones (opcional)</span><textarea id="pd-nota" maxlength="100" placeholder="Aroma, dije, inicial, color…"></textarea></label>
@@ -467,7 +468,7 @@ let cart = [];
 try{ cart = JSON.parse(localStorage.getItem("byana-cart2")||"[]"); if(!Array.isArray(cart)) cart = []; }catch(e){ cart = []; }
 const save = () => { try{ localStorage.setItem("byana-cart2", JSON.stringify(cart)); }catch(e){} };
 const piezas = () => cart.reduce((s,i)=>s+i.qty,0);
-const lineInfo = i => { const p = PRODUCTOS.get(i.id); const v = p && p.v && p.v[i.v]; return p && v ? {p,v} : null; };
+const lineInfo = i => { const p = PRODUCTOS.get(i.id); const v = p && p.v && p.v[i.v]; return p && v && (!p.ar || p.ar.includes(i.ar)) ? {p,v} : null; };
 const total = () => cart.reduce((s,i)=>{ const l=lineInfo(i); return s + (l ? l.v.p*i.qty : 0); },0);
 let ENVIO = { opciones: [] };
 const envioSel = () => { const r = document.querySelector('input[name="envio"]:checked'); return r ? ENVIO.opciones.find(o=>o.id===r.value) : null; };
@@ -493,7 +494,7 @@ $("envio-ops").addEventListener("change", syncEnvio);
 document.querySelectorAll("#dir-wrap input").forEach(i=>i.addEventListener("input", ()=>{ $("cart-wa").href = WA + encodeURIComponent("Hola Ana, quiero hacer este pedido:\n" + resumen()); }));
 const waLimite = () => WA + encodeURIComponent(`Hola Ana, quiero hacer un pedido de más de ${MAX_PIEZAS} piezas:\n` + resumen());
 function resumen(){
-  return cart.map(i=>{ const l=lineInfo(i); if(!l) return ""; return `• ${i.qty} × ${l.p.t}${l.v.n?" ("+l.v.n+")":""}${i.tag?` – texto: “${i.tag}”`:""}${i.nota?` – ${i.nota}`:""} = ${money(l.v.p*i.qty)}`; }).filter(Boolean).join("\n") + textoEnvio() + `\nTotal: ${money(total() + costoEnvio())}${(envioSel()&&envioSel().cotiza)?" + envío":""}`;
+  return cart.map(i=>{ const l=lineInfo(i); if(!l) return ""; return `• ${i.qty} × ${l.p.t}${l.v.n?" ("+l.v.n+")":""}${i.ar?` – aroma: ${i.ar}`:""}${i.tag?` – texto: “${i.tag}”`:""}${i.nota?` – ${i.nota}`:""} = ${money(l.v.p*i.qty)}`; }).filter(Boolean).join("\n") + textoEnvio() + `\nTotal: ${money(total() + costoEnvio())}${(envioSel()&&envioSel().cotiza)?" + envío":""}`;
 }
 
 let cur = null;
@@ -510,6 +511,9 @@ function openProduct(id){
   const sel = $("pd-var");
   sel.innerHTML = p.v.map((v,i)=>`<option value="${i}">${esc(v.n||p.t)} · ${money(v.p)}</option>`).join("");
   $("pd-var-wrap").hidden = p.v.length < 2;
+  $("pd-ar").innerHTML = p.ar ? `<option value="">Elige un aroma</option>` + p.ar.map(a=>`<option>${esc(a)}</option>`).join("") : "";
+  $("pd-ar-wrap").hidden = !p.ar;
+  $("pd-nota").placeholder = p.ar ? "Dije, inicial, color…" : "Aroma, dije, inicial, color…";
   $("pd-qty").value = 1; $("pd-tag").value = ""; $("pd-nota").value = "";
   $("pd-err").textContent = "";
   syncProduct();
@@ -533,11 +537,13 @@ function addCurrent(){
   const needTag = !!(p.tag && p.tag.v.includes(vi));
   const tag = needTag ? $("pd-tag").value.trim().slice(0,p.tag.max) : "";
   const nota = $("pd-nota").value.trim().slice(0,MAX_NOTA);
+  const ar = p.ar ? $("pd-ar").value : "";
   if(qty < 1){ $("pd-err").textContent = "Elige cuántas piezas."; return; }
+  if(p.ar && !p.ar.includes(ar)){ $("pd-err").textContent = "Elige el aroma."; $("pd-ar").focus(); return; }
   if(needTag && !tag){ $("pd-err").textContent = "Escribe el texto para tus tags."; $("pd-tag").focus(); return; }
   if(piezas() + qty > MAX_PIEZAS){ syncProduct(); return; }
-  const same = cart.find(i=>i.id===p.id && i.v===vi && i.tag===tag && i.nota===nota);
-  if(same) same.qty += qty; else cart.push({id:p.id, v:vi, qty, tag, nota});
+  const same = cart.find(i=>i.id===p.id && i.v===vi && (i.ar||"")===ar && i.tag===tag && i.nota===nota);
+  if(same) same.qty += qty; else cart.push({id:p.id, v:vi, qty, ar, tag, nota});
   save(); renderCart(); $("dlg-product").close();
   const b = $("cart-btn"); b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
 }
@@ -548,7 +554,7 @@ function renderCart(){
   $("cart-count").textContent = n;
   $("cart-items").innerHTML = cart.length ? cart.map((i,k)=>{ const {p,v}=lineInfo(i); return `<li>
       <img src="img/${p.id}.jpg" alt="">
-      <div class="ci"><strong>${esc(p.t)}</strong>${v.n?`<span>${esc(v.n)}</span>`:""}${i.tag?`<span>Texto: “${esc(i.tag)}”</span>`:""}${i.nota?`<span>${esc(i.nota)}</span>`:""}
+      <div class="ci"><strong>${esc(p.t)}</strong>${v.n?`<span>${esc(v.n)}</span>`:""}${i.ar?`<span>Aroma: ${esc(i.ar)}</span>`:""}${i.tag?`<span>Texto: “${esc(i.tag)}”</span>`:""}${i.nota?`<span>${esc(i.nota)}</span>`:""}
         <div class="qty"><button type="button" data-k="${k}" data-d="-1" aria-label="Quitar una">−</button><span>${i.qty}</span><button type="button" data-k="${k}" data-d="1" aria-label="Agregar una" ${n>=MAX_PIEZAS?"disabled":""}>+</button><button type="button" class="rm" data-k="${k}" data-d="x">Quitar</button></div></div>
       <div class="cp">${money(v.p*i.qty)}</div></li>`; }).join("") : `<li class="none">Tu carrito está vacío.</li>`;
   $("cart-total").textContent = money(total());
@@ -565,7 +571,7 @@ $("cart-items").addEventListener("click", e=>{
   else { i.qty += +b.dataset.d; if(i.qty<1) cart.splice(+b.dataset.k,1); if(piezas()>MAX_PIEZAS) i.qty--; }
   save(); renderCart();
 });
-["pd-var","pd-qty","pd-tag"].forEach(id=>$(id).addEventListener("input", syncProduct));
+["pd-var","pd-ar","pd-qty","pd-tag"].forEach(id=>$(id).addEventListener("input", syncProduct));
 $("pd-add").addEventListener("click", addCurrent);
 $("cart-btn").addEventListener("click", ()=>{ renderCart(); $("cart-err").textContent=""; $("dlg-cart").showModal(); });
 document.querySelectorAll("dialog .x").forEach(b=>b.addEventListener("click", ()=>b.closest("dialog").close()));
