@@ -79,6 +79,7 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--wash)}
   <section id="app" hidden>
     <div class="tabs" role="tablist">
       <button type="button" role="tab" id="tab-pedidos" aria-selected="true">Pedidos<b id="n-nuevos" hidden></b></button>
+      <button type="button" role="tab" id="tab-clientes" aria-selected="false">Clientes</button>
       <button type="button" role="tab" id="tab-cupones" aria-selected="false">Cupones</button>
     </div>
 
@@ -99,6 +100,16 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--wash)}
         <table><thead><tr><th>Fecha</th><th>Cliente</th><th>Piezas</th><th>Total</th><th>Estado</th></tr></thead><tbody id="lista-p"><tr><td colspan="5">Cargando…</td></tr></tbody></table>
       </div>
       <p><small>Aquí aparecen los pedidos pagados en línea desde hoy. Los pedidos por WhatsApp no se registran aquí.</small></p>
+    </div>
+
+    <div id="vista-clientes" hidden>
+      <h2>Clientes con cuenta</h2>
+      <div class="card det" id="det-c" hidden></div>
+      <div class="filtros"><span id="cli-n" style="color:var(--soft);font-size:.9rem"></span><input id="buscar-c" type="search" placeholder="Nombre, correo o teléfono" aria-label="Buscar cliente"></div>
+      <div class="card tbl">
+        <table><thead><tr><th>Cliente</th><th>WhatsApp</th><th>Registro</th><th>Pedidos</th><th>Total comprado</th><th>Recomendó</th></tr></thead><tbody id="lista-c"><tr><td colspan="6">Cargando…</td></tr></tbody></table>
+      </div>
+      <p><small>Aquí salen quienes crearon su cuenta. Los que compran como invitados están solo en Pedidos.</small></p>
     </div>
 
     <div id="vista-cupones" hidden>
@@ -215,12 +226,59 @@ async function abrirPedido(ref){
 $("lista-p").addEventListener("click", e => { const tr = e.target.closest("tr[data-ref]"); if(tr) abrirPedido(tr.dataset.ref).catch(err=>alert(err.message)); });
 $("filtros").addEventListener("click", e => { const b = e.target.closest("button[data-f]"); if(!b) return; FILTRO = b.dataset.f; document.querySelectorAll("#filtros button").forEach(x=>x.setAttribute("aria-pressed", x===b)); pintarPedidos(); });
 $("buscar").addEventListener("input", pintarPedidos);
-const tab = t => { ["pedidos","cupones"].forEach(x=>{ $("tab-"+x).setAttribute("aria-selected", x===t); $("vista-"+x).hidden = x!==t; }); try{ sessionStorage.setItem("byana-admin-tab", t); }catch(e){} };
+/* ---------- Clientes ---------- */
+let CLIENTES = [];
+const fechaC = v => v ? new Date(v).toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"}) : "";
+async function api3(q=""){
+  const r = await fetch("/api/admin/clientes" + q, { headers: { "X-Admin-Key": KEY } });
+  const d = await r.json().catch(()=>({ error: "Respuesta inválida del servidor." }));
+  if(!r.ok) throw new Error(d.error || "Error");
+  return d;
+}
+function pintarClientes(){
+  const q = $("buscar-c").value.trim().toLowerCase(), qd = q.replace(/\D/g,"");
+  const l = CLIENTES.filter(c => !q || (c.nombre||"").toLowerCase().includes(q) || c.email.includes(q) || (qd.length>2 && (c.tel||"").includes(qd)));
+  $("cli-n").textContent = `${CLIENTES.length} cuenta${CLIENTES.length===1?"":"s"}`;
+  $("lista-c").innerHTML = l.length ? l.map(c=>`<tr class="click" data-email="${esc(c.email)}"><td>${esc(c.nombre || "(sin nombre)")}<br><small>${esc(c.email)}</small></td><td>${esc(c.tel||"")}</td><td>${esc(fechaC(c.creado))}</td><td>${c.pedidos||0}</td><td>${money(c.total)}</td><td>${c.referidos||0}</td></tr>`).join("")
+    : `<tr><td colspan="6">${CLIENTES.length ? "Nadie coincide con la búsqueda." : "Todavía no hay cuentas. Aparecerán aquí cuando alguien entre con su correo en byana.mx."}</td></tr>`;
+}
+async function cargarClientes(){ CLIENTES = (await api3()).clientes; pintarClientes(); }
+async function abrirCliente(email){
+  const { cliente:c, pedidos, cupones } = await api3("?email=" + encodeURIComponent(email));
+  const tel = String(c.tel||"").replace(/\D/g,"").slice(-10), d = c.dir;
+  $("det-c").innerHTML = `<div style="display:flex;justify-content:space-between;gap:12px;align-items:start"><div><h3>${esc(c.nombre || "(sin nombre)")}</h3><p class="sub">Cuenta desde ${esc(fechaC(c.creado))}</p></div><button type="button" class="mini ghost" id="det-c-x">Cerrar</button></div>
+    <div class="cols">
+      <div>
+        <div class="k">Contacto</div>
+        <p><a href="mailto:${esc(c.email)}">${esc(c.email)}</a>${tel?`<br><a href="https://wa.me/52${tel}" target="_blank" rel="noopener">WhatsApp ${esc(tel)}</a>`:""}</p>
+        <div class="k">Dirección guardada</div>
+        <p>${d && d.calle ? esc([d.calle, d.colonia, d.cp, d.municipio, d.estado].filter(Boolean).join(", ")) : "—"}</p>
+        <div class="k">Recomienda a un amigo</div>
+        <p>Código <b>${esc(c.ref)}</b><br>${c.referidos||0} amigo${c.referidos===1?"":"s"} con primera compra</p>
+      </div>
+      <div>
+        <div class="k">Pedidos (${pedidos.length}) · ${money(c.total)}</div>
+        <ul>${pedidos.length ? pedidos.map(p=>`<li><div>${p.registrado?`<a href="#" data-ver="${esc(p.ref)}">${esc(p.ref)}</a>`:esc(p.ref)} · ${esc(fechaC(p.fecha))}<small>${esc((p.productos||[]).join(", "))}</small></div><div style="text-align:right">${esc(p.total)}${p.estado?`<br><small>${esc(p.estado)}</small>`:""}</div></li>`).join("") : "<li><small>Sin pedidos todavía.</small></li>"}</ul>
+      </div>
+      <div>
+        <div class="k">Cupones</div>
+        <ul>${cupones.length ? cupones.map(x=>`<li><div><b>${esc(x.codigo)}</b> · ${esc(x.etiqueta)}<small>${esc(x.nota)}</small></div><div><small>${esc(x.estado)}</small></div></li>`).join("") : "<li><small>Sin cupones.</small></li>"}</ul>
+      </div>
+    </div>`;
+  $("det-c").hidden = false; $("det-c").scrollIntoView({ behavior:"smooth", block:"start" });
+  $("det-c-x").onclick = () => { $("det-c").hidden = true; };
+  $("det-c").querySelectorAll("[data-ver]").forEach(a=>a.onclick = e => { e.preventDefault(); tab("pedidos"); abrirPedido(a.dataset.ver).catch(err=>alert(err.message)); });
+}
+$("lista-c").addEventListener("click", e => { const tr = e.target.closest("tr[data-email]"); if(tr) abrirCliente(tr.dataset.email).catch(err=>alert(err.message)); });
+$("buscar-c").addEventListener("input", pintarClientes);
+
+const tab = t => { ["pedidos","clientes","cupones"].forEach(x=>{ $("tab-"+x).setAttribute("aria-selected", x===t); $("vista-"+x).hidden = x!==t; }); try{ sessionStorage.setItem("byana-admin-tab", t); }catch(e){} };
 $("tab-pedidos").onclick = () => tab("pedidos"); $("tab-cupones").onclick = () => tab("cupones");
+$("tab-clientes").onclick = () => { tab("clientes"); cargarClientes().catch(err=>alert(err.message)); };
 
 async function entrar(){
   $("login-msg").textContent = ""; $("login-msg").className = "msg";
-  try{ await cargarPedidos(); await cargar(); try{ tab(sessionStorage.getItem("byana-admin-tab") || "pedidos"); }catch(e){} try{ sessionStorage.setItem("byana-admin", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; }
+  try{ await cargarPedidos(); await cargar(); await cargarClientes(); try{ tab(sessionStorage.getItem("byana-admin-tab") || "pedidos"); }catch(e){} try{ sessionStorage.setItem("byana-admin", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; }
   catch(e){ $("login-msg").textContent = e.message; $("login-msg").className = "msg err"; }
 }
 $("entrar").onclick = () => { KEY = $("key").value.trim(); entrar(); };
