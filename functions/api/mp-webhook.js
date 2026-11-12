@@ -37,6 +37,28 @@ export function correo(o) {
   return { subject: `Nuevo pedido ${o.ref} · ${o.total} · ${o.cliente}`, html, text };
 }
 
+// Correo de confirmación para el cliente (solo si el dominio byana.mx está verificado en Resend, o sea, AVISO_FROM puesto).
+export function correoCliente(o) {
+  const nombre = String(o.cliente || "").split(" ")[0];
+  const filas = o.productos.map(i => `<tr><td style="padding:8px 0;border-bottom:1px solid #EFEBE6">${i.q} × ${esc(i.t)}${i.d ? `<br><small style="color:#8A827D">${esc(i.d)}</small>` : ""}</td><td style="padding:8px 0;border-bottom:1px solid #EFEBE6;text-align:right;white-space:nowrap">${money(i.p * i.q)}</td></tr>`).join("");
+  const html = `<div style="background:#FEFEFC;padding:24px 12px;font-family:Georgia,'Times New Roman',serif;color:#5E5753">
+  <div style="max-width:520px;margin:0 auto;background:#fff;border:1px solid #E6E2DC;border-radius:6px;padding:28px 24px">
+  <p style="margin:0;text-align:center;font-size:30px;font-style:italic;color:#5E5753">By Ana</p>
+  <p style="margin:2px 0 22px;text-align:center;font:11px Arial,sans-serif;letter-spacing:.22em;color:#8A827D">ESTUDIO DE DETALLES</p>
+  <h1 style="margin:0 0 8px;font:600 20px Arial,sans-serif;color:#4F6B55">¡Gracias por tu pedido${nombre ? ", " + esc(nombre) : ""}!</h1>
+  <p style="margin:0 0 18px;font:15px/1.5 Arial,sans-serif">Recibimos tu pago y Ana ya está preparando tus detalles. Te escribirá por WhatsApp para confirmar la entrega. Entregamos en 2 a 7 días hábiles.</p>
+  <table style="width:100%;border-collapse:collapse;font:14px Arial,sans-serif">${filas}
+  <tr><td style="padding:10px 0"><b>Total pagado</b></td><td style="padding:10px 0;text-align:right"><b>${esc(o.total)}</b></td></tr></table>
+  <p style="margin:14px 0 0;font:14px/1.5 Arial,sans-serif"><b>Entrega:</b> ${esc(o.envio || "—")}${o.direccion ? `<br><b>Dirección:</b> ${esc(o.direccion)}` : ""}</p>
+  <p style="margin:14px 0 0;font:12px Arial,sans-serif;color:#8A827D">Pedido ${esc(o.ref)} · Mercado Pago ${esc(o.pago)}</p>
+  <p style="margin:22px 0 0;font:14px/1.6 Arial,sans-serif;text-align:center">¿Dudas? <a href="https://wa.me/525529434279" style="color:#4F6B55">WhatsApp 55 2943 4279</a> · <a href="mailto:ventas@byana.mx" style="color:#4F6B55">ventas@byana.mx</a><br><a href="https://byana.mx" style="color:#8A827D">byana.mx</a> · <a href="https://www.instagram.com/byana.mx/" style="color:#8A827D">@byana.mx</a></p>
+  </div></div>`;
+  const text = `¡Gracias por tu pedido${nombre ? ", " + nombre : ""}!\nRecibimos tu pago y Ana ya está preparando tus detalles. Te escribirá por WhatsApp para confirmar la entrega (2 a 7 días hábiles).\n\n` +
+    o.productos.map(i => `${i.q} × ${i.t}${i.d ? ` (${i.d})` : ""} = ${money(i.p * i.q)}`).join("\n") +
+    `\nTotal pagado: ${o.total}\nEntrega: ${o.envio}${o.direccion ? "\nDirección: " + o.direccion : ""}\nPedido ${o.ref}\n\nDudas: WhatsApp 55 2943 4279 · ventas@byana.mx · byana.mx`;
+  return { subject: `¡Gracias por tu pedido! By Ana ${o.ref}`, html, text };
+}
+
 export async function onRequest({ request, env }) {
   const ok = (b = "ok") => new Response(b, { status: 200 });
   const url = new URL(request.url);
@@ -70,12 +92,24 @@ export async function onRequest({ request, env }) {
   if (accion === "payment.created" && tarde) return ok("pendiente");
 
   if (!env.RESEND_API_KEY || !env.AVISO_EMAIL) { console.error("Falta RESEND_API_KEY o AVISO_EMAIL"); return ok("sin correo"); }
-  const c = correo(armarPedido(pago));
+  const pedido = armarPedido(pago);
+  const c = correo(pedido);
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.RESEND_API_KEY}` },
     body: JSON.stringify({ from: env.AVISO_FROM || "By Ana pedidos <onboarding@resend.dev>", to: env.AVISO_EMAIL.split(",").map(s => s.trim()), ...c }),
   });
   if (!r.ok) { console.error("Resend respondió", r.status, (await r.text()).slice(0, 300)); return new Response("reintentar", { status: 500 }); }
+
+  // Confirmación al cliente: solo con remitente de byana.mx (Resend no deja mandar a clientes desde onboarding@resend.dev).
+  const para = String(pedido.email || "").trim();
+  if (env.AVISO_FROM && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(para)) {
+    const rc = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.RESEND_API_KEY}` },
+      body: JSON.stringify({ from: env.AVISO_FROM, to: [para], reply_to: "ventas@byana.mx", ...correoCliente(pedido) }),
+    });
+    if (!rc.ok) console.error("Correo al cliente falló", rc.status, (await rc.text()).slice(0, 300));
+  }
   return ok("enviado");
 }

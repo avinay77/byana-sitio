@@ -3,8 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="By Ana, Estudio de detalles: velas de soya, joyería y regalos personalizados. Pedidos por WhatsApp.">
-<link rel="icon" href="img/logo-navidad.jpg">
+<meta name="description" content="By Ana, Estudio de detalles: velas de soya, joyería y regalos personalizados hechos a mano en CDMX. Compra en línea o pide por WhatsApp.">
+<link rel="canonical" href="https://byana.mx/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#FEFEFC">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="By Ana">
+<meta property="og:locale" content="es_MX">
+<meta property="og:url" content="https://byana.mx/">
+<meta property="og:title" content="By Ana · Estudio de detalles">
+<meta property="og:description" content="Velas de soya, joyería y cajas de regalo hechas a mano en CDMX. Catálogo Navidad 2026.">
+<meta property="og:image" content="https://byana.mx/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logo de By Ana con velas, collares y cajas de regalo">
+<meta name="twitter:card" content="summary_large_image">
 <title>By Ana · Estudio de detalles</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -122,6 +138,21 @@ section.block{padding-block:72px}
 .step::before{content:counter(s);font-family:var(--script);font-size:3rem;line-height:.8;color:var(--gold)}
 .step h3{margin:0;font-family:var(--caps);font-weight:400;font-size:.9rem;letter-spacing:.16em;text-transform:uppercase}
 .step p{margin:0;color:var(--ink-soft);font-size:.92rem}
+.trust{list-style:none;margin:40px 0 0;padding:20px 0 0;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.trust li{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;color:var(--ink-soft);line-height:1.35}
+.trust svg{flex:none;width:22px;height:22px;fill:none;stroke:var(--gold);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.trust b{display:block;color:var(--ink);font-weight:600;font-size:.82rem}
+.faq{display:grid;gap:0;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:16px 36px 16px 0;position:relative;font-weight:600;font-size:.98rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font:300 1.4rem var(--caps);color:var(--gold);transition:transform .2s}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq details p{margin:0 0 16px;color:var(--ink-soft);font-size:.94rem;max-width:46em}
+.paysafe{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;margin:2px 0 4px;font-size:.75rem;color:var(--ink-soft)}
+.paysafe span{display:inline-flex;align-items:center;gap:5px}
+.paysafe svg{width:14px;height:14px;fill:none;stroke:var(--pine);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:820px){.trust{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:720px){.steps{grid-template-columns:1fr}}
 
 /* Contacto */
@@ -234,7 +265,7 @@ footer .legal a:hover{color:var(--accent)}
   <div class="wrap bar">
     <a class="brand" href="#inicio"><span class="script">By Ana</span><span class="caps">Estudio de detalles</span></a>
     <nav class="caps" aria-label="Secciones">
-      <a href="#navidad">Navidad 2026</a><a href="#siempre">Todo el año</a><a href="#pedido">Cómo pedir</a><a href="#contacto">Contacto</a>
+      <a href="#navidad">Navidad 2026</a><a href="#siempre">Todo el año</a><a href="#pedido">Cómo pedir</a><a href="#preguntas">Preguntas</a><a href="#contacto">Contacto</a>
     </nav>
     <div style="display:flex;align-items:center;gap:8px">
     <div class="social" aria-label="Redes sociales">
@@ -323,8 +354,30 @@ footer .legal a:hover{color:var(--accent)}
       <div class="head"><h2><span class="script">Cómo pedir</span>En tres pasos</h2></div>
       <div class="steps">
         <div class="step"><h3>Elige tus detalles</h3><p>Agrégalos al carrito, hasta 20 piezas, o escríbenos por WhatsApp si quieres algo personalizado.</p></div>
-        <div class="step"><h3>Paga o aparta</h3><p id="step-pago">En la página pagas con Mercado Pago: tarjeta, OXXO o transferencia. Si pides por WhatsApp, te mandamos la cotización y empezamos al recibir tu pago.</p></div>
+        <div class="step"><h3>Paga</h3><p id="step-pago">En la página pagas con Mercado Pago: tarjeta, OXXO o transferencia. Si pides por WhatsApp, te mandamos la cotización y empezamos al recibir tu pago.</p></div>
         <div class="step"><h3>Recibe en 2 a 7 días</h3><p>Días hábiles, según la cantidad y la personalización.</p></div>
+      </div>
+      <ul class="trust">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span><b>Pago seguro</b>Con Mercado Pago: tarjeta, OXXO o transferencia</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z"/></svg><span><b>Hecho a mano en CDMX</b>Cera de soya y piezas armadas por Ana</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><span><b>Envío gratis</b>En CDMX y área metropolitana desde $1,500</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 19Z"/></svg><span><b>Atención personal</b>Ana te confirma tu pedido por WhatsApp</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="preguntas" style="padding-top:0">
+    <div class="wrap">
+      <div class="head"><h2><span class="script">Preguntas</span>frecuentes</h2><p>¿Tienes otra duda? <a href="https://wa.me/525529434279?text=Hola%20Ana%2C%20tengo%20una%20pregunta%3A%20" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>.</p></div>
+      <div class="faq">
+        <details><summary>¿Cuánto tardan en entregar?</summary><p>Entre 2 y 7 días hábiles desde que recibimos tu pago, según la cantidad y la personalización. Si lo necesitas para una fecha especial, escríbenos antes de pedir para confirmar que llegamos.</p></details>
+        <details><summary>¿Cuánto cuesta el envío?</summary><p>En CDMX y área metropolitana el envío cuesta $120 y es gratis en compras de $1,500 o más. Al resto del país enviamos por paquetería; el costo se cotiza por WhatsApp según tu código postal.</p></details>
+        <details><summary>¿Cómo pago?</summary><p>En la página pagas el total con Mercado Pago: tarjeta de crédito o débito, OXXO o transferencia. Si pides por WhatsApp, te mandamos la cotización y empezamos tu pedido al recibir el pago.</p></details>
+        <details><summary>¿Puedo personalizar mi regalo?</summary><p>Sí. Puedes escoger el aroma de las velas, el dije, la inicial o el texto de los tags. Para combinaciones distintas, tu logo o recuerdos para eventos, cuéntanos por WhatsApp y lo armamos contigo.</p></details>
+        <details><summary>¿Hacen pedidos grandes o para empresas?</summary><p>Sí. En línea puedes pedir hasta 20 piezas; para más piezas, regalos empresariales o recuerdos de comunión, boda o fiestas, escríbenos por WhatsApp y te mandamos una cotización.</p></details>
+        <details><summary>¿Dan factura?</summary><p>Sí, todos los precios incluyen IVA. Mándanos tus datos fiscales por WhatsApp o a ventas@byana.mx cuando hagas tu pedido.</p></details>
+        <details><summary>¿Puedo cambiar o devolver una pieza?</summary><p>Si algo llega dañado, avísanos en las primeras 48 horas con una foto. Las piezas no personalizadas se pueden cambiar en los primeros 5 días. Los detalles personalizados no tienen cambio, salvo error nuestro. Consulta los <a href="terminos.html">Términos y condiciones</a>.</p></details>
+        <details><summary>¿Cómo cuido mi vela de soya?</summary><p>La primera vez déjala encendida hasta que se derrita toda la superficie (2 a 3 horas), así no hace túnel. Recorta la mecha a 5 mm antes de cada uso, no la dejes prendida más de 4 horas seguidas y nunca sin supervisión.</p></details>
       </div>
     </div>
   </section>
@@ -408,6 +461,7 @@ footer .legal a:hover{color:var(--accent)}
     <label class="acepto" id="acepto-wrap"><input type="checkbox" id="c-acepto"><span>Acepto los <a href="terminos.html" target="_blank" rel="noopener">Términos y Condiciones</a> y el <a href="privacidad.html" target="_blank" rel="noopener">Aviso de Privacidad</a>. Usamos tus datos solo para hacer y entregar tu pedido.</span></label>
     <p class="warn" id="cart-err" role="alert"></p>
     <button class="btn mp" id="cart-pay" type="submit">Pagar con Mercado Pago</button>
+    <div class="paysafe" id="paysafe"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Pago seguro con Mercado Pago</span><span>Tarjeta · OXXO · Transferencia</span></div>
     <a class="btn ghost" id="cart-wa" href="#" target="_blank" rel="noopener">Mejor pedir por WhatsApp</a>
     <p class="fine" id="cart-fine">Se paga el total del pedido. ¿Quieres algo especial o más de 20 piezas? <a href="https://wa.me/525529434279?text=Hola%20Ana%2C%20quiero%20algo%20especial%3A%20" target="_blank" rel="noopener">Escríbenos</a>.</p>
   </form>
@@ -664,6 +718,7 @@ function setPago(on){
   PAGO_ACTIVO = on;
   $("cart-pay").hidden = !on;
   $("acepto-wrap").hidden = !on;
+  $("paysafe").hidden = !on;
   const wa = $("cart-wa");
   wa.classList.toggle("solid", !on); wa.classList.toggle("ghost", on);
   wa.textContent = on ? "Mejor pedir por WhatsApp" : "Enviar pedido por WhatsApp";
