@@ -1,0 +1,29 @@
+/* Estilo de las páginas legales (terminos.html, privacidad.html) */
+:root{--paper:#FEFEFC;--wash:#F2F5F7;--ink:#5E5753;--ink-soft:#8A827D;--gold:#B8955A;--accent:#6F8FB3;--accent-wash:#EDF2F8;--line:#E6E2DC;
+  --script:"Allura","Brush Script MT",cursive;--caps:"Jost","Futura","Avenir Next",system-ui,sans-serif;--body:"Mulish","Avenir",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.7 var(--body)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+header{border-bottom:1px solid var(--line);background:var(--paper)}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand img{width:46px;height:46px;border-radius:50%;object-fit:cover}
+.brand .script{font-family:var(--script);font-size:2rem;line-height:1}
+.back{font:500 .66rem var(--caps);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:9px 14px;white-space:nowrap}
+main.wrap{padding-block:36px 56px}
+.eyebrow{font:400 .7rem var(--caps);letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0}
+h1{font-family:var(--caps);font-weight:300;font-size:clamp(1.7rem,4.5vw,2.4rem);line-height:1.2;letter-spacing:.03em;margin:.3em 0 .2em;text-wrap:balance}
+.fecha{color:var(--ink-soft);font-size:.85rem;margin:0 0 1.6em}
+.nota{background:var(--accent-wash);border:1px solid var(--line);padding:14px 16px;font-size:.88rem;border-radius:2px;margin-bottom:2em}
+h2{font-family:var(--caps);font-weight:400;font-size:1.05rem;letter-spacing:.12em;text-transform:uppercase;margin:2.2em 0 .5em;color:var(--ink)}
+p,li{margin:0 0 .8em}
+ul{padding-left:1.2em}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1em}
+th,td{text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:8px 8px 8px 0}
+th{font:500 .66rem var(--caps);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+
+footer{border-top:1px solid var(--line);padding-block:24px;text-align:center;font:400 .68rem var(--caps);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+footer a{color:var(--ink-soft);margin:0 8px}
+@media (max-width:480px){.brand .script{font-size:1.6rem}.brand img{width:38px;height:38px}}
