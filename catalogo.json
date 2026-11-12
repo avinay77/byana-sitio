@@ -13,6 +13,16 @@
    ],
    "f": [
     "n05a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -28,6 +38,16 @@
    ],
    "f": [
     "n06a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -240,6 +260,16 @@
     "n16a-2",
     "n16a-3",
     "n16a-4"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -262,6 +292,16 @@
     "n16b-2",
     "n16b-3",
     "n16b-4"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -277,6 +317,16 @@
    ],
    "f": [
     "n18a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -297,6 +347,16 @@
    "from": 1,
    "f": [
     "n19a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -316,7 +376,17 @@
     ],
     "max": 20,
     "label": "Nombre o texto para los tags"
-   }
+   },
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
+   ]
   },
   {
    "id": "n20b",
@@ -349,6 +419,16 @@
    "f": [
     "n21a-2",
     "n21a-3"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -374,6 +454,16 @@
    "f": [
     "n22a-2",
     "n22a-3"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -479,6 +569,16 @@
      "n": "",
      "p": 400
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -491,6 +591,16 @@
      "n": "",
      "p": 470
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -506,6 +616,16 @@
    ],
    "f": [
     "n28a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -518,6 +638,16 @@
      "n": "",
      "p": 1000
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -572,7 +702,17 @@
      "p": 1600
     }
    ],
-   "from": 1
+   "from": 1,
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
+   ]
   },
   {
    "id": "n33a",
@@ -593,7 +733,17 @@
      "p": 1450
     }
    ],
-   "from": 1
+   "from": 1,
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
+   ]
   },
   {
    "id": "n35a",
@@ -617,6 +767,16 @@
      "n": "",
      "p": 550
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -629,6 +789,16 @@
      "n": "",
      "p": 400
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -641,6 +811,16 @@
      "n": "",
      "p": 480
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -653,6 +833,16 @@
      "n": "",
      "p": 600
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -673,6 +863,16 @@
    "from": 1,
    "f": [
     "n41a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -706,6 +906,16 @@
      "n": "",
      "p": 720
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -718,6 +928,16 @@
      "n": "",
      "p": 580
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -730,6 +950,16 @@
      "n": "",
      "p": 600
     }
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -747,7 +977,17 @@
      "p": 285
     }
    ],
-   "from": 1
+   "from": 1,
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
+   ]
   },
   {
    "id": "n49a",
@@ -767,6 +1007,16 @@
    "from": 1,
    "f": [
     "n49a-2"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
@@ -813,6 +1063,16 @@
     "n50a-2",
     "n50a-3",
     "n50a-4"
+   ],
+   "ar": [
+    "Villa Navideña",
+    "Bergamota",
+    "Manzana-Canela",
+    "Vainilla-Canela",
+    "Cereza",
+    "Jazmín",
+    "Nardo",
+    "Gardenia"
    ]
   },
   {
