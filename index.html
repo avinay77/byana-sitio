@@ -692,6 +692,30 @@ body[data-season="siempre"] .prod,body[data-season="siempre"] .hs-ctl{display:no
 </svg>
 
 <script>
+// Estadística de visitas anónima, sin cookies: un aviso a /api/v al salir (o a los 30 s) con los productos vistos y agregados.
+// byana.mx/?nocontar deja de contar las visitas de ese aparato (para Ana); ?contar lo vuelve a activar.
+var VIS = null;
+(function(){
+  try{
+    const q = new URLSearchParams(location.search);
+    if(q.has("nocontar")) localStorage.setItem("byana-no-contar", "1");
+    if(q.has("contar")) localStorage.removeItem("byana-no-contar");
+    if(localStorage.getItem("byana-no-contar") || navigator.webdriver) return;
+    let r = ""; try{ r = document.referrer ? new URL(document.referrer).hostname : ""; }catch(e){}
+    VIS = { id: Math.random().toString(36).slice(2, 12).padEnd(8, "0"), r, u: q.get("utm_source") || "", a: q.has("ref"), p: [], c: [], n: 0, cambio: true };
+  }catch(e){ return; }
+  const enviar = () => {
+    if(!VIS || !VIS.cambio || VIS.n >= 4) return;
+    VIS.cambio = false; VIS.n++;
+    const b = JSON.stringify({ id: VIS.id, r: VIS.r, u: VIS.u, a: VIS.a, pg: location.pathname, p: VIS.p, c: VIS.c });
+    try{ if(!(navigator.sendBeacon && navigator.sendBeacon("/api/v", new Blob([b], { type: "application/json" })))) fetch("/api/v", { method: "POST", body: b, keepalive: true }); }catch(e){}
+  };
+  document.addEventListener("visibilitychange", () => { if(document.visibilityState === "hidden") enviar(); });
+  addEventListener("pagehide", enviar);
+  setTimeout(enviar, 30000);
+})();
+function visVio(id){ if(VIS && id && !VIS.p.includes(id) && VIS.p.length < 15){ VIS.p.push(id); VIS.cambio = true; } }
+function visCarrito(id){ if(VIS && id && !VIS.c.includes(id) && VIS.c.length < 10){ VIS.c.push(id); VIS.cambio = true; } }
 const WA_NUM = "525529434279";
 const WA = `https://wa.me/${WA_NUM}?text=`;
 const MAX_PIEZAS = 20, MAX_NOTA = 100;
@@ -833,6 +857,7 @@ function resumen(){
 let cur = null;
 function openProduct(id){
   const p = PRODUCTOS.get(id); if(!p) return; cur = p;
+  visVio(p.id);
   $("pd-title").textContent = p.t;
   const fotos = [p.id, ...(p.f||[])];
   const verFoto = i => { $("pd-img").src = `img/${fotos[i]}.jpg`; $("pd-thumbs").querySelectorAll("button").forEach((b,k)=>b.setAttribute("aria-current", k===i)); };
@@ -912,6 +937,7 @@ function addCurrent(){
   if(piezas() + qty > MAX_PIEZAS){ syncProduct(); return; }
   const same = cart.find(i=>i.id===p.id && i.v===vi && (i.ar||"")===ar && (i.ini||"")===ini && opsTexto(i)===opsTexto({op}) && i.tag===tag && i.nota===nota);
   if(same) same.qty += qty; else cart.push({id:p.id, v:vi, qty, ...(op?{op}:{}), ini, ar, tag, nota});
+  visCarrito(p.id);
   save(); renderCart(); $("dlg-product").close();
   const b = $("cart-btn"); b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
 }

@@ -2,7 +2,7 @@
   "id": "/admin",
   "name": "By Ana Admin",
   "short_name": "By Ana Admin",
-  "description": "Pedidos, clientes y cupones de By Ana",
+  "description": "Pedidos, clientes, cupones y visitas de By Ana",
   "start_url": "/admin",
   "scope": "/admin",
   "display": "standalone",
