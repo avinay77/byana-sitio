@@ -2104,5 +2104,21 @@
     "info": "El costo de paquetería se cotiza por WhatsApp."
    }
   ]
- }
+ },
+ "ocultos": [
+  {
+   "id": "prueba",
+   "c": "Prueba",
+   "t": "Producto de prueba",
+   "d": "Solo para probar el pago en línea. No se envía nada.",
+   "v": [
+    {
+     "n": "",
+     "p": 10
+    }
+   ],
+   "prueba": true,
+   "foto": "n09a"
+  }
+ ]
 }

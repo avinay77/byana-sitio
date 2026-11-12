@@ -589,7 +589,7 @@ const lineInfo = i => { const p = PRODUCTOS.get(i.id); const v = p && p.v && p.v
 const total = () => cart.reduce((s,i)=>{ const l=lineInfo(i); return s + (l ? l.v.p*i.qty : 0); },0);
 let ENVIO = { opciones: [] };
 const envioSel = () => { const r = document.querySelector('input[name="envio"]:checked'); return r ? ENVIO.opciones.find(o=>o.id===r.value) : null; };
-const costoEnvio = () => { const o = envioSel(); if(!o || o.cotiza) return 0; return (typeof ENVIO.gratisDesde==="number" && total()>=ENVIO.gratisDesde) ? 0 : o.p; };
+const costoEnvio = () => { const o = envioSel(); if(!o || o.cotiza) return 0; if(cart.length && cart.every(i=>PRODUCTOS.get(i.id)?.prueba)) return 0; return (typeof ENVIO.gratisDesde==="number" && total()>=ENVIO.gratisDesde) ? 0 : o.p; };
 const leerDir = () => ({ calle:$("d-calle").value.trim(), colonia:$("d-colonia").value.trim(), cp:$("d-cp").value.trim(), municipio:$("d-municipio").value.trim(), estado:$("d-estado").value.trim(), refs:$("d-refs").value.trim() });
 function textoEnvio(){
   const o = envioSel(); if(!o) return "";
@@ -826,7 +826,7 @@ setPago(false);
 fetch("/api/crear-pago").then(r=>r.ok?r.json():{}).then(d=>setPago(!!d.activo)).catch(()=>{});
 
 fetch("catalogo.json").then(r=>r.json()).then(c=>{
-  PRODUCTOS = new Map([...c.navidad, ...c.siempre].map(p=>[p.id,p]));
+  PRODUCTOS = new Map([...c.navidad, ...c.siempre, ...(c.ocultos||[])].map(p=>[p.id,p]));
   if(c.envio) ENVIO = c.envio; renderEnvio();
   mount("navidad", c.navidad); mount("siempre", c.siempre); renderCart();
   abrirDesdeEnlace();
