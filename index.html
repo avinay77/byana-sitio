@@ -766,7 +766,7 @@ const descuento = () => { if(!CUPON || !cart.length) return 0; const sub = total
   return CUPON.tipo === "pct" ? Math.round(sub * CUPON.valor / 100) : Math.min(CUPON.valor, sub); };
 const neto = () => total() - descuento();
 const envioSel = () => { const r = document.querySelector('input[name="envio"]:checked'); return r ? ENVIO.opciones.find(o=>o.id===r.value) : null; };
-const costoEnvio = () => { const o = envioSel(); if(!o || o.cotiza) return 0; if(cart.length && cart.every(i=>PRODUCTOS.get(i.id)?.prueba)) return 0; return (typeof ENVIO.gratisDesde==="number" && neto()>=ENVIO.gratisDesde) ? 0 : o.p; };
+const costoEnvio = () => { const o = envioSel(); if(!o || o.cotiza) return 0; return (typeof ENVIO.gratisDesde==="number" && neto()>=ENVIO.gratisDesde) ? 0 : o.p; };
 const leerDir = () => ({ calle:$("d-calle").value.trim(), colonia:$("d-colonia").value.trim(), cp:$("d-cp").value.trim(), municipio:$("d-municipio").value.trim(), estado:$("d-estado").value.trim(), refs:$("d-refs").value.trim() });
 function textoEnvio(){
   const o = envioSel(); if(!o) return "";
