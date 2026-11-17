@@ -358,6 +358,48 @@ body[data-season="siempre"] .prod,body[data-season="siempre"]:not(.con-promo) .h
 .lb[hidden]{display:none!important}
 .lb img{max-width:min(92vw,900px);max-height:86vh;border-radius:2px}
 .lb button{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:0;background:#fff;font-size:1.3rem;cursor:pointer}
+
+/* Celular: productos y precios desde la primera pantalla, dos por fila */
+@media (max-width:600px){
+  .hero{padding-block:8px 20px}
+  .hero-grid{gap:4px}
+  .logo{max-width:96px}
+  .hs-track{align-items:flex-start}
+  .hero-copy p,.head p{display:none}
+  .hero h1{font-size:1.6rem}
+  .ctas{gap:8px;flex-wrap:nowrap}
+  .ctas .btn{padding:11px 14px;font-size:.62rem;letter-spacing:.12em}
+  .promo .ph{font-size:1.6rem}
+  .prod{grid-template-columns:120px minmax(0,1fr);gap:14px;text-align:left}
+  .prod img{max-width:none;margin:0}
+  .prod p{display:none}
+  .prod .ph{font-size:1.35rem}
+  .prod .price{margin-bottom:.6em}
+  .prod p,.promo p,.hero-copy p{font-size:.9rem;margin-bottom:.8em}
+  .prod .ph,.promo .ph,.hero h1{margin:.2em 0 .3em}
+  .hs-ctl{margin-top:12px}
+  .strip{display:none}
+  section.block{padding-block:40px}
+  #navidad,#siempre{padding-top:12px}
+  .head h2{font-size:1.2rem}
+  .head{margin-bottom:16px}
+  .head p{font-size:.9rem}
+  .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;margin-bottom:16px}
+  .chips::-webkit-scrollbar{display:none}
+  .chips button{flex:none}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 12px}
+  .card{gap:6px}
+  .card .tag{font-size:.56rem}
+  .card h3{font-size:.86rem}
+  .card p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.78rem;line-height:1.4}
+  .card .foot{flex-direction:column;align-items:stretch;gap:8px}
+  .card .acts{display:block}
+  .card .ask.q{display:none}
+  .card .add{width:100%;padding:9px 6px}
+  .card .acts .ask{display:block;text-align:center;padding:9px 0}
+  .card .acts .ask.q{display:none}
+  .nfotos{right:6px;bottom:6px;font-size:.54rem;padding:3px 6px}
+}
 </style>
 
 </head>
