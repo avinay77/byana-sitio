@@ -355,13 +355,13 @@ try{ $("v-nocontar").checked = !!localStorage.getItem("byana-no-contar"); }catch
 $("v-nocontar").onchange = e => { try{ e.target.checked ? localStorage.setItem("byana-no-contar","1") : localStorage.removeItem("byana-no-contar"); }catch(err){} };
 
 const tab = t => { ["pedidos","clientes","cupones","visitas"].forEach(x=>{ $("tab-"+x).setAttribute("aria-selected", x===t); $("vista-"+x).hidden = x!==t; }); try{ sessionStorage.setItem("byana-admin-tab", t); }catch(e){} };
-$("tab-pedidos").onclick = () => tab("pedidos"); $("tab-cupones").onclick = () => tab("cupones");
+$("tab-pedidos").onclick = () => { tab("pedidos"); cargarPedidos().catch(err=>alert(err.message)); }; $("tab-cupones").onclick = () => { tab("cupones"); cargar().catch(err=>alert(err.message)); };
 $("tab-clientes").onclick = () => { tab("clientes"); cargarClientes().catch(err=>alert(err.message)); };
 $("tab-visitas").onclick = () => { tab("visitas"); cargarVisitas().catch(err=>alert(err.message)); };
 
 async function entrar(){
   $("login-msg").textContent = ""; $("login-msg").className = "msg";
-  try{ await cargarPedidos(); await cargar(); await cargarClientes(); try{ const t0 = sessionStorage.getItem("byana-admin-tab") || "pedidos"; tab(t0); if(t0==="visitas") cargarVisitas().catch(()=>{}); }catch(e){} try{ if(!localStorage.getItem("byana-no-contar-visto")){ localStorage.setItem("byana-no-contar","1"); localStorage.setItem("byana-no-contar-visto","1"); $("v-nocontar").checked = true; } }catch(e){} try{ sessionStorage.setItem("byana-admin", KEY); if($("recordar").checked) localStorage.setItem("byana-admin-key", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; $("actualizar").hidden = false; prepararAvisos(); abrirDesdeAviso(); }
+  try{ await cargarPedidos(); try{ const t0 = sessionStorage.getItem("byana-admin-tab") || "pedidos"; tab(t0); if(t0!=="pedidos") refrescar(); }catch(e){} try{ if(!localStorage.getItem("byana-no-contar-visto")){ localStorage.setItem("byana-no-contar","1"); localStorage.setItem("byana-no-contar-visto","1"); $("v-nocontar").checked = true; } }catch(e){} try{ sessionStorage.setItem("byana-admin", KEY); if($("recordar").checked) localStorage.setItem("byana-admin-key", KEY); }catch(e){} $("login").hidden = true; $("app").hidden = false; $("actualizar").hidden = false; prepararAvisos(); abrirDesdeAviso(); }
   catch(e){ $("login-msg").textContent = e.message; $("login-msg").className = "msg err"; }
 }
 $("entrar").onclick = () => { KEY = $("key").value.trim(); entrar(); };
@@ -369,9 +369,17 @@ $("key").addEventListener("keydown", e => { if(e.key==="Enter"){ KEY = $("key").
 $("salir").onclick = () => { if(!confirm("¿Salir? Tendrás que volver a escribir la clave en este aparato.")) return; KEY = ""; try{ sessionStorage.removeItem("byana-admin"); localStorage.removeItem("byana-admin-key"); }catch(e){} location.href = location.pathname; };
 
 /* ---------- App en el celular: actualizar, abrir pedido desde un aviso, notificaciones ---------- */
-async function refrescar(){ try{ await cargarPedidos(); await cargarClientes(); await cargar(); if(!$("vista-visitas").hidden) await cargarVisitas(); }catch(e){} }
+// Solo recarga la pestaña que se ve. Cada lista gasta operaciones de KV (límite gratis diario), así que al volver a la app
+// se recarga como máximo una vez cada 5 minutos; el botón Actualizar recarga cuando quieras.
+let ULTIMA = Date.now();
+async function refrescar(){ ULTIMA = Date.now(); try{
+  if(!$("vista-pedidos").hidden) await cargarPedidos();
+  else if(!$("vista-clientes").hidden) await cargarClientes();
+  else if(!$("vista-cupones").hidden) await cargar();
+  else if(!$("vista-visitas").hidden) await cargarVisitas();
+}catch(e){} }
 $("actualizar").onclick = async () => { const b = $("actualizar"); b.disabled = true; b.textContent = "…"; await refrescar(); b.disabled = false; b.textContent = "Actualizar"; };
-document.addEventListener("visibilitychange", () => { if(document.visibilityState === "visible" && KEY && !$("app").hidden) refrescar(); });
+document.addEventListener("visibilitychange", () => { if(document.visibilityState === "visible" && KEY && !$("app").hidden && Date.now() - ULTIMA > 300000) refrescar(); });
 function abrirDesdeAviso(){
   const q = new URLSearchParams(location.search), ref = q.get("ref");
   if(!ref) return;

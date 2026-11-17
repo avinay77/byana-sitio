@@ -19,8 +19,11 @@ export async function onRequestPost(context) {
   let pedido;
   try { pedido = await request.json(); } catch { return json(400, { error: "Pedido inválido." }); }
   // Cuenta (opcional) y "recomienda a un amigo": el código de amigo da $100 desde $500, solo en la primera compra.
-  const cuenta = env.BYANA && pedido ? await sesion(env, request) : "";
+  // Si KV falla (por ejemplo, se acabó el límite diario), se cobra igual sin cuenta; solo cupones y códigos de amigo se detienen.
+  let cuenta = "";
+  try { cuenta = env.BYANA && pedido ? await sesion(env, request) : ""; } catch (e) { console.error("KV no respondió (sesión)", e); }
   let referido = "", cupon = null;
+  try {
   if (pedido && pedido.referido && env.BYANA) {
     const rf = await leerReferido(env, pedido.referido);
     if (!rf) return json(400, { error: "Ese código de amigo ya no existe.", cupon: true });
@@ -31,6 +34,10 @@ export async function onRequestPost(context) {
     if (ya) return json(400, { error: "El descuento de amigo es solo para la primera compra.", cupon: true });
     referido = rf.codigo; cupon = cuponAmigo(rf); pedido.cupon = rf.codigo;
   } else if (pedido && pedido.cupon) cupon = await leerCupon(env, pedido.cupon);
+  } catch (e) {
+    console.error("KV no respondió (cupón)", e);
+    return json(503, { error: "En este momento no podemos revisar cupones. Quita el cupón para pagar, o pide por WhatsApp y te respetamos el descuento.", cupon: true });
+  }
   const r = validar(pedido, await catalogo(context), cupon);
   if (r.error) return json(400, r.cupon && referido ? { ...r, error: `El descuento de amigo aplica en compras desde $${MINIMO_REFERIDO} en productos.` } : r);
   if (cuenta) {

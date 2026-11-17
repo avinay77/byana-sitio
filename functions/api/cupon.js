@@ -5,7 +5,12 @@ import { leerReferido, sesion, cuponAmigo, DESCUENTO_AMIGO, MINIMO_REFERIDO } fr
 
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" } });
 
-export async function onRequestGet({ request, env }) {
+export async function onRequestGet(ctx) {
+  try { return await revisarCupon(ctx); }
+  catch (e) { console.error("KV no respondió", e); return json(503, { ok: false, motivo: "En este momento no podemos revisar cupones. Intenta más tarde o pide por WhatsApp." }); }
+}
+
+async function revisarCupon({ request, env }) {
   if (!env.BYANA) return json(503, { ok: false, motivo: "Los cupones todavía no están activos." });
   const q = new URL(request.url).searchParams;
   const c = await leerCupon(env, q.get("codigo"));
