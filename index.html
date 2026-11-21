@@ -402,6 +402,23 @@ body[data-season="siempre"] .prod,body[data-season="siempre"]:not(.con-promo) .h
 }
 </style>
 
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1150047477389568');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1150047477389568&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body data-season="navidad">
 <header>
@@ -774,6 +791,9 @@ function visVio(id){ if(VIS && id && !VIS.p.includes(id) && VIS.p.length < 15){ 
 function visCarrito(id){ if(VIS && id && !VIS.c.includes(id) && VIS.c.length < 10){ VIS.c.push(id); VIS.cambio = true; } }
 const WA_NUM = "525529434279";
 const WA = `https://wa.me/${WA_NUM}?text=`;
+/* Meta Pixel: eventos estándar (si el pixel no cargó, por ejemplo con bloqueador, no pasa nada) */
+function px(ev, data, opt){ try{ if(window.fbq) fbq("track", ev, data||{}, opt||{}); }catch(e){} }
+document.addEventListener("click", e=>{ const a = e.target.closest && e.target.closest('a[href*="wa.me/"]'); if(a) px("Contact", { content_name:"WhatsApp" }); });
 const MAX_PIEZAS = 20, MAX_NOTA = 100;
 const money = n => "$" + n.toLocaleString("es-MX");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -914,6 +934,7 @@ let cur = null;
 function openProduct(id){
   const p = PRODUCTOS.get(id); if(!p) return; cur = p;
   visVio(p.id);
+  px("ViewContent", { content_ids:[p.id], content_name:p.t, content_type:"product", value:p.v[0].p, currency:"MXN" });
   $("pd-title").textContent = p.t;
   const fotos = [p.id, ...(p.f||[])];
   const verFoto = i => { $("pd-img").src = `img/${fotos[i]}.jpg`; $("pd-thumbs").querySelectorAll("button").forEach((b,k)=>b.setAttribute("aria-current", k===i)); };
@@ -994,6 +1015,7 @@ function addCurrent(){
   const same = cart.find(i=>i.id===p.id && i.v===vi && (i.ar||"")===ar && (i.ini||"")===ini && opsTexto(i)===opsTexto({op}) && i.tag===tag && i.nota===nota);
   if(same) same.qty += qty; else cart.push({id:p.id, v:vi, qty, ...(op?{op}:{}), ini, ar, tag, nota});
   visCarrito(p.id);
+  px("AddToCart", { content_ids:[p.id], content_name:p.t, content_type:"product", contents:[{ id:p.id, quantity:qty }], value:p.v[vi].p*qty, currency:"MXN" });
   save(); renderCart(); $("dlg-product").close();
   const b = $("cart-btn"); b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
 }
@@ -1046,8 +1068,10 @@ $("cart-form").addEventListener("submit", async e=>{
     const r = await fetch("/api/crear-pago", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ items: cart, cliente, envio, ...(descuento() ? (CUPON.tipo === "ref" ? { referido: CUPON.codigo } : { cupon: CUPON.codigo }) : {}) }) });
     const data = await r.json().catch(()=>({}));
     if(!r.ok || !data.url) throw Object.assign(new Error(data.error || "No pudimos iniciar el pago."), {data});
-    try{ localStorage.setItem("byana-pending", JSON.stringify({ ref:data.ref, cliente, resumen: resumen() })); }catch(e){}
-    location.href = data.url;
+    const totalPago = neto() + costoEnvio();
+    try{ localStorage.setItem("byana-pending", JSON.stringify({ ref:data.ref, cliente, resumen: resumen(), total: totalPago, ids: cart.map(i=>i.id), n: piezas() })); }catch(e){}
+    px("InitiateCheckout", { content_ids: cart.map(i=>i.id), content_type:"product", num_items: piezas(), value: totalPago, currency:"MXN" });
+    setTimeout(()=>{ location.href = data.url; }, 300);
   }catch(ex){
     if(ex.data && ex.data.cupon){ CUPON = null; guardarCupon(); renderCart(); $("cupon-msg").textContent = ex.message; err.textContent = "Quitamos el cupón; revisa tu total y vuelve a pagar."; btn.disabled = false; btn.textContent = "Pagar con Mercado Pago"; return; }
     const off = ex.data && ex.data.sinConfigurar;
@@ -1070,6 +1094,10 @@ $("cart-form").addEventListener("submit", async e=>{
   $("ty-ref").textContent = ref ? `Pedido ${ref}` : "";
   const msg = `Hola Ana, ${ok?"ya pagué":"hice"} mi pedido en la página${ref?` (${ref})`:""}${pend&&pend.cliente?`, a nombre de ${pend.cliente.nombre}`:""}${pend&&pend.cliente&&pend.cliente.fecha?`, para el ${pend.cliente.fecha}`:""}:\n${pend?pend.resumen:""}`;
   $("ty-wa").href = WA + encodeURIComponent(msg);
+  if(ok && pend && pend.ref){
+    let ya = false; try{ ya = localStorage.getItem("byana-px-compra") === pend.ref; localStorage.setItem("byana-px-compra", pend.ref); }catch(e){}
+    if(!ya) px("Purchase", { content_ids: pend.ids||[], content_type:"product", num_items: pend.n||0, value: pend.total||0, currency:"MXN" }, { eventID: pend.ref });
+  }
   if(ok || st==="pendiente"){ cart = []; save(); try{ localStorage.removeItem("byana-pending"); localStorage.removeItem("byana-cupon"); }catch(e){} CUPON = null; }
   history.replaceState(null, "", location.pathname + location.hash);
   window.__gracias = true;
