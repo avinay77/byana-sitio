@@ -4,6 +4,7 @@
 // Variables (Cloudflare → proyecto → Settings → Variables and Secrets): MP_ACCESS_TOKEN (secreto).
 import { validar } from "../../lib/pedido.js";
 import { leerCupon } from "../../lib/cupones.js";
+import { datosNavegador } from "../../lib/capi.js";
 import { sesion, leerCliente, guardarCliente, leerReferido, soloTel, cuponAmigo, MINIMO_REFERIDO } from "../../lib/cuenta.js";
 
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
@@ -64,7 +65,10 @@ export async function onRequestPost(context) {
       envio: r.envio.n, direccion: r.envio.dir ? Object.values(r.envio.dir).filter(Boolean).join(", ") : "",
       ...(cuenta ? { cuenta } : {}), ...(referido ? { referido } : {}),
       ...(r.descuento ? { cupon: r.cupon, descuento: r.descuento, lineas: JSON.stringify(r.lineas).slice(0, 6000) } : {}),
-      subtotal: r.subtotal },
+      subtotal: r.subtotal,
+      // Para la API de Conversiones de Meta (emparejar la compra con el anuncio): ids de productos y datos del navegador.
+      px_ids: [...new Set(r.items.map(i => i.id).filter(id => id !== "pedido" && !String(id).startsWith("envio-")).concat((r.lineas || []).map(l => l.id).filter(Boolean)))].join(",").slice(0, 400),
+      ...datosNavegador(request) },
   };
 
   try {

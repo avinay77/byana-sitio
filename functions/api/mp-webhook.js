@@ -6,6 +6,7 @@
 import { sumarUso } from "../../lib/cupones.js";
 import { registrarPedido } from "../../lib/pedidos.js";
 import { avisarAdmins } from "../../lib/push.js";
+import { enviarCompra } from "../../lib/capi.js";
 import { leerCliente, guardarCliente, leerReferido, limpiarCorreo, correoValido, soloTel, aleatorio, enviarCorreo, marco, PREMIO_REFERIDO, MINIMO_REFERIDO } from "../../lib/cuenta.js";
 
 const money = n => "$" + Number(n || 0).toLocaleString("es-MX");
@@ -90,6 +91,7 @@ export async function onRequest({ request, env }) {
       mercadopago: env.MP_ACCESS_TOKEN ? (env.MP_ACCESS_TOKEN.startsWith("TEST-") ? "token de prueba" : "token puesto") : "FALTA MP_ACCESS_TOKEN",
       resend: env.RESEND_API_KEY ? "clave puesta" : "FALTA RESEND_API_KEY",
       aviso_email: m ? m.replace(/^(.{2}).*(@.*)$/, "$1***$2") : "FALTA AVISO_EMAIL",
+      meta_capi: env.META_CAPI_TOKEN ? (env.META_TEST_CODE ? "token puesto (modo prueba: " + env.META_TEST_CODE + ")" : "token puesto") : "FALTA META_CAPI_TOKEN (las compras no llegan a Meta desde el servidor)",
       aviso_from: env.AVISO_FROM ? env.AVISO_FROM.replace(/<(.{2}).*(@.*)>/, "<$1***$2>") : "FALTA AVISO_FROM (no se manda correo al cliente)",
     }, null, 1), { headers: { "Content-Type": "application/json; charset=utf-8" } });
   }
@@ -121,6 +123,8 @@ export async function onRequest({ request, env }) {
         await avisarAdmins(env, { title: `Nuevo pedido · ${pedido.total}`, body: `${pedido.cliente || "Cliente"} · ${pedido.productos.filter(i => !/env[ií]o/i.test(i.t)).map(i => `${i.q} × ${i.t}`).join(", ")}`.slice(0, 180), url: "/admin?ref=" + encodeURIComponent(pedido.ref) });
     } catch (e) { console.error("No se pudo guardar el pedido o avisar", e); }
   }
+  // Compra a Meta desde el servidor (API de Conversiones). Solo con el aviso real de Mercado Pago; Meta deduplica por event_id.
+  if (request.method === "POST") { try { await enviarCompra(env, pago, pedido); } catch (e) { console.error("Meta CAPI falló", e); } }
   if (!env.RESEND_API_KEY || !env.AVISO_EMAIL) { console.error("Falta RESEND_API_KEY o AVISO_EMAIL"); return ok("sin correo"); }
   // Registra el pedido (uso del cupón, historial de la cuenta, premio por recomendación) solo con el aviso real
   // de Mercado Pago, no al reenviar correos a mano por GET. Un mismo pago se registra una sola vez.
