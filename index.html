@@ -1124,7 +1124,9 @@ setPago(false);
 fetch("/api/crear-pago").then(r=>r.ok?r.json():{}).then(d=>setPago(!!d.activo)).catch(()=>{});
 
 fetch("catalogo.json").then(r=>r.json()).then(c=>{
-  PRODUCTOS = new Map([...c.navidad, ...c.siempre, ...(c.ocultos||[])].map(p=>[p.id,p]));
+  // "oculto": true en catalogo.json esconde un producto (p. ej. sin existencias) sin borrarlo
+  const vis=l=>(l||[]).filter(p=>!p.oculto); c.navidad=vis(c.navidad); c.siempre=vis(c.siempre);
+  PRODUCTOS = new Map([...c.navidad, ...c.siempre, ...vis(c.ocultos)].map(p=>[p.id,p]));
   if(c.envio) ENVIO = c.envio; renderEnvio();
   mount("navidad", c.navidad); mount("siempre", c.siempre); renderCart();
   abrirDesdeEnlace();

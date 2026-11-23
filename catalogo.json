@@ -1365,6 +1365,7 @@
   },
   {
    "id": "n50a",
+   "oculto": true,
    "c": "Velas",
    "t": "Velas en cuencos de madera",
    "d": "Estrella o pino chico $450, pino grande o cuadrado $550, canoa chica $400, canoa grande $600. Entrega en tabla +$75.",
